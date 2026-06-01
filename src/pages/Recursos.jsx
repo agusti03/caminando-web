@@ -1,7 +1,8 @@
 import './Recursos.css';
-import { FaArrowLeft, FaGlobe } from 'react-icons/fa';
+import { FaGlobe } from 'react-icons/fa';
 import { FaChevronLeft, FaChevronRight, FaDownload, FaFacebookSquare, FaInstagram, FaPlay, FaYoutube } from 'react-icons/fa';
 import { getRecursoMedia, recursos } from '../data/recursos';
+import BotonVolver from '../components/BotonVolver';
 
 const SOCIAL_LINKS = [
   {
@@ -29,9 +30,7 @@ const SOCIAL_LINKS = [
 function Recursos({ onBack }) {
   return (
     <div className="recursos-pagina">
-      <button className="recursos-volver" type="button" onClick={onBack}>
-        <FaArrowLeft /> Volver
-      </button>
+      <BotonVolver className="recursos-volver" onClick={onBack} />
 
       <section className="recursos-panel">
         <header className="recursos-header">
@@ -101,14 +100,6 @@ function Recursos({ onBack }) {
             información.
           </p>
 
-          <div className="recursos-paginacion" aria-label="Navegación de recursos">
-            <button type="button" className="paginacion-boton" aria-label="Anterior">
-              <FaChevronLeft />
-            </button>
-            <button type="button" className="paginacion-boton" aria-label="Siguiente">
-              <FaChevronRight />
-            </button>
-          </div>
         </section>
       </section>
     </div>

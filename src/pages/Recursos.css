@@ -52,7 +52,7 @@
   margin: 0;
   color: #e4c9a0;
   font-family: 'Patrick Hand', 'Trebuchet MS', 'Segoe UI', sans-serif;
-  font-size: clamp(2.8rem, 4vw, 4.3rem);
+  font-size: clamp(3rem, 10vw, 4.5rem);
   font-weight: 500;
   letter-spacing: 0.06em;
   line-height: 1;
@@ -273,11 +273,16 @@
   .recursos-volver {
     position: static;
     margin-bottom: 12px;
-    font-size: 1.15rem;
+    font-size: 1.35rem;
+    width: fit-content;
   }
 
   .recursos-header {
     margin-bottom: 12px;
+  }
+
+  .recurso-card h2 {
+    font-size: 1.8rem;
   }
 
   .recursos-inferior {
@@ -286,7 +291,7 @@
 
   .recursos-sociales p,
   .recursos-texto-secundario {
-    font-size: 1.05rem;
+    font-size: 1.4rem;
   }
 
   .iconos-sociales {

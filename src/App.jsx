@@ -1,122 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+// src/App.jsx
+import './App.css';
+import { FaCompass, FaBookOpen } from 'react-icons/fa'; // Categoría Font Awesome
+import { FaMapLocationDot } from 'react-icons/fa6';     // Categoría Font Awesome 6
+import { IoSettingsSharp } from 'react-icons/io5';       // Categoría Ionicons 5
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="escenario-exploracion">
+      
+      {/* 1. Elemento Izquierda: Foto Polaroid */}
+      <div className="polaroid">
+        <div className="clip-metalico">📎</div>
+        <img src="ruta-a-tu-foto-campamento.jpg" alt="Campamento base" />
+        <p className="polaroid-texto">Campamento base, 2024</p>
+      </div>
 
-      <div className="ticks"></div>
+      {/* 2. Elemento Izquierda: Huellas (pueden ser imágenes PNG transparentes) */}
+      <div className="huellas-contenedor">
+        <img src="ruta-huella-violeta.png" className="huella h1" alt="huella" />
+        <img src="ruta-huella-amarilla.png" className="huella h2" alt="huella" />
+      </div>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+      {/* 3. BLOQUE CENTRAL: El cuaderno de hojas rayadas */}
+      <div className="cuaderno-campo">
+        <div className="margen-agujeros">
+          {/* Circulitos del espiral simulados */}
+          {[...Array(15)].map((_, i) => <div key={i} className="agujero"></div>)}
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+        
+        <div className="hoja-contenido">
+          <h1 className="titulo-principal">Caminando sobre Gliptodontes</h1>
+          <p className="subtitulo">Descubrí los gigantes que habitaron La Plata hace miles de años</p>
+          
+          {/* Botonera vertical estilizada */}
+          <div className="botonera-cuaderno">
+            <button className="btn-exploracion btn-marron">
+              <FaCompass className="icono-btn" /> Realizar excavación
+            </button>
+            <button className="btn-exploracion btn-verde">
+              <FaMapLocationDot className="icono-btn" /> Mi colección de fósiles
+            </button>
+            <button className="btn-exploracion btn-oxido">
+              <IoSettingsSharp className="icono-btn" /> Ajustes
+            </button>
+            <button className="btn-exploracion btn-azul">
+              <FaBookOpen className="icono-btn" /> Recursos
+            </button>
+          </div>
         </div>
-      </section>
+      </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* 4. Elemento Derecha: El Post-it */}
+      <div className="post-it">
+        <div className="cinta-adhesiva"></div>
+        <p className="post-it-texto">
+          Se ha informado al museo de posibles hallazgos de fósiles. 
+          <span> Selecciona uno de los puntos</span> para inspeccionar el área y comenzar la excavación.
+        </p>
+      </div>
+
+      {/* 5. Elemento Derecha Abajo: Logo Circular */}
+      <div className="logo-circular">
+        <img src="ruta-tu-logo-circular.png" alt="Logo Caminando" />
+      </div>
+
+    </div>
+  );
 }
 
-export default App
+export default App;

@@ -1,5 +1,6 @@
 // src/App.jsx
 import './App.css';
+import { Link } from 'react-router-dom'
 import { FaCompass, FaBookOpen } from 'react-icons/fa'; // Categoría Font Awesome
 import { FaMapLocationDot } from 'react-icons/fa6';     // Categoría Font Awesome 6
 import { IoSettingsSharp } from 'react-icons/io5';       // Categoría Ionicons 5
@@ -37,9 +38,9 @@ function App() {
             <button className="btn-exploracion btn-marron">
               <FaCompass className="icono-btn" /> Realizar excavación
             </button>
-            <button className="btn-exploracion btn-verde">
+            <Link className="btn-exploracion btn-verde" to="/coleccion">
               <FaMapLocationDot className="icono-btn" /> Mi colección de fósiles
-            </button>
+            </Link>
             <button className="btn-exploracion btn-oxido">
               <IoSettingsSharp className="icono-btn" /> Ajustes
             </button>

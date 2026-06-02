@@ -30,7 +30,7 @@ const SOCIAL_LINKS = [
 function Recursos({ onBack }) {
   return (
     <div className="recursos-pagina">
-      <BotonVolver className="recursos-volver" onClick={onBack} />
+      <BotonVolver className="btn-volver" onClick={onBack} />
 
       <section className="recursos-panel">
         <header className="recursos-header">

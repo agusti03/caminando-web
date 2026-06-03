@@ -24,13 +24,13 @@
   color: #3d2b20;
   text-align: center;
   font-family: 'Patrick Hand', cursive;
-  min-width: 220px;
+  min-width: 280px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
 .progreso-label {
   display: block;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   margin-bottom: 5px;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -38,10 +38,43 @@
 
 .barra-progreso {
   width: 100%;
-  height: 14px;
+  height: 20px;
   background-color: #2b1a08;
-  border-radius: 7px;
+  border-radius: 10px;
   overflow: hidden;
+}
+
+.progreso-porcentaje {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Botón de Ayuda */
+.btn-ayuda {
+  position: absolute;
+  top: 18px;
+  right: 40px;
+  z-index: 50;
+  width: 75px;
+  height: 75px;
+  background-color: #3d2b20; /* Marrón oscuro */
+  border: 2px solid #ead8ad; /* Borde claro */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-ayuda:hover {
+  filter: brightness(1.2);
+}
+
+.ayuda-icono {
+  width: 60%;
+  height: 60%;
 }
 
 .progreso-fill {
@@ -105,6 +138,15 @@
   }
 }
 
+@media (max-width: 720px) {
+  .btn-ayuda {
+    top: 12px;
+    right: 12px;
+    width: 60px;
+    height: 60px;
+  }
+}
+
 .fosil-capa {
   position: absolute;
   top: 50%;
@@ -145,7 +187,7 @@
     border-radius: 20px;
     padding: 16px;
     margin-bottom: 20px;
-    max-width: 220px;
+    max-width: 300px;
     position: relative;
     box-shadow: 0 6px 12px rgba(0,0,0,0.2);
   }
@@ -166,7 +208,7 @@
     margin: 0;
     font-family: 'Patrick Hand', cursive;
     color: #3d2b20;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     line-height: 1.3;
     text-align: center;
   }
@@ -178,7 +220,7 @@
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 8px;
+  gap: 12px;
   background-color: #4a2f22; /* Borde marrón oscuro de fondo (unión) */
   border: 3px solid #4a2f22;
   border-radius: 12px;
@@ -188,8 +230,8 @@
 }
 
 .herramienta-btn {
-  width: 60px; /* Tamaño más pequeño */
-  height: 60px; /* Cuadrado perfecto */
+  width: 80px;
+  height: 80px;
   background-color: #ead8ad; /* Color botón volver */
   border: none;
   border-radius: 8px;
@@ -218,4 +260,70 @@
 .herramienta-icono {
   width: 60%;
   height: 60%;
+}
+
+/* Estilos del Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté por encima de todo */
+}
+
+.modal-contenido {
+  background-color: #fcf8eb; /* Color crema del cuaderno */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  font-family: 'Patrick Hand', cursive;
+  color: #3d2b20;
+  position: relative;
+  border: 4px solid #4a2f22;
+}
+
+.modal-contenido h2 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  color: #4a2f22;
+}
+
+.modal-contenido p, .modal-contenido ul {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.modal-contenido ul {
+  list-style-type: disc;
+  padding-left: 25px;
+}
+
+.modal-contenido li {
+  margin-bottom: 8px;
+}
+
+.modal-cerrar-btn {
+  background-color: #f3ab41; /* Naranja */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  transition: background-color 0.2s ease;
+}
+
+.modal-cerrar-btn:hover {
+  background-color: #e09a30;
 }

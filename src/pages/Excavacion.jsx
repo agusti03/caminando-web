@@ -19,7 +19,10 @@ const TOOLS = [
 
 function Excavacion({ onBack }) {
   const [selectedTool, setSelectedTool] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [layersReady, setLayersReady] = useState(false);
   const containerRef = useRef(null);
+  const fosilRef = useRef(null);
   const canvasRefs = {
     3: useRef(null), // Tierra Dura
     2: useRef(null), // Tierra
@@ -68,6 +71,8 @@ function Excavacion({ onBack }) {
 
         ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
       });
+
+      setLayersReady(true);
     };
 
     setupCanvases();
@@ -77,13 +82,50 @@ function Excavacion({ onBack }) {
     };
   }, []);
 
+  const calculateProgress = () => {
+    const canvas = canvasRefs[1].current;
+    const fosil = fosilRef.current;
+    if (!canvas || !fosil) return;
+
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    const rect = fosil.getBoundingClientRect();
+    const canvasRect = canvas.getBoundingClientRect();
+
+    // Mapear coordenadas del elemento de imagen al sistema interno del canvas
+    const scaleX = canvas.width / canvasRect.width;
+    const scaleY = canvas.height / canvasRect.height;
+    
+    const startX = Math.max(0, (rect.left - canvasRect.left) * scaleX);
+    const startY = Math.max(0, (rect.top - canvasRect.top) * scaleY);
+    const width = Math.min(canvas.width - startX, rect.width * scaleX);
+    const height = Math.min(canvas.height - startY, rect.height * scaleY);
+
+    if (width <= 0 || height <= 0) return;
+
+    const imageData = ctx.getImageData(startX, startY, width, height).data;
+    let transparentPixels = 0;
+    const sampleStep = 40; // Muestrear 1 de cada 40 píxeles para performance
+    let totalSampled = 0;
+
+    for (let i = 3; i < imageData.length; i += 4 * sampleStep) {
+      totalSampled++;
+      if (imageData[i] === 0) {
+        transparentPixels++;
+      }
+    }
+    
+    const newProgress = Math.min(100, Math.round((transparentPixels / totalSampled) * 100));
+    if (newProgress !== progress) setProgress(newProgress);
+  };
+
   const handleDig = (e) => {
     if (!selectedTool) return;
     
     const tool = TOOLS.find(t => t.id === selectedTool);
-    const canvas = canvasRefs[tool.layer].current;
-    const ctx = canvas.getContext('2d');
-    const rect = canvas.getBoundingClientRect();
+    const currentCanvas = canvasRefs[tool.layer].current;
+    if (!currentCanvas) return;
+
+    const rect = currentCanvas.getBoundingClientRect();
 
     // Obtener coordenadas (mouse o touch)
     const clientX = e.clientX ?? (e.touches && e.touches[0].clientX);
@@ -92,14 +134,30 @@ function Excavacion({ onBack }) {
     if (clientX === undefined || clientY === undefined) return;
 
     // Ajustar por posición del canvas y escala de resolución
-    const x = (clientX - rect.left) * (canvas.width / rect.width);
-    const y = (clientY - rect.top) * (canvas.height / rect.height);
+    const x = (clientX - rect.left) * (currentCanvas.width / rect.width);
+    const y = (clientY - rect.top) * (currentCanvas.height / rect.height);
 
+    // Lógica de "bloqueo": solo permitir excavar si la capa superior ya está transparente en este punto
+    if (tool.layer < 3) {
+      const canvasAbove = canvasRefs[tool.layer + 1].current;
+      // willReadFrequently optimiza el rendimiento para lecturas constantes de píxeles
+      const ctxAbove = canvasAbove.getContext('2d', { willReadFrequently: true });
+      const pixel = ctxAbove.getImageData(x, y, 1, 1).data;
+      // Si el canal Alpha (pixel[3]) es mayor a 0, la capa superior aún bloquea esta zona
+      if (pixel[3] > 0) return;
+    }
+
+    const ctx = currentCanvas.getContext('2d');
     // "Borrar" circulo
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
     ctx.arc(x, y, tool.size, 0, Math.PI * 2);
     ctx.fill();
+
+    // Solo calculamos progreso si estamos limpiando la capa de arena (layer 1)
+    if (tool.layer === 1) {
+      calculateProgress();
+    }
   };
 
   const handleMouseMove = (e) => {
@@ -110,9 +168,21 @@ function Excavacion({ onBack }) {
     <div className="excavacion-page">
       <BotonVolver className="btn-volver" onClick={onBack} />
 
+      <div className="progreso-limpieza">
+        <span className="progreso-label">Progreso</span>
+        <div className="barra-progreso">
+          <div className="progreso-fill" style={{ width: `${progress}%` }}></div>
+        </div>
+        <span className="progreso-porcentaje">{progress}%</span>
+      </div>
+
       <div className="kira-guia">
         <div className="globo-texto">
-          <p>Para comenzar, elegí el pico y rompé la tierra dura</p>
+          <p>
+            {progress >= 100 
+              ? "¡Buen trabajo! Descubriste el fósil de un gliptodonte" 
+              : "Para comenzar, elegí el pico y rompé la tierra dura"}
+          </p>
         </div>
         <img src={kiraImg} alt="Kira" className="kira-img" />
       </div>
@@ -125,7 +195,13 @@ function Excavacion({ onBack }) {
           onTouchMove={handleDig}
           onMouseDown={handleDig}
         >
-          <img src={fosilImg} className="fosil-capa" alt="Fósil" />
+          <img 
+            src={fosilImg} 
+            ref={fosilRef} 
+            className="fosil-capa" 
+            alt="Fósil" 
+            style={{ opacity: layersReady ? 1 : 0 }} 
+          />
           <canvas ref={canvasRefs[1]} className="excavacion-canvas layer-arena" />
           <canvas ref={canvasRefs[2]} className="excavacion-canvas layer-tierra" />
           <canvas ref={canvasRefs[3]} className="excavacion-canvas layer-tierra-dura" />

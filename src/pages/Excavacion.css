@@ -1,17 +1,62 @@
 .excavacion-page {
-  height: 100vh;
-  width: 100vw;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-color: #2b1a08;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  z-index: 100;
+}
+
+.progreso-limpieza {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  background-color: #ead8ad;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 3px solid #4a2f22;
+  color: #3d2b20;
+  text-align: center;
+  font-family: 'Patrick Hand', cursive;
+  min-width: 220px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.progreso-label {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.barra-progreso {
+  width: 100%;
+  height: 14px;
+  background-color: #2b1a08;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.progreso-fill {
+  height: 100%;
+  background-color: #f3ab41;
+  transition: width 0.3s ease-out;
 }
 
 .area-excavacion {
-  flex: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  position: relative;
+  height: 100%;
+  z-index: 1;
   cursor: crosshair;
   touch-action: none; /* Previene scroll en móviles mientras se excava */
 }
@@ -40,6 +85,24 @@
 
 .layer-tierra-dura {
   z-index: 30;
+}
+
+/* Aseguramos que el botón de volver no se desplace en esta página */
+.excavacion-page .btn-volver {
+  position: absolute;
+  top: 18px;
+  left: 40px;
+  z-index: 50;
+}
+
+@media (max-width: 720px) {
+  .excavacion-page .btn-volver {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+  }
 }
 
 .fosil-capa {

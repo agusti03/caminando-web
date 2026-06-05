@@ -139,6 +139,9 @@ function Excavacion({ onBack }) {
     const x = (clientX - rect.left) * (currentCanvas.width / rect.width);
     const y = (clientY - rect.top) * (currentCanvas.height / rect.height);
 
+    const isSmallScreen = window.innerWidth < 768;
+    const effectiveSize = isSmallScreen ? tool.size * 0.4 : tool.size;
+
     // Lógica de "bloqueo": solo permitir excavar si la capa superior ya está transparente en este punto
     if (tool.layer < 3) {
       const canvasAbove = canvasRefs[tool.layer + 1].current;
@@ -153,7 +156,7 @@ function Excavacion({ onBack }) {
     // "Borrar" circulo
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, tool.size, 0, Math.PI * 2);
+    ctx.arc(x, y, effectiveSize, 0, Math.PI * 2);
     ctx.fill();
 
     // Solo calculamos progreso si estamos limpiando la capa de arena (layer 1)

@@ -128,22 +128,128 @@
   z-index: 50;
 }
 
-@media (max-width: 720px) {
-  .excavacion-page .btn-volver {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    margin-bottom: 0;
-    font-size: 1.1rem;
-  }
+.kira-guia {
+  display: none; /* Oculto por defecto, se activa en media queries */
 }
 
-@media (max-width: 720px) {
+@media (max-width: 768px) {
+  .excavacion-page .btn-volver {
+    top: 10px;
+    left: 8px;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+
   .btn-ayuda {
-    top: 12px;
-    right: 12px;
-    width: 60px;
-    height: 60px;
+    top: 10px;
+    right: 8px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .progreso-limpieza {
+    top: 10px; /* Misma altura que los botones */
+    padding: 4px 8px;
+    min-width: 100px;
+    width: fit-content;
+  }
+
+  .progreso-label {
+    font-size: 0.8rem;
+    margin-bottom: 0;
+  }
+
+  .barra-progreso {
+    height: 8px;
+  }
+
+  .progreso-porcentaje {
+    font-size: 0.75rem;
+  }
+
+  .kira-guia {
+    display: flex;
+    flex-direction: row-reverse;
+    position: absolute;
+    top: 80px; /* Bajado para evitar solapamiento con la barra de progreso */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    background-color: #fff;
+    border: 2px solid #4a2f22;
+    border-radius: 12px;
+    padding: 8px 12px;
+    align-items: center;
+    gap: 12px;
+    z-index: 55;
+    animation: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+
+  .kira-img {
+    height: 50px;
+    filter: none;
+  }
+
+  .herramienta-btn {
+    width: 30px;
+    height: 30px;
+  }
+
+  .herramientas-contenedor {
+    bottom: 10px;
+    padding: 3px;
+    gap: 4px;
+  }
+
+  .globo-texto {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    flex: 1;
+  }
+
+  .globo-texto::after {
+    display: none;
+  }
+
+  .globo-texto p {
+    font-family: 'Patrick Hand', cursive !important;
+    color: #3d2b20 !important;
+    font-size: 0.9rem;
+    text-align: left;
+    line-height: 1.1;
+  }
+
+  /* Modal de Ayuda Responsive */
+  .modal-contenido {
+    padding: 18px;
+    border-width: 3px;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .modal-contenido h2 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+
+  .modal-contenido p, 
+  .modal-contenido ul {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+  }
+
+  .modal-contenido ul {
+    padding-left: 20px;
+  }
+
+  .modal-cerrar-btn {
+    padding: 8px 16px;
+    font-size: 1rem;
+    margin-top: 10px;
   }
 }
 
@@ -157,10 +263,6 @@
   height: auto;
   z-index: 5; /* Por debajo de todos los canvas */
   pointer-events: none;
-}
-
-.kira-guia {
-  display: none; /* Oculto por defecto en móviles */
 }
 
 @media (min-width: 1024px) {

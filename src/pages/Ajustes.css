@@ -1,0 +1,206 @@
+/* ==========================================================================
+   PANTALLA DE AJUSTES - ESTILO ESTÉTICO DE LA APP PRINCIPAL
+   ========================================================================== */
+
+/* Fondo marrón general centrado (Igual al .escenario-exploracion de tu App.css) */
+.ajustes-screen {
+  background-color: #4a2f22; 
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  padding: 40px 24px;
+  box-sizing: border-box;
+  font-family: 'Cambria', Georgia, serif; /* Tipografía con serifa de la app principal */
+}
+
+/* Título principal AJUSTES */
+.ajustes-titulo {
+  color: #fcf8eb; /* Color papel antiguo/crema */
+  font-size: 2.8rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Contenedor que agrupa las secciones */
+.ajustes-container {
+  width: 100%;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Tarjetas de cada sección (Estilo contenedor flotante) */
+.ajustes-seccion {
+  background-color: #fcf8eb; /* Color papel antiguo/crema de tu App.css */
+  border-radius: 18px;
+  padding: 24px 30px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Subtítulos de secciones */
+.seccion-titulo {
+  color: #3e2719; /* Color de tus títulos principales */
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+/* Filas alineadas con las opciones e interruptores */
+.ajustes-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.opcion-izquierda {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #3e2719;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* --- MODO DE INTERACCIÓN --- */
+.opcion-interaccion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+/* Opción activa (Usa el color .btn-marron) */
+.opcion-interaccion.activa {
+  background-color: #fff;
+  border: 2px solid #3d2b20; 
+}
+.opcion-interaccion.activa .opcion-izquierda,
+.opcion-interaccion.activa .opcion-derecha {
+  color: #3d2b20;
+}
+
+/* Opción inactiva */
+.opcion-interaccion.inactiva {
+  background-color: #e1dcd0;
+  opacity: 0.65;
+}
+.opcion-interaccion.inactiva .opcion-izquierda {
+  color: #6e5d4f;
+}
+
+.punto-activo {
+  width: 12px;
+  height: 12px;
+  background-color: #3d2b20;
+  border-radius: 50%;
+}
+
+.opcion-derecha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2rem;
+}
+
+.cuadrado-icono {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #3d2b20;
+  border-radius: 4px;
+}
+
+/* --- INTERRUPTORES (SWITCHES) --- */
+.switch-btn {
+  width: 64px;
+  height: 32px;
+  border-radius: 999px;
+  border: none;
+  padding: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
+}
+
+/* Encendido: Usa el color .btn-verde */
+.switch-btn.activo {
+  background-color: #1c352d; 
+}
+
+/* Apagado: Blanco puro para contrastar sobre la tarjeta crema */
+.switch-btn.inactivo {
+  background-color: #ffffff;
+}
+
+.switch-manejador {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+/* El círculo interno toma el color óxido/marrón según el estado */
+.switch-btn.activo .switch-manejador {
+  transform: translateX(32px);
+  background-color: #fcf8eb;
+}
+
+.switch-btn.inactivo .switch-manejador {
+  transform: translateX(0);
+  background-color: #8c5836; /* Color .btn-oxido para el botón inactivo */
+}
+
+/* --- SELECTOR DE TAMAÑO (A A A) --- */
+.tamanio-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.tamanio-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  font-family: 'Cambria', Georgia, serif;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+  transition: transform 0.1s, background-color 0.2s;
+  border: 2px solid #e1dcd0;
+}
+.tamanio-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Seleccionado: Usa el color azul de tu app (.btn-azul) */
+.tamanio-btn.activo {
+  background-color: #262d53; 
+  color: #fcf8eb;
+  border-color: #262d53;
+}
+
+/* Deseleccionado: Fondo clarito con letras en marrón */
+.tamanio-btn.inactivo {
+  background-color: #fcf8eb;
+  color: #8c5836;
+}
+
+.txt-sm { font-size: 1rem; }
+.txt-md { font-size: 1.3rem; }
+.txt-lg { font-size: 1.6rem; }

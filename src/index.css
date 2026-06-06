@@ -109,3 +109,63 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+/* ============================================
+   CONFIGURACIÓN DE AJUSTES GLOBALES
+   ============================================ */
+
+/* Alto Contraste */
+:root.alto-contraste {
+  --text: #000;
+  --text-h: #000;
+  --bg: #fff;
+  --border: #000;
+  --code-bg: #ffff00;
+  --accent: #0000ff;
+  --accent-bg: rgba(0, 0, 255, 0.2);
+  --accent-border: #0000ff;
+}
+
+:root.alto-contraste,
+:root.alto-contraste * {
+  border-color: #000 !important;
+}
+
+/* Tamaño de Texto */
+:root[data-tamanio-texto="small"] {
+  font-size: 14px;
+}
+
+:root[data-tamanio-texto="medium"] {
+  font-size: 18px;
+}
+
+:root[data-tamanio-texto="large"] {
+  font-size: 24px;
+}
+
+/* Ajustes para h1 según tamaño */
+:root[data-tamanio-texto="small"] h1 {
+  font-size: 40px;
+}
+
+:root[data-tamanio-texto="medium"] h1 {
+  font-size: 56px;
+}
+
+:root[data-tamanio-texto="large"] h1 {
+  font-size: 72px;
+}
+
+/* Ajustes para h2 según tamaño */
+:root[data-tamanio-texto="small"] h2 {
+  font-size: 18px;
+}
+
+:root[data-tamanio-texto="medium"] h2 {
+  font-size: 24px;
+}
+
+:root[data-tamanio-texto="large"] h2 {
+  font-size: 32px;
+}

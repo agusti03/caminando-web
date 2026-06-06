@@ -1,6 +1,7 @@
 // src/pages/JuegoGliptodonte.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import { FaArrowLeft, FaCheckCircle, FaBookOpen } from 'react-icons/fa';
 import './Coleccion.css';
 import TransicionHoja from '../components/TransicionCuaderno';
@@ -36,11 +37,11 @@ function JuegoGliptodonte() {
     const trivia1Completada = respuestaTrivia1 === 'gliptodonte';
     const trivia2Completada = respuestaTrivia2 === 'opcionA';
 
-    // Efecto para detectar cuando AMBAS trivias están correctas
+    // 🎯 Efecto para detectar cuando AMBAS trivias están correctas
     useEffect(() => {
         if (trivia1Completada && trivia2Completada) {
             localStorage.setItem('triviaGliptodonteCompletada', 'true');
-            // Delay de 800ms para feedback visual antes del aviso
+            // Le damos un pequeño delay de 800ms para que el usuario alcance a ver el último check verde
             const timer = setTimeout(() => {
                 setMostrarAvisoGanador(true);
             }, 800);
@@ -56,7 +57,7 @@ function JuegoGliptodonte() {
       </button>
 
       <TransicionHoja>
-        <div className="cuaderno-contenedor">
+        <div className="cuaderno-contenedor" style={{ position: 'relative' }}>
 
           {/* ================= HOJA IZQUIERDA: TRIVIA 1 ================= */}
           <div className="pagina-hoja" style={{ gap: '15px', justifyContent: 'center', alignItems: 'stretch' }}>
@@ -118,7 +119,7 @@ function JuegoGliptodonte() {
 
           {/* ================= HOJA DERECHA: TRIVIA 2 ================= */}
           <div className="pagina-hoja hoja-derecha" style={{ gap: '15px', justifyContent: 'center', alignItems: 'stretch', textAlign: 'left' }}>
-            <h2 className="titulo-seccion" style={{ fontSize: '1.8rem', margin: '0 0 10px 0', textAlign: 'left' }}>
+            <h2 className="titulo-seccion" style={{ fontSize: '1.8rem', margin: '0 0 10px 0', textAlign: 'center' }}>
               Pregunta 2
             </h2>
             <p className="texto-descripcion-derecha" style={{ maxWidth: '100%', fontWeight: 'bold', margin: '0' }}>
@@ -188,31 +189,32 @@ function JuegoGliptodonte() {
             )}
           </div>
 
+
+
         </div>
       </TransicionHoja>
 
-      {/* 🏆 POP-UP GANADOR: Reubicado al nivel del DOM global para un centrado absoluto perfecto */}
-      {mostrarAvisoGanador && (
+      {/* 🏆 MODAL DE LOGRO (FUERA DE TRANSICIONHOJA PARA CENTRARSE CORRECTAMENTE) */}
+      {mostrarAvisoGanador && createPortal(
         <div className="aviso-overlay">
-          <div className="aviso-modal-popup" style={{ maxWidth: '450px', textAlign: 'center' }}>
-            <FaBookOpen size={55} color="#689f38" style={{ marginBottom: '15px' }} />
-            <h3 className="titulo-subseccion" style={{ fontSize: '1.6rem', margin: '0 0 10px 0', color: '#2e7d32', fontFamily: 'Arial, sans-serif' }}>
+          <div className="aviso-modal-popup">
+            <FaBookOpen size={50} color="#689f38" style={{ marginBottom: '15px' }} />
+            <h3 className="titulo-subseccion" style={{ margin: '0 0 10px 0', color: '#2e7d32' }}>
               ¡Logro Desbloqueado!
             </h3>
-            <p className="aviso-texto" style={{ fontSize: '1.2rem', marginBottom: '25px', color: '#3e2723' }}>
+            <p className="aviso-texto" style={{ fontSize: '1.15rem', marginBottom: '25px' }}>
               ¡Increíble! Has completado todas las actividades correctamente. Las anotaciones del cuaderno de Kira han sido completamente restauradas.
             </p>
-            <div className="aviso-botones-layout">
-              <button 
-                className="btn-popup-accion btn-popup-marron" 
-                style={{ maxWidth: '100%', backgroundColor: '#689f38', color: '#fff' }}
-                onClick={() => navigate('/detalle-gliptodonte')}
-              >
-                Regresar al Cuaderno
-              </button>
-            </div>
+            <button 
+              className="btn-popup-accion btn-popup-verde" 
+              style={{ maxWidth: '100%', margin: '0 auto' }}
+              onClick={() => navigate('/detalle-gliptodonte')}
+            >
+              Regresar al Cuaderno
+            </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* POP-UP BIENVENIDA */}

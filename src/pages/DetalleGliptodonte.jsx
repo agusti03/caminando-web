@@ -10,6 +10,7 @@ function DetalleGliptodonte() {
 
   return (
     <div className="escenario-coleccion">
+      
       <button className="btn-volver-top" onClick={() => navigate('/coleccion')}>
         <FaArrowLeft /> Volver
       </button>
@@ -69,7 +70,7 @@ function DetalleGliptodonte() {
               </div>
 
               {/* Botón de acción */}
-              <button className="boton-jugar" onClick={() => navigate('/juego')}>
+              <button className="boton-jugar" onClick={() => navigate('/juego-gliptodonte')}>
                 <span>🎮</span> ¡Jugar!
               </button>
               

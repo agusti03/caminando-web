@@ -84,7 +84,7 @@ function App() {
       </div>
 
       <div className="logo-circular">
-        <img src="ruta-tu-logo-circular.png" alt="Logo Caminando" />
+        <img src="caminando-logo.png" alt="Logo Caminando" />
       </div>
     </div>
   );

@@ -1,0 +1,873 @@
+/* src/pages/Coleccion.css */
+
+/* --- CONFIGURACIÓN DEL ESCENARIO GENERAL --- */
+.escenario-coleccion {
+  background-color: #553424; /* Marrón oscuro de fondo exterior */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Botón Volver Superior Izquierdo */
+.btn-volver-top {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #ffebd2;
+  color: #4a2f22;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 24px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* CONTENEDOR DEL CUADERNO ABIERTO */
+.cuaderno-contenedor {
+  display: flex;
+  flex-direction: row; /* Ambas páginas lado a lado */
+  background-color: #fbf6eb; /* Fondo crema de las hojas */
+  width: 95%;
+  max-width: 1200px;
+  height: 800px;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+  border: 4px solid #2b1a12;
+}
+
+/* HOJAS GENÉRICAS */
+.pagina-hoja {
+  flex: 1;
+  height: 100%;
+  padding: 50px 40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-image: linear-gradient(#e6dfd3 1px, transparent 1px);
+  background-size: 100% 32px; /* Renglones del cuaderno */
+}
+
+/* --- ANILLADO ESPIRAL CENTRAL --- */
+.anillado-espiral {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 30px;
+  height: 95%;
+  align-self: center;
+  position: relative;
+  z-index: 10;
+}
+
+.anillo {
+  width: 16px;
+  height: 16px;
+  background-color: #bcaaa4; /* Gris/marrón sutil para los anillos */
+  border-radius: 50%;
+  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.4);
+}
+
+/* --- HOJA IZQUIERDA: COLECCIÓN --- */
+.titulo-seccion {
+  font-size: 100;
+  color: #433e3b;
+  margin: 0 0 30px 0;
+  font-family: 'Comic Sans MS', cursive, sans-serif; /* O una fuente amigable instalada */
+  font-weight: bold;
+}
+
+/* Grid de fósiles */
+.grid-fosiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px 20px;
+  align-content: start;
+}
+
+/* Tarjetas de Fósiles (Estilo Polaroid / Cromo) */
+.tarjeta-fosil {
+  background-color: #f7ede2;
+  border: 2px solid #cbbfa8;
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: 3px 5px 12px rgba(0,0,0,0.15);
+  width: 210px;
+  justify-self: center;
+}
+
+/* Rotaciones sutiles para simular pegados a mano */
+.tarjeta-fosil:nth-child(odd) {
+  transform: rotate(-2deg);
+}
+.tarjeta-fosil:nth-child(even) {
+  transform: rotate(2deg);
+}
+
+/* Check verde de descubierto */
+.check-descubierto {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background-color: #689f38;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+/* Cinta adhesiva decorativa simulada arriba del cromo descubierto */
+.tarjeta-fosil.descubierto::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  width: 70px;
+  height: 20px;
+  background-color: rgba(230, 220, 200, 0.7);
+  transform: rotate(-1deg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.img-animal {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  background-color: #ffffff;
+  border: 1px solid #e0d5c1;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.img-animal.silueta {
+  filter: brightness(0); /* Hace la imagen completamente negra */
+  opacity: 0.85;
+}
+
+.nombre-animal {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 15;
+  color: #3e2723;
+  margin: 10px 0;
+}
+
+/* Botón Ver Detalle */
+.btn-detalle {
+  background-color: #4e342e;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Etiqueta Bloqueado (Marrón con candado) */
+.etiqueta-bloqueado {
+  background-color: #795548;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  position: absolute;
+  bottom: -15px;
+}
+
+
+/* --- HOJA DERECHA: BRÚJULA Y MAPA --- */
+.hoja-derecha {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 15px;
+}
+
+/* Contenedor e interfaz de la Brújula */
+.brujula-contenedor {
+  width: 140px;
+  height: 140px;
+  border: 2px solid #bcaaa4;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: transparent;
+}
+
+.brujula-norte, .brujula-sur, .brujula-este, .brujula-oeste {
+  position: absolute;
+  font-size: 0.85rem;
+  color: #8d6e63;
+  font-weight: bold;
+}
+.brujula-norte { top: 6px; }
+.brujula-sur { bottom: 6px; }
+.brujula-este { right: 8px; }
+.brujula-oeste { left: 8px; }
+
+.aguja-brujula {
+  width: 4px;
+  height: 60px;
+  background: linear-gradient(to bottom, #d32f2f 50%, #4e342e 50%);
+  position: relative;
+  border-radius: 2px;
+}
+.aguja-brujula::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background-color: #ffffff;
+  border: 2px solid #4e342e;
+  border-radius: 50%;
+}
+
+.texto-sigue-explorando {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #3e2723;
+  margin: 0;
+}
+
+.texto-descripcion-derecha {
+  font-size: 1.2rem;
+  color: #5d4037;
+  max-width: 320px;
+  line-height: 1.4;
+  margin: 0 0 15px 0;
+}
+
+/* Botón Verde "Ir al mapa" */
+.btn-ir-mapa {
+  background-color: #689f38; /* Verde idéntico a tu captura */
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 28px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: background-color 0.2s;
+}
+
+.btn-ir-mapa:hover {
+  background-color: #558b2f;
+}
+
+/* --- BOTONES DE NAVEGACIÓN INFERIOR (PAGINACIÓN) --- */
+.paginacion-inferior {
+  position: absolute;
+  bottom: -50px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-paginacion {
+  background-color: #3e2723;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* --- EXTENSIONES PARA LA VISTA DETALLE --- */
+
+/* Contenedor de la ilustración del fósil */
+.contenedor-imagen-fosil {
+  background-color: #ffffff;
+  border: 2px solid #cbbfa8;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 220px;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+  margin-bottom: 15px;
+}
+
+.imagen-fosil {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.titulo-subseccion {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 1.4rem;
+  color: #3e2723;
+  margin: 15px 0 5px 0;
+}
+
+/* Área derecha del juego interactivo */
+.bloque-interactivo-juego {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* Líneas borrosas simuladas detrás */
+.datos-borrosos-fondo {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  opacity: 0.15;
+  filter: blur(3px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.linea-borrosa {
+  height: 16px;
+  background-color: #3e2723;
+  border-radius: 4px;
+  width: 90%;
+}
+
+/* Personaje y diálogo */
+.contenedor-personaje-dialogo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  z-index: 2;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.imagen-exploradora {
+  max-height: 250px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Globo de texto (Estilo bocadillo de comic) */
+.globo-texto {
+  background: #f7b851;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  width: 85%;
+  position: relative;
+  border: 2px solid #e2a038;
+}
+
+.globo-texto p {
+  margin: 0 0 6px 0;
+  font-size: 1rem;
+  color: #3e2723;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.globo-texto p:last-child {
+  margin-bottom: 0;
+}
+
+/* Botón 3D "¡Jugar!" (Estilo interactivo) */
+.boton-jugar {
+  background-color: #1b382b; /* Verde pino muy oscuro */
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 0;
+  width: 90%;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 6px 0px #11241b; /* Sombra sólida inferior */
+  transition: all 0.1s ease;
+  z-index: 5;
+  margin-bottom: 10px;
+}
+
+.boton-jugar:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0px #11241b;
+}
+
+/* --- NUEVOS ESTILOS PARA EL POP-UP GENERAL --- */
+
+/* Botón interactivo del cromo bloqueado */
+.btn-bloqueado {
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+.btn-bloqueado:hover {
+  background-color: #5d4037;
+}
+.btn-bloqueado:active {
+  transform: scale(0.95);
+}
+
+/* Capa de fondo del Pop-up (Cubre toda la pantalla del navegador) */
+.aviso-overlay {
+  position: fixed; /* Cambiado a fixed para garantizar comportamiento pop-up real */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(27, 17, 11, 0.75); /* Oscurece el entorno */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Por encima de cualquier interfaz */
+}
+
+/* Estructura del cuadro Pop-up */
+.aviso-modal-popup {
+  background-color: #fbf6eb; /* Fondo crema idéntico a las hojas del cuaderno */
+  border: 5px solid #2b1a12; /* Borde grueso como el cuaderno */
+  border-radius: 16px;
+  padding: 35px 40px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+  animation: popUpEfecto 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Texto del aviso */
+.aviso-texto {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-size: 1.35rem;
+  color: #3e2723;
+  font-weight: bold;
+  margin: 0 0 30px 0;
+  line-height: 1.5;
+}
+
+/* Contenedor de botones en línea */
+.aviso-botones-layout {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* BASE ESTILIZADA ÚNICA PARA AMBOS BOTONES DEL POP-UP */
+.btn-popup-accion {
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 1.15rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: background-color 0.2s, transform 0.1s;
+  flex: 1; /* Hace que ambos botones midan exactamente lo mismo */
+  max-width: 180px;
+}
+
+.btn-popup-accion:active {
+  transform: scale(0.96);
+}
+
+/* Variante de Color: Verde (Ir al mapa) */
+.btn-popup-verde {
+  background-color: #689f38;
+}
+.btn-popup-verde:hover {
+  background-color: #558b2f;
+}
+
+/* Variante de Color: Marrón (Ok) */
+.btn-popup-marron {
+  background-color: #4e342e;
+}
+.btn-popup-marron:hover {
+  background-color: #3e2723;
+}
+
+/* Animación Pop-up con leve rebote de apertura */
+@keyframes popUpEfecto {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ========== RESPONSIVE ========== */
+
+/* TABLETS (max-width: 768px) */
+@media (max-width: 768px) {
+  .escenario-coleccion {
+    padding: 15px;
+  }
+
+  .btn-volver-top {
+    top: 10px;
+    left: 10px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    border-radius: 8px;
+  }
+
+  .cuaderno-contenedor {
+    height: 600px;
+    max-width: 100%;
+    border-radius: 8px;
+    border: 3px solid #2b1a12;
+  }
+
+  .pagina-hoja {
+    padding: 30px 25px;
+  }
+
+  .anillado-espiral {
+    width: 25px;
+    height: 92%;
+  }
+
+  .anillo {
+    width: 14px;
+    height: 14px;
+  }
+
+  .titulo-seccion {
+    font-size: 1.3rem;
+    margin: 0 0 20px 0;
+  }
+
+  .grid-fosiles {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px 15px;
+  }
+
+  .tarjeta-fosil {
+    width: 140px;
+    padding: 8px;
+  }
+
+  .img-animal {
+    height: 120px;
+  }
+
+  .nombre-animal {
+    font-size: 0.85rem;
+  }
+
+  .brujula-contenedor {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+  }
+
+  .brujula-norte, .brujula-sur, .brujula-este, .brujula-oeste {
+    font-size: 0.7rem;
+  }
+
+  .texto-sigue-explorando {
+    font-size: 1.1rem;
+  }
+
+  .texto-descripcion-derecha {
+    font-size: 0.95rem;
+    max-width: 280px;
+  }
+
+  .btn-ir-mapa {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+
+  .contenedor-imagen-fosil {
+    height: 150px;
+    padding: 10px;
+  }
+
+  .titulo-subseccion {
+    font-size: 1.1rem;
+    margin: 10px 0 5px 0;
+  }
+
+  .imagen-exploradora {
+    max-height: 150px;
+  }
+
+  .globo-texto {
+    padding: 12px;
+    width: 90%;
+  }
+
+  .globo-texto p {
+    font-size: 0.9rem;
+  }
+
+  .boton-jugar {
+    padding: 12px 0;
+    font-size: 1.2rem;
+  }
+
+  .aviso-modal-popup {
+    padding: 25px 30px;
+    max-width: 90%;
+    border-radius: 12px;
+  }
+
+  .aviso-texto {
+    font-size: 1.0rem;
+    margin: 0 0 25px 0;
+  }
+
+  .btn-popup-accion {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    max-width: 150px;
+  }
+}
+
+/* MÓVILES (max-width: 480px) */
+@media (max-width: 480px) {
+  .escenario-coleccion {
+    padding: 10px;
+    min-height: auto;
+  }
+
+  .btn-volver-top {
+    top: 8px;
+    left: 8px;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    gap: 4px;
+  }
+
+  .cuaderno-contenedor {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    max-width: 100%;
+    border-radius: 8px;
+    border: 2px solid #2b1a12;
+    margin-top: 50px;
+  }
+
+  .pagina-hoja {
+    flex: 1 1 auto;
+    min-height: 400px;
+    padding: 20px 15px;
+    border-bottom: 2px solid #2b1a12;
+  }
+
+  .pagina-hoja:last-of-type {
+    border-bottom: none;
+  }
+
+  .anillado-espiral {
+    display: none;
+  }
+
+  .titulo-seccion {
+    font-size: 1.1rem;
+    margin: 0 0 15px 0;
+  }
+
+  .grid-fosiles {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px 10px;
+  }
+
+  .tarjeta-fosil {
+    width: 100%;
+    max-width: 120px;
+    padding: 6px;
+  }
+
+  .img-animal {
+    height: 80px;
+  }
+
+  .nombre-animal {
+    font-size: 0.75rem;
+    margin: 5px 0;
+  }
+
+  .etiqueta-bloqueado {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    bottom: -12px;
+  }
+
+  .brujula-contenedor {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+  }
+
+  .brujula-norte, .brujula-sur, .brujula-este, .brujula-oeste {
+    font-size: 0.6rem;
+  }
+
+  .aguja-brujula {
+    width: 3px;
+    height: 40px;
+  }
+
+  .aguja-brujula::after {
+    width: 6px;
+    height: 6px;
+  }
+
+  .texto-sigue-explorando {
+    font-size: 0.95rem;
+  }
+
+  .texto-descripcion-derecha {
+    font-size: 0.85rem;
+    max-width: 100%;
+    margin: 0 0 10px 0;
+  }
+
+  .btn-ir-mapa {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    gap: 6px;
+  }
+
+  .contenedor-imagen-fosil {
+    height: 120px;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  .titulo-subseccion {
+    font-size: 0.95rem;
+    margin: 8px 0 3px 0;
+  }
+
+  .texto-descripcion {
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+
+  .bloque-interactivo-juego {
+    gap: 10px;
+  }
+
+  .imagen-exploradora {
+    max-height: 120px;
+  }
+
+  .globo-texto {
+    padding: 10px;
+    width: 95%;
+    border-radius: 8px;
+  }
+
+  .globo-texto p {
+    font-size: 0.8rem;
+    margin: 0 0 4px 0;
+  }
+
+  .boton-jugar {
+    padding: 10px 0;
+    font-size: 1rem;
+    width: 95%;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 0px #11241b;
+  }
+
+  .boton-jugar:active {
+    box-shadow: 0 2px 0px #11241b;
+    transform: translateY(2px);
+  }
+
+  .aviso-overlay {
+    padding: 10px;
+  }
+
+  .aviso-modal-popup {
+    padding: 20px 20px;
+    max-width: 95%;
+    border: 3px solid #2b1a12;
+    border-radius: 8px;
+  }
+
+  .aviso-texto {
+    font-size: 0.95rem;
+    margin: 0 0 20px 0;
+  }
+
+  .aviso-botones-layout {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-popup-accion {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    max-width: 100%;
+  }
+
+  .check-descubierto {
+    width: 24px;
+    height: 24px;
+    font-size: 0.8rem;
+  }
+}

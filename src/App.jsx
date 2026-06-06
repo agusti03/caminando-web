@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import { useNavigate } from 'react-router-dom'
 import { FaBookOpen, FaCompass } from 'react-icons/fa';
 import { FaMapLocationDot } from 'react-icons/fa6';
 import { IoSettingsSharp } from 'react-icons/io5';
 import Recursos from './pages/Recursos';
 import Excavacion from './pages/Excavacion';
 
-const RECURSOS_PATH = '/recursos';
-const EXCAVACION_PATH = '/excavacion';
-
 function App() {
+  
+  const navigate = useNavigate();
+  const RECURSOS_PATH = '/recursos';
+  const EXCAVACION_PATH = '/excavacion';
+  
   const [pathname, setPathname] = useState(() => window.location.pathname);
 
   useEffect(() => {
@@ -18,11 +21,6 @@ function App() {
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
-
-  const navigate = (nextPath) => {
-    if (nextPath === window.location.pathname) {
-      return;
-    }
 
     window.history.pushState({}, '', nextPath);
     setPathname(nextPath);
@@ -59,18 +57,24 @@ function App() {
           <p className="subtitulo">Descubrí los gigantes que habitaron La Plata hace miles de años</p>
 
           <div className="botonera-cuaderno">
+
+            <button className="btn-exploracion btn-verde" onClick={() => navigate('/coleccion')}>
+              <FaMapLocationDot className="icono-btn" /> Mi colección de fósiles
+            </button>
+
+            <button className="btn-exploracion btn-oxido" onClick={() => navigate('/ajustes')}>
+              <IoSettingsSharp className="icono-btn" /> Ajustes
+            </button>
+
+
             <button className="btn-exploracion btn-marron" type="button" onClick={() => navigate(EXCAVACION_PATH)}>
               <FaCompass className="icono-btn" /> Realizar excavación
             </button>
-            <button className="btn-exploracion btn-verde" type="button">
-              <FaMapLocationDot className="icono-btn" /> Mi colección de fósiles
-            </button>
-            <button className="btn-exploracion btn-oxido" type="button">
-              <IoSettingsSharp className="icono-btn" /> Ajustes
-            </button>
+
             <button className="btn-exploracion btn-azul" type="button" onClick={() => navigate(RECURSOS_PATH)}>
               <FaBookOpen className="icono-btn" /> Recursos
             </button>
+
           </div>
         </div>
       </div>

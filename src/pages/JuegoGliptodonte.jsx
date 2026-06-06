@@ -1,9 +1,9 @@
 // src/pages/JuegoGliptodonte.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft, FaCheckCircle } from 'react-icons/fa';
+import { FaArrowLeft, FaCheckCircle, FaBookOpen } from 'react-icons/fa';
 import './Coleccion.css';
-import TransicionHoja from '../components/TransicionCuaderno'
+import TransicionHoja from '../components/TransicionCuaderno';
 
 function JuegoGliptodonte() {
     const navigate = useNavigate();
@@ -11,6 +11,7 @@ function JuegoGliptodonte() {
 
     const [respuestaTrivia1, setRespuestaTrivia1] = useState(null);
     const [respuestaTrivia2, setRespuestaTrivia2] = useState(null);
+    const [mostrarAvisoGanador, setMostrarAvisoGanador] = useState(false);
 
     useEffect(() => {
         const yaVisto = localStorage.getItem('popupJuegoVisto');
@@ -35,6 +36,18 @@ function JuegoGliptodonte() {
     const trivia1Completada = respuestaTrivia1 === 'gliptodonte';
     const trivia2Completada = respuestaTrivia2 === 'opcionA';
 
+    // Efecto para detectar cuando AMBAS trivias están correctas
+    useEffect(() => {
+        if (trivia1Completada && trivia2Completada) {
+            localStorage.setItem('triviaGliptodonteCompletada', 'true');
+            // Delay de 800ms para feedback visual antes del aviso
+            const timer = setTimeout(() => {
+                setMostrarAvisoGanador(true);
+            }, 800);
+            return () => clearTimeout(timer);
+        }
+    }, [trivia1Completada, trivia2Completada]);
+
     return (
     <div className="escenario-coleccion">
 
@@ -46,7 +59,6 @@ function JuegoGliptodonte() {
         <div className="cuaderno-contenedor">
 
           {/* ================= HOJA IZQUIERDA: TRIVIA 1 ================= */}
-          {/* 🎯 Cambiado justifyContent a 'center' para centrarlo verticalmente */}
           <div className="pagina-hoja" style={{ gap: '15px', justifyContent: 'center', alignItems: 'stretch' }}>
             <h2 className="titulo-seccion" style={{ fontSize: '1.8rem', margin: '0 0 10px 0' }}>
               Pregunta 1
@@ -55,7 +67,6 @@ function JuegoGliptodonte() {
               ¿Cuál era más grande?
             </p>
 
-            {/* Opciones de la Trivia 1 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '10px' }}>
               <button 
                 className="btn-popup-accion btn-popup-marron"
@@ -85,7 +96,6 @@ function JuegoGliptodonte() {
               </button>
             </div>
 
-            {/* Feedback Trivia 1 */}
             {respuestaTrivia1 === 'camion' && (
               <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#ffe9e9', border: '2px solid #d32f2f', borderRadius: '8px', color: '#c62828', fontWeight: 'bold' }}>
                 ❌ ¡Ups! Inténtalo de nuevo, ¡el Gliptodonte era una criatura gigantesca!
@@ -99,7 +109,6 @@ function JuegoGliptodonte() {
             )}
           </div>
 
-
           {/* ANILLADO CENTRAL */}
           <div className="anillado-espiral">
             {[...Array(20)].map((_, i) => (
@@ -107,9 +116,7 @@ function JuegoGliptodonte() {
             ))}
           </div>
 
-
           {/* ================= HOJA DERECHA: TRIVIA 2 ================= */}
-          {/* 🎯 Cambiado justifyContent a 'center' para igualar la altura del lado izquierdo */}
           <div className="pagina-hoja hoja-derecha" style={{ gap: '15px', justifyContent: 'center', alignItems: 'stretch', textAlign: 'left' }}>
             <h2 className="titulo-seccion" style={{ fontSize: '1.8rem', margin: '0 0 10px 0', textAlign: 'left' }}>
               Pregunta 2
@@ -118,14 +125,10 @@ function JuegoGliptodonte() {
               Escribe aquí tu pregunta de opción múltiple...
             </p>
 
-            {/* Opciones de la Trivia 2 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '10px' }}>
               <button 
                 className="btn-popup-accion btn-popup-marron"
-                style={{ 
-                  maxWidth: '100%', 
-                  backgroundColor: trivia2Completada ? '#689f38' : '#4e342e' 
-                }}
+                style={{ maxWidth: '100%', backgroundColor: trivia2Completada ? '#689f38' : '#4e342e' }}
                 onClick={() => handleTrivia2('opcionA')}
                 disabled={trivia2Completada}
               >
@@ -172,7 +175,6 @@ function JuegoGliptodonte() {
               </button>
             </div>
 
-            {/* Feedback Trivia 2 */}
             {respuestaTrivia2 && !trivia2Completada && (
               <div style={{ marginTop: '15px', padding: '12px', backgroundColor: '#ffe9e9', border: '2px solid #d32f2f', borderRadius: '8px', color: '#c62828', fontWeight: 'bold' }}>
                 ❌ Esta opción no es correcta. ¡Sigue investigando!
@@ -189,22 +191,46 @@ function JuegoGliptodonte() {
         </div>
       </TransicionHoja>
 
-        {/* POP-UP AUTOMÁTICO */}
-        {mostrarPopup && (
-            <div className="aviso-overlay">
-            <div className="aviso-modal-popup">
-                <p className="aviso-texto">
-                ¡Bienvenido a la trivia! <br />
-                Ayuda a Kira completando las actividades para recuperar las anotaciones de su cuaderno. ¿Estás listo?
-                </p>
-                <div className="aviso-botones-layout">
-                <button className="btn-popup-accion btn-popup-marron" onClick={cerrarPopup}>
-                    ¡Entendido!
-                </button>
-                </div>
+      {/* 🏆 POP-UP GANADOR: Reubicado al nivel del DOM global para un centrado absoluto perfecto */}
+      {mostrarAvisoGanador && (
+        <div className="aviso-overlay">
+          <div className="aviso-modal-popup" style={{ maxWidth: '450px', textAlign: 'center' }}>
+            <FaBookOpen size={55} color="#689f38" style={{ marginBottom: '15px' }} />
+            <h3 className="titulo-subseccion" style={{ fontSize: '1.6rem', margin: '0 0 10px 0', color: '#2e7d32', fontFamily: 'Arial, sans-serif' }}>
+              ¡Logro Desbloqueado!
+            </h3>
+            <p className="aviso-texto" style={{ fontSize: '1.2rem', marginBottom: '25px', color: '#3e2723' }}>
+              ¡Increíble! Has completado todas las actividades correctamente. Las anotaciones del cuaderno de Kira han sido completamente restauradas.
+            </p>
+            <div className="aviso-botones-layout">
+              <button 
+                className="btn-popup-accion btn-popup-marron" 
+                style={{ maxWidth: '100%', backgroundColor: '#689f38', color: '#fff' }}
+                onClick={() => navigate('/detalle-gliptodonte')}
+              >
+                Regresar al Cuaderno
+              </button>
             </div>
-            </div>
-        )}
+          </div>
+        </div>
+      )}
+
+      {/* POP-UP BIENVENIDA */}
+      {mostrarPopup && (
+          <div className="aviso-overlay">
+          <div className="aviso-modal-popup">
+              <p className="aviso-texto">
+              ¡Bienvenido a la trivia! <br />
+              Ayuda a Kira completando las actividades para recuperar las anotaciones de su cuaderno. ¿Estás listo?
+              </p>
+              <div className="aviso-botones-layout">
+              <button className="btn-popup-accion btn-popup-marron" onClick={cerrarPopup}>
+                  ¡Entendido!
+              </button>
+              </div>
+          </div>
+          </div>
+      )}
         
     </div>
   );

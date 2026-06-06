@@ -4,8 +4,10 @@ import { FaBookOpen, FaCompass } from 'react-icons/fa';
 import { FaMapLocationDot } from 'react-icons/fa6';
 import { IoSettingsSharp } from 'react-icons/io5';
 import Recursos from './pages/Recursos';
+import Excavacion from './pages/Excavacion';
 
 const RECURSOS_PATH = '/recursos';
+const EXCAVACION_PATH = '/excavacion';
 
 function App() {
   const [pathname, setPathname] = useState(() => window.location.pathname);
@@ -28,6 +30,10 @@ function App() {
 
   if (pathname === RECURSOS_PATH) {
     return <Recursos onBack={() => navigate('/')} />;
+  }
+
+  if (pathname === EXCAVACION_PATH) {
+    return <Excavacion onBack={() => navigate('/')} />;
   }
 
   return (
@@ -53,7 +59,7 @@ function App() {
           <p className="subtitulo">Descubrí los gigantes que habitaron La Plata hace miles de años</p>
 
           <div className="botonera-cuaderno">
-            <button className="btn-exploracion btn-marron" type="button">
+            <button className="btn-exploracion btn-marron" type="button" onClick={() => navigate(EXCAVACION_PATH)}>
               <FaCompass className="icono-btn" /> Realizar excavación
             </button>
             <button className="btn-exploracion btn-verde" type="button">
@@ -78,7 +84,7 @@ function App() {
       </div>
 
       <div className="logo-circular">
-        <img src="ruta-tu-logo-circular.png" alt="Logo Caminando" />
+        <img src="caminando-logo.png" alt="Logo Caminando" />
       </div>
     </div>
   );

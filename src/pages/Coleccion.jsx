@@ -5,6 +5,7 @@ import { FaArrowLeft, FaLock, FaMapMarkedAlt, FaInfoCircle, FaCheck } from 'reac
 import './Coleccion.css'
 
 import TransicionHoja from '../components/TransicionCuaderno' // <--- Importas el componente
+import BotonVolver from '../components/BotonVolver'
 
 function Coleccion() {
   const navigate = useNavigate()
@@ -13,6 +14,11 @@ function Coleccion() {
 
   return (
     <div className="escenario-coleccion">
+
+      <BotonVolver className="btn-volver">
+
+      </BotonVolver>
+
       <button className="btn-volver-top" onClick={() => navigate('/')}>
         <FaArrowLeft /> Volver
       </button>

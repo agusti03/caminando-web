@@ -13,27 +13,6 @@ function App() {
   const RECURSOS_PATH = '/recursos';
   const EXCAVACION_PATH = '/excavacion';
   
-  const [pathname, setPathname] = useState(() => window.location.pathname);
-
-  useEffect(() => {
-    const handlePopState = () => setPathname(window.location.pathname);
-
-    window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
-  }, []);
-
-    window.history.pushState({}, '', nextPath);
-    setPathname(nextPath);
-  };
-
-  if (pathname === RECURSOS_PATH) {
-    return <Recursos onBack={() => navigate('/')} />;
-  }
-
-  if (pathname === EXCAVACION_PATH) {
-    return <Excavacion onBack={() => navigate('/')} />;
-  }
-
   return (
     <div className="escenario-exploracion">
       <div className="polaroid">
@@ -58,17 +37,16 @@ function App() {
 
           <div className="botonera-cuaderno">
 
+            <button className="btn-exploracion btn-marron" type="button" onClick={() => navigate(EXCAVACION_PATH)}>
+              <FaCompass className="icono-btn" /> Realizar excavación
+            </button>
+
             <button className="btn-exploracion btn-verde" onClick={() => navigate('/coleccion')}>
               <FaMapLocationDot className="icono-btn" /> Mi colección de fósiles
             </button>
 
             <button className="btn-exploracion btn-oxido" onClick={() => navigate('/ajustes')}>
               <IoSettingsSharp className="icono-btn" /> Ajustes
-            </button>
-
-
-            <button className="btn-exploracion btn-marron" type="button" onClick={() => navigate(EXCAVACION_PATH)}>
-              <FaCompass className="icono-btn" /> Realizar excavación
             </button>
 
             <button className="btn-exploracion btn-azul" type="button" onClick={() => navigate(RECURSOS_PATH)}>

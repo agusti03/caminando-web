@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BotonVolver from '../components/BotonVolver';
 import { FaTimes } from 'react-icons/fa';
+import { IoSettingsSharp } from 'react-icons/io5';
 import './Excavacion.css';
 
 import picoIcon from '../assets/pico.svg';
@@ -20,6 +22,7 @@ const TOOLS = [
 ];
 
 function Excavacion({ onBack }) {
+  const navigate = useNavigate();
   const [selectedTool, setSelectedTool] = useState(null);
   const [progress, setProgress] = useState(0);
   const [isKiraVisible, setIsKiraVisible] = useState(true);
@@ -191,6 +194,15 @@ function Excavacion({ onBack }) {
         <img src={ayudaIcon} alt="Ayuda" className="ayuda-icono" />
       </button>
 
+      {/* Botón de Ajustes */}
+      <button
+        className="btn-ajustes"
+        onClick={() => navigate('/ajustes')}
+        title="Ajustes"
+      >
+        <IoSettingsSharp className="ajustes-icono" />
+      </button>
+
       {/* Modal de Ayuda */}
       {showHelpModal && (
         <div className="modal-overlay">
@@ -257,18 +269,27 @@ function Excavacion({ onBack }) {
         </div>
       </main>
 
-      <div className="herramientas-contenedor">
-        {TOOLS.map((tool) => (
-          <button
-            key={tool.id}
-            className={`herramienta-btn ${selectedTool === tool.id ? 'activa' : ''}`}
-            onClick={() => setSelectedTool(tool.id)}
-            title={tool.name}
-          >
-            <img src={tool.icon} alt={tool.name} className="herramienta-icono" />
-          </button>
-        ))}
-      </div>
+      {progress < 100 ? (
+        <div className="herramientas-contenedor">
+          {TOOLS.map((tool) => (
+            <button
+              key={tool.id}
+              className={`herramienta-btn ${selectedTool === tool.id ? 'activa' : ''}`}
+              onClick={() => setSelectedTool(tool.id)}
+              title={tool.name}
+            >
+              <img src={tool.icon} alt={tool.name} className="herramienta-icono" />
+            </button>
+          ))}
+        </div>
+      ) : (
+        <button 
+          className="btn-coleccion-final" 
+          onClick={() => navigate('/coleccion')}
+        >
+          Ver Colección de Fósiles
+        </button>
+      )}
     </div>
   );
 }

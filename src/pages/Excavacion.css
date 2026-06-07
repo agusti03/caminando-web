@@ -77,6 +77,57 @@
   height: 60%;
 }
 
+/* Botón de Ajustes */
+.btn-ajustes {
+  position: absolute;
+  top: 18px;
+  right: 130px; /* Al lado del de ayuda (40 original + 75 ancho + 15 de margen) */
+  z-index: 50;
+  width: 75px;
+  height: 75px;
+  background-color: #3d2b20;
+  border: 2px solid #ead8ad;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: #ead8ad;
+}
+
+.btn-ajustes:hover {
+  filter: brightness(1.2);
+}
+
+.ajustes-icono {
+  font-size: 2.5rem;
+}
+
+/* Botón Final de Colección */
+.btn-coleccion-final {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1c352d; /* Verde de App.jsx */
+  color: #fcf8eb;
+  border: none;
+  padding: 16px 32px;
+  font-size: 1.4rem;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+  z-index: 60;
+  font-family: 'Patrick Hand', cursive;
+  transition: transform 0.2s;
+}
+
+.btn-coleccion-final:hover {
+  transform: translateX(-50%) scale(1.05);
+}
+
 .progreso-fill {
   height: 100%;
   background-color: #f3ab41;
@@ -206,6 +257,14 @@
     bottom: 10px;
     padding: 3px;
     gap: 4px;
+  }
+
+  .btn-coleccion-final {
+    bottom: 15px;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    width: 85%;
+    text-align: center;
   }
 
   .globo-texto {

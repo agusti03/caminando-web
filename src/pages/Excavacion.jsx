@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import BotonVolver from '../components/BotonVolver';
+import { FaTimes } from 'react-icons/fa';
 import './Excavacion.css';
 
 import picoIcon from '../assets/pico.svg';
@@ -21,6 +22,7 @@ const TOOLS = [
 function Excavacion({ onBack }) {
   const [selectedTool, setSelectedTool] = useState(null);
   const [progress, setProgress] = useState(0);
+  const [isKiraVisible, setIsKiraVisible] = useState(true);
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [layersReady, setLayersReady] = useState(false);
   const containerRef = useRef(null);
@@ -83,6 +85,13 @@ function Excavacion({ onBack }) {
       window.removeEventListener('resize', setupCanvases);
     };
   }, []);
+
+  // Reaparecer Kira automáticamente cuando el progreso llegue al 100%
+  useEffect(() => {
+    if (progress >= 100) {
+      setIsKiraVisible(true);
+    }
+  }, [progress]);
 
   const calculateProgress = () => {
     const canvas = canvasRefs[1].current;
@@ -211,14 +220,19 @@ function Excavacion({ onBack }) {
         <span className="progreso-porcentaje">{progress}%</span>
       </div>
 
-      <div className="kira-guia">
-        <div className="globo-texto">
-          <p>
-            {progress >= 100
-              ? "¡Buen trabajo! Descubriste el fósil de un gliptodonte"
-              : "Hola! Soy Kira, paleontóloga. Para comenzar la excavación, seleccioná el pico y empezá a picar. Si necesitas ayuda, haz clic en el botón de ayuda."}
-          </p>
-        </div>
+      <div className={`kira-guia ${!isKiraVisible ? 'guia-oculta' : ''}`}>
+        {isKiraVisible && (
+          <div className="globo-texto">
+            <p>
+              {progress >= 100
+                ? "¡Buen trabajo! Descubriste el fósil de un gliptodonte"
+                : "Hola! Soy Kira, paleontóloga. Para comenzar la excavación, seleccioná el pico y empezá a picar. Si necesitas ayuda, haz clic en el botón de ayuda."}
+            </p>
+            <button className="kira-cerrar" onClick={() => setIsKiraVisible(false)} title="Cerrar diálogo">
+              <FaTimes />
+            </button>
+          </div>
+        )}
         <img src={kiraImg} alt="Kira" className="kira-img" />
       </div>
 

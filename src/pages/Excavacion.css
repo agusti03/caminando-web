@@ -171,19 +171,25 @@
     display: flex;
     flex-direction: row-reverse;
     position: absolute;
-    top: 80px; /* Bajado para evitar solapamiento con la barra de progreso */
+    top: 95px; /* Se baja un poco más para asegurar distancia con la barra de progreso */
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
+    width: 94%; /* Aumentamos levemente el ancho para dar más aire al texto */
     background-color: #fff;
     border: 2px solid #4a2f22;
     border-radius: 12px;
     padding: 8px 12px;
     align-items: center;
-    gap: 12px;
+    gap: 15px; /* Mayor separación entre Kira y el texto */
     z-index: 55;
     animation: none;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    pointer-events: none; /* Permite excavar "a través" de Kira */
+  }
+
+  /* En mobile, si el diálogo se oculta, desaparece todo el bloque blanco */
+  .kira-guia.guia-oculta {
+    display: none;
   }
 
   .kira-img {
@@ -203,12 +209,14 @@
   }
 
   .globo-texto {
-    background: transparent;
-    border: none;
+    background: transparent !important;
+    border: none !important;
     padding: 0;
     margin: 0;
-    box-shadow: none;
+    box-shadow: none !important;
     flex: 1;
+    position: relative;
+    pointer-events: none;
   }
 
   .globo-texto::after {
@@ -265,7 +273,7 @@
   pointer-events: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 769px) {
   .kira-guia {
     display: flex;
     flex-direction: column;
@@ -273,25 +281,28 @@
     position: absolute;
     bottom: 120px; /* Por encima de las herramientas */
     left: 30px; /* Ajustado para que no se pegue al borde */
-    z-index: 5;
+    z-index: 55; /* Aumentado para estar por encima de los canvas de tierra */
     animation: float 3s ease-in-out infinite;
+    pointer-events: none;
   }
 
   .kira-img {
     height: 280px;
     width: auto;
     filter: drop-shadow(0 10px 15px rgba(0,0,0,0.3));
+    pointer-events: none;
   }
 
-  .globo-texto {
-    background-color: #fcf8eb; /* Color crema del cuaderno */
+  .excavacion-page .globo-texto {
+    background-color: #ffffff !important;/* Fondo blanco */
     border: 4px solid #4a2f22; /* Marrón oscuro */
     border-radius: 20px;
-    padding: 16px;
+    padding: 16px 16px 30px 16px; /* Espacio extra abajo para la cruz */
     margin-bottom: 20px;
     max-width: 300px;
     position: relative;
     box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    pointer-events: none;
   }
 
   /* Triángulo del globo de texto */
@@ -306,14 +317,37 @@
     border-color: #4a2f22 transparent transparent;
   }
 
-  .globo-texto p {
+  .excavacion-page .globo-texto p {
     margin: 0;
     font-family: 'Patrick Hand', cursive;
     color: #3d2b20;
-    font-size: 1.6rem;
+    font-size: 1.5rem; /* Texto notablemente más grande en pantallas grandes */
     line-height: 1.3;
     text-align: center;
+    pointer-events: none;
   }
+}
+
+.kira-cerrar {
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #4a2f22;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto; /* IMPORTANTE: El botón sí debe recibir clics */
+  transition: transform 0.2s ease;
+  z-index: 10;
+}
+
+.kira-cerrar:hover {
+  transform: scale(1.2);
+  color: #8c5836;
 }
 
 .herramientas-contenedor {

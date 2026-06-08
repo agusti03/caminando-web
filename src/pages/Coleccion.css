@@ -46,6 +46,7 @@
   position: relative;
   overflow: hidden;
   border: 4px solid #2b1a12;
+  margin: 0 auto;
 }
 
 /* HOJAS GENÉRICAS */
@@ -558,14 +559,6 @@
 @media (max-width: 768px) {
   .escenario-coleccion {
     padding: 15px;
-  }
-
-  .btn-volver-top {
-    top: 10px;
-    left: 10px;
-    padding: 8px 16px;
-    font-size: 1rem;
-    border-radius: 8px;
   }
 
   .cuaderno-contenedor {

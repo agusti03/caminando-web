@@ -54,12 +54,16 @@ export default function Ajustes() {
             <div className="opcion-izquierda">
             <span>🛠️</span> <span>Modo de Accesibilidad en Excavación</span>
             </div>
-            <button 
-            onClick={toggleAccesibilidad}
-            className={`switch-btn ${accesibilidadExcavacion ? 'activo' : 'inactivo'}`}
+
+            <button onClick={toggleAccesibilidad} 
+                    className={`switch-btn ${accesibilidadExcavacion ? 'activo' : 'inactivo'}`}
+                    aria-label="Accesibilidad de excavación"
+                    aria-checked={accesibilidadExcavacion}
+                    role="switch"
             >
-            <div className="switch-manejador"></div>
+                <div className="switch-manejador"></div>
             </button>
+
         </div>
 
         </section>

@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
+
+// CSS
 import './Coleccion.css';
 
 // Componentes
@@ -79,7 +81,7 @@ function DetalleGliptodonte() {
 
                 <div className="contenedor-personaje-dialogo">
                   <img 
-                    src="/src/assets/detalle-gliptodonte-paleontologa.png" 
+                    src="/src/assets/kira.png" 
                     alt="Paleontóloga" 
                     className="imagen-exploradora"
                   />
@@ -120,8 +122,8 @@ function DetalleGliptodonte() {
                   
                   {/* 2. Kira difuminada (Background) */}
                   <img 
-                    src="/src/assets/detalle-gliptodonte-paleontologa.png" 
-                    alt="Paleontóloga" 
+                    src="/src/assets/kira.png" 
+                    alt="Imágen de la paleontóloga Kira" 
                     style={{
                       position: 'absolute',
                       top: '50%',

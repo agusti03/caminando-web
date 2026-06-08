@@ -204,3 +204,29 @@
 .txt-sm { font-size: 1rem; }
 .txt-md { font-size: 1.3rem; }
 .txt-lg { font-size: 1.6rem; }
+
+/* Ajustes para el botón de ayuda dentro de la lista de opciones */
+.ajustes-container .btn-ayuda {
+  position: static; /* Quitamos la posición absoluta */
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  background-color: transparent; /* Eliminamos el fondo marrón */
+  border: none;
+  box-shadow: none; /* Eliminamos la sombra */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.ajustes-container .btn-ayuda:hover {
+  opacity: 0.7; /* Pequeño efecto visual al pasar el mouse */
+}
+
+.ajustes-container .ayuda-icono {
+  width: 24px;
+  height: 24px;
+  filter: invert(14%) sepia(19%) saturate(1450%) hue-rotate(338deg) brightness(33%) contrast(96%);
+}

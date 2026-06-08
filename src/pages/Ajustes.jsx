@@ -47,24 +47,9 @@ export default function Ajustes() {
 
     <div className="ajustes-container">
         
-        {/* 1. MODO DE INTERACCIÓN (Solo visual por ahora) */}
+        {/* Modo de Accesibilidad en Excavación */}
         <section className="ajustes-seccion">
         <h2 className="seccion-titulo">Modo de Interacción</h2>
-        
-        <div className="opcion-interaccion activa">
-            <div className="opcion-izquierda">
-            <span className="punto-activo"></span>
-            <span>Arrastrar limpiando</span>
-            </div>
-        </div>
-
-        <div className="opcion-interaccion inactiva">
-            <div className="opcion-izquierda">
-            <span>Tocar pieza y limpiar</span>
-            </div>
-        </div>
-
-        {/* Modo de Accesibilidad en Excavación */}
         <div className="ajustes-fila">
             <div className="opcion-izquierda">
             <span>🛠️</span> <span>Modo de Accesibilidad en Excavación</span>

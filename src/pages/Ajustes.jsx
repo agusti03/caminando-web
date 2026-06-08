@@ -82,9 +82,12 @@ export default function Ajustes() {
             <div className="opcion-izquierda">
             <span>👁️</span> <span>Alto contraste</span>
             </div>
-            <button 
-            onClick={() => setAltoContraste(!altoContraste)}
-            className={`switch-btn ${altoContraste ? 'activo' : 'inactivo'}`}
+
+            <button onClick={() => setAltoContraste(!altoContraste)}
+                    className={`switch-btn ${altoContraste ? 'activo' : 'inactivo'}`}
+                    aria-label="Configuración de contraste"
+                    aria-checked={altoContraste}
+                    role="switch"
             >
             <div className="switch-manejador"></div>
             </button>
@@ -118,12 +121,16 @@ export default function Ajustes() {
         
         {/* Narración */}
         <div className="ajustes-fila">
+
             <div className="opcion-izquierda">
             <span>🔊</span> <span>Narración</span>
             </div>
-            <button 
-            onClick={() => setNarracion(!narracion)}
-            className={`switch-btn ${narracion ? 'activo' : 'inactivo'}`}
+
+            <button onClick={() => setNarracion(!narracion)}
+                    className={`switch-btn ${narracion ? 'activo' : 'inactivo'}`}
+                    aria-label="Botón para activar narrador del celular"
+                    aria-checked={narracion}
+                    role="switch"
             >
             <div className="switch-manejador"></div>
             </button>
@@ -131,12 +138,16 @@ export default function Ajustes() {
 
         {/* Sonidos */}
         <div className="ajustes-fila">
+
             <div className="opcion-izquierda">
             <span>🎵</span> <span>Sonidos</span>
             </div>
-            <button 
-            onClick={() => setSonidos(!sonidos)}
-            className={`switch-btn ${sonidos ? 'activo' : 'inactivo'}`}
+
+            <button onClick={() => setSonidos(!sonidos)}
+                    className={`switch-btn ${sonidos ? 'activo' : 'inactivo'}`}
+                    aria-label="Botón para activar sonido"
+                    aria-checked={sonidos}
+                    role="switch"
             >
             <div className="switch-manejador"></div>
             </button>
@@ -144,13 +155,18 @@ export default function Ajustes() {
 
         {/* Vibración */}
         <div className="ajustes-fila">
+
             <div className="opcion-izquierda">
             <span>📳</span> <span>Vibración</span>
             </div>
-            <button 
-            onClick={() => setVibracion(!vibracion)}
-            className={`switch-btn ${vibracion ? 'activo' : 'inactivo'}`}
+
+            <button onClick={() => setVibracion(!vibracion)}
+                    className={`switch-btn ${vibracion ? 'activo' : 'inactivo'}`}
+                    aria-label="Botón para activar vibración para teléfono"
+                    aria-checked={vibracion}
+                    role="switch"
             >
+
             <div className="switch-manejador"></div>
             </button>
         </div>

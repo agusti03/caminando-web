@@ -183,7 +183,7 @@ function Excavacion({ onBack }) {
 
   return (
     <div className="excavacion-page">
-      <BotonVolver className="btn-volver" onClick={onBack} />
+      <BotonVolver className="btn-volver" onClick={() => navigate(-1)}></BotonVolver>
 
       {/* Botón de Ayuda */}
       <button

@@ -15,13 +15,7 @@ function Coleccion() {
   return (
     <div className="escenario-coleccion">
 
-      <BotonVolver className="btn-volver">
-
-      </BotonVolver>
-
-      <button className="btn-volver-top" onClick={() => navigate('/')}>
-        <FaArrowLeft /> Volver
-      </button>
+      <BotonVolver className="btn-volver" onClick={() => navigate(-1)}></BotonVolver>
 
       <TransicionHoja>
         <div className="cuaderno-contenedor">

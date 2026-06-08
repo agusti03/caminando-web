@@ -3,8 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { FaArrowLeft } from 'react-icons/fa';
 import { useSettings } from '../contexts/SettingsContext';
 
+// CSS
 import './Ajustes.css'; // <--- Importamos tu CSS normal
 import './Coleccion.css';
+
+// Componentes
+
+import BotonVolver from '../components/BotonVolver';
 
 export default function Ajustes() {
     const navigate = useNavigate();
@@ -24,9 +29,7 @@ export default function Ajustes() {
     return (
     <div className="ajustes-screen">
 
-        <button className="btn-volver-top" onClick={() => navigate('/')}>
-                <FaArrowLeft /> Volver
-        </button>
+    <BotonVolver className="btn-volver" onClick={() => navigate(-1)}></BotonVolver>
 
     <h1 className="ajustes-titulo">Ajustes</h1>
 

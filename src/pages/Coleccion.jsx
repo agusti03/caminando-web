@@ -27,7 +27,7 @@ function Coleccion() {
                     {/* Fósil Descubierto */}
                     <div className="tarjeta-fosil descubierto">
                       <div className="check-descubierto">✓</div>
-                      <img src="/src/assets/detalle-gliptodonte-gliptodonte.png" alt="Imágen de un gliptodonte" className="img-animal" />
+                      <img src="src/assets/detalle-gliptodonte-gliptodonte.png" alt="Imágen de un gliptodonte" className="img-animal" />
                       <span className="nombre-animal">Gliptodonte</span>
                       <button className="etiqueta-bloqueado btn-bloqueado" onClick={() => navigate('/detalle-gliptodonte')}>
                         <FaInfoCircle /> Ver detalle

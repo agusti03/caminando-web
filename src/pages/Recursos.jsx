@@ -1,7 +1,13 @@
-import './Recursos.css';
 import { FaGlobe } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom'
 import { FaChevronLeft, FaChevronRight, FaDownload, FaFacebookSquare, FaInstagram, FaPlay, FaYoutube } from 'react-icons/fa';
 import { getRecursoMedia, recursos } from '../data/recursos';
+
+// CSS
+import './Recursos.css';
+
+// Componentes
+
 import BotonVolver from '../components/BotonVolver';
 
 const SOCIAL_LINKS = [
@@ -28,9 +34,13 @@ const SOCIAL_LINKS = [
 ];
 
 function Recursos({ onBack }) {
+
+  const navigate = useNavigate();
+
   return (
     <div className="recursos-pagina">
-      <BotonVolver className="btn-volver" onClick={onBack} />
+
+      <BotonVolver className="btn-volver" onClick={() => navigate(-1)}></BotonVolver>
 
       <section className="recursos-panel">
         <header className="recursos-header">

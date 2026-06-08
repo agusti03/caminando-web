@@ -52,9 +52,8 @@ function JuegoGliptodonte() {
     return (
     <div className="escenario-coleccion">
 
-      <button className="btn-volver-top" onClick={() => navigate('/detalle-gliptodonte')}>
-        <FaArrowLeft /> Volver
-      </button>
+      <BotonVolver className="btn-volver" onClick={() => navigate(-1)}></BotonVolver>
+
 
       <TransicionHoja>
         <div className="cuaderno-contenedor" style={{ position: 'relative' }}>

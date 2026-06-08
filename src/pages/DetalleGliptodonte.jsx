@@ -3,7 +3,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft } from 'react-icons/fa';
 import './Coleccion.css';
+
+// Componentes
 import TransicionHoja from '../components/TransicionCuaderno';
+import BotonVolver from '../components/BotonVolver'
+
 
 function DetalleGliptodonte() {
   const navigate = useNavigate();
@@ -29,9 +33,8 @@ function DetalleGliptodonte() {
 
   return (
     <div className="escenario-coleccion">
-      <button className="btn-volver-top" onClick={() => navigate('/coleccion')}>
-        <FaArrowLeft /> Volver
-      </button>
+
+      <BotonVolver className="btn-volver" onClick={() => navigate(-1)}></BotonVolver>
 
       <TransicionHoja>
         <div className="cuaderno-contenedor">

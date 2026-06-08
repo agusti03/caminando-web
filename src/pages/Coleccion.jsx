@@ -27,7 +27,7 @@ function Coleccion() {
                     {/* Fósil Descubierto */}
                     <div className="tarjeta-fosil descubierto">
                       <div className="check-descubierto">✓</div>
-                      <img src="/src/assets/detalle-gliptodonte-gliptodonte.png" alt="Gliptodonte" className="img-animal" />
+                      <img src="/src/assets/detalle-gliptodonte-gliptodonte.png" alt="Imágen de un gliptodonte" className="img-animal" />
                       <span className="nombre-animal">Gliptodonte</span>
                       <button className="etiqueta-bloqueado btn-bloqueado" onClick={() => navigate('/detalle-gliptodonte')}>
                         <FaInfoCircle /> Ver detalle
@@ -36,7 +36,7 @@ function Coleccion() {
 
                     {/* Fósil Oculto 1 */}
                     <div className="tarjeta-fosil bloqueado">
-                      <img src="ruta-silueta-bloqueada1.png" alt="Oculto" className="img-animal silueta" />
+                      <img src="ruta-silueta-bloqueada1.png" alt="Imagen oculta de un dinosaurio 1" className="img-animal silueta" />
                       <button className="etiqueta-bloqueado btn-bloqueado" onClick={() => setMostrarAviso(true)}>
                         <FaLock /> Fósil no descubierto
                       </button>
@@ -44,7 +44,7 @@ function Coleccion() {
 
                     {/* Fósil Oculto 2 */}
                     <div className="tarjeta-fosil bloqueado">
-                      <img src="ruta-silueta-bloqueada2.png" alt="Oculto" className="img-animal silueta" />
+                      <img src="ruta-silueta-bloqueada2.png" alt="Imagen oculta de un dinosaurio 2" className="img-animal silueta" />
                       <button className="etiqueta-bloqueado btn-bloqueado" onClick={() => setMostrarAviso(true)}>
                         <FaLock /> Fósil no descubierto
                       </button>

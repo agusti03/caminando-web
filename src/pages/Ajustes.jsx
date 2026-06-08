@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { FaArrowLeft } from 'react-icons/fa';
 import { useSettings } from '../contexts/SettingsContext';
@@ -20,6 +20,18 @@ export default function Ajustes() {
         vibracion,
         setVibracion,
     } = useSettings();
+
+    // Estado local para persistir el Modo de Accesibilidad en Excavación en el navegador (localStorage)
+    const [accesibilidadExcavacion, setAccesibilidadExcavacion] = useState(() => {
+        const saved = localStorage.getItem('accesibilidadExcavacion');
+        return saved === 'true'; // Convertimos el string de localStorage a booleano
+    });
+
+    const toggleAccesibilidad = () => {
+        const newVal = !accesibilidadExcavacion;
+        setAccesibilidadExcavacion(newVal);
+        localStorage.setItem('accesibilidadExcavacion', newVal.toString());
+    };
 
     return (
     <div className="ajustes-screen">
@@ -48,12 +60,25 @@ export default function Ajustes() {
             <span>Tocar pieza y limpiar</span>
             </div>
         </div>
+
+        {/* Modo de Accesibilidad en Excavación */}
+        <div className="ajustes-fila">
+            <div className="opcion-izquierda">
+            <span>🛠️</span> <span>Modo de Accesibilidad en Excavación</span>
+            </div>
+            <button 
+            onClick={toggleAccesibilidad}
+            className={`switch-btn ${accesibilidadExcavacion ? 'activo' : 'inactivo'}`}
+            >
+            <div className="switch-manejador"></div>
+            </button>
+        </div>
+
         </section>
 
         {/* 2. APOYO VISUAL */}
         <section className="ajustes-seccion">
         <h2 className="seccion-titulo">Apoyo Visual</h2>
-        
         {/* Alto contraste */}
         <div className="ajustes-fila">
             <div className="opcion-izquierda">

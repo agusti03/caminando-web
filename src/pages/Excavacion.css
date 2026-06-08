@@ -151,6 +151,44 @@
   z-index: 1;
 }
 
+.accessibility-grid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  z-index: 45; /* Por encima de los canvas, debajo de Kira */
+  pointer-events: none;
+}
+
+.grid-cell {
+  pointer-events: auto;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.grid-cell:focus {
+  background: rgba(243, 171, 65, 0.2);
+  outline: 4px solid #f3ab41;
+  outline-offset: -4px;
+  z-index: 10;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 .excavacion-canvas {
   position: absolute;
   top: 0;

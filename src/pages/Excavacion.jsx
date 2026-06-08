@@ -21,6 +21,9 @@ const TOOLS = [
   { id: 'pincel', name: 'Pincel', icon: pincelIcon, layer: 1, size: 40 },
 ];
 
+const ROWS = ['A', 'B', 'C', 'D', 'E'];
+const COLS = [1, 2, 3, 4, 5];
+
 function Excavacion({ onBack }) {
   const navigate = useNavigate();
   const [selectedTool, setSelectedTool] = useState(null);
@@ -28,6 +31,12 @@ function Excavacion({ onBack }) {
   const [isKiraVisible, setIsKiraVisible] = useState(true);
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [layersReady, setLayersReady] = useState(false);
+  const [refreshCounter, setRefreshCounter] = useState(0);
+
+  const [isAccessibilityMode] = useState(() => {
+    return localStorage.getItem('accesibilidadExcavacion') === 'true';
+  });
+
   const containerRef = useRef(null);
   const fosilRef = useRef(null);
   const canvasRefs = {
@@ -128,53 +137,112 @@ function Excavacion({ onBack }) {
       }
     }
     
-    const newProgress = Math.min(100, Math.round((transparentPixels / totalSampled) * 100));
+    const rawProgress = (transparentPixels / totalSampled) * 100;
+    // Margen de tolerancia: si el progreso supera el 96%, lo consideramos completado para evitar frustración por píxeles residuales
+    const newProgress = rawProgress > 96 ? 100 : Math.round(rawProgress);
+
     if (newProgress !== progress) setProgress(newProgress);
   };
 
-  const handleDig = (e) => {
+  const getTerrainAt = (x, y) => {
+    if (!layersReady) return "Cargando...";
+    // Revisamos de arriba hacia abajo (capa 3 a 1)
+    for (let l = 3; l >= 1; l--) {
+      const canvas = canvasRefs[l].current;
+      if (!canvas) continue;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      const pixel = ctx.getImageData(x, y, 1, 1).data;
+      // Si el canal alfa es > 0, esta capa es la que el usuario ve/toca
+      if (pixel[3] > 0) {
+        if (l === 3) return "Tierra Dura";
+        if (l === 2) return "Tierra";
+        if (l === 1) return "Arena";
+      }
+    }
+    return "Fósil descubierto";
+  };
+
+  const digAt = (x, y) => {
     if (!selectedTool) return;
-    
+
     const tool = TOOLS.find(t => t.id === selectedTool);
     const currentCanvas = canvasRefs[tool.layer].current;
     if (!currentCanvas) return;
 
-    const rect = currentCanvas.getBoundingClientRect();
-
-    // Obtener coordenadas (mouse o touch)
-    const clientX = e.clientX ?? (e.touches && e.touches[0].clientX);
-    const clientY = e.clientY ?? (e.touches && e.touches[0].clientY);
-
-    if (clientX === undefined || clientY === undefined) return;
-
-    // Ajustar por posición del canvas y escala de resolución
-    const x = (clientX - rect.left) * (currentCanvas.width / rect.width);
-    const y = (clientY - rect.top) * (currentCanvas.height / rect.height);
-
     const isSmallScreen = window.innerWidth < 768;
-    const effectiveSize = isSmallScreen ? tool.size * 0.4 : tool.size;
+    const effectiveSize = isSmallScreen ? tool.size * 0.6 : tool.size;
 
-    // Lógica de "bloqueo": solo permitir excavar si la capa superior ya está transparente en este punto
     if (tool.layer < 3) {
       const canvasAbove = canvasRefs[tool.layer + 1].current;
-      // willReadFrequently optimiza el rendimiento para lecturas constantes de píxeles
       const ctxAbove = canvasAbove.getContext('2d', { willReadFrequently: true });
       const pixel = ctxAbove.getImageData(x, y, 1, 1).data;
-      // Si el canal Alpha (pixel[3]) es mayor a 0, la capa superior aún bloquea esta zona
       if (pixel[3] > 0) return;
     }
 
     const ctx = currentCanvas.getContext('2d');
-    // "Borrar" circulo
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
     ctx.arc(x, y, effectiveSize, 0, Math.PI * 2);
     ctx.fill();
 
-    // Solo calculamos progreso si estamos limpiando la capa de arena (layer 1)
     if (tool.layer === 1) {
       calculateProgress();
     }
+    // Forzamos re-render para actualizar las etiquetas de la rejilla
+    setRefreshCounter(prev => prev + 1);
+  };
+
+  const digCell = (rIdx, cIdx) => {
+    if (!selectedTool) return;
+
+    const tool = TOOLS.find(t => t.id === selectedTool);
+    const currentCanvas = canvasRefs[tool.layer].current;
+    if (!currentCanvas) return;
+
+    const cellWidth = currentCanvas.width / COLS.length;
+    const cellHeight = currentCanvas.height / ROWS.length;
+    const startX = cIdx * cellWidth;
+    const startY = rIdx * cellHeight;
+    const centerX = startX + cellWidth / 2;
+    const centerY = startY + cellHeight / 2;
+
+    // Verificamos si la capa superior bloquea esta celda (usando el centro como referencia)
+    if (tool.layer < 3) {
+      const canvasAbove = canvasRefs[tool.layer + 1].current;
+      const ctxAbove = canvasAbove.getContext('2d', { willReadFrequently: true });
+      const pixel = ctxAbove.getImageData(centerX, centerY, 1, 1).data;
+      if (pixel[3] > 0) return;
+    }
+
+    const ctx = currentCanvas.getContext('2d');
+    ctx.globalCompositeOperation = 'destination-out';
+    // Se añade un pequeño margen de solapamiento (1px) para evitar bordes residuales por redondeo de coordenadas
+    ctx.fillRect(startX - 1, startY - 1, cellWidth + 2, cellHeight + 2);
+
+    if (tool.layer === 1) {
+      calculateProgress();
+    }
+    setRefreshCounter(prev => prev + 1);
+  };
+
+  const handleDig = (e) => {
+    const tool = TOOLS.find(t => t.id === selectedTool);
+    if (!tool) return;
+    
+    const currentCanvas = canvasRefs[tool.layer].current;
+    if (!currentCanvas) return;
+
+    const rect = currentCanvas.getBoundingClientRect();
+
+    const clientX = e.clientX ?? (e.touches && e.touches[0].clientX);
+    const clientY = e.clientY ?? (e.touches && e.touches[0].clientY);
+
+    if (clientX === undefined || clientY === undefined) return;
+
+    const x = (clientX - rect.left) * (currentCanvas.width / rect.width);
+    const y = (clientY - rect.top) * (currentCanvas.height / rect.height);
+
+    digAt(x, y);
   };
 
   const handleMouseMove = (e) => {
@@ -263,6 +331,34 @@ function Excavacion({ onBack }) {
             alt="Fósil" 
             style={{ opacity: layersReady ? 1 : 0 }} 
           />
+          {isAccessibilityMode && layersReady && (
+            <div className="accessibility-grid">
+              {ROWS.map((row, rIdx) => 
+                COLS.map((col, cIdx) => {
+                  const canvas = canvasRefs[1].current;
+                  if (!canvas) return null;
+                  
+                  const cellWidth = canvas.width / COLS.length;
+                  const cellHeight = canvas.height / ROWS.length;
+                  const centerX = (cIdx + 0.5) * cellWidth;
+                  const centerY = (rIdx + 0.5) * cellHeight;
+                  
+                  const terrain = getTerrainAt(centerX, centerY);
+                  
+                  return (
+                    <button
+                      key={`${row}${col}`}
+                      className="grid-cell"
+                      aria-label={`Sector ${row}${col}, ${terrain}`}
+                      onClick={() => digCell(rIdx, cIdx)}
+                    >
+                      <span className="sr-only">Sector {row}{col}</span>
+                    </button>
+                  );
+                })
+              )}
+            </div>
+          )}
           <canvas ref={canvasRefs[1]} className="excavacion-canvas layer-arena" />
           <canvas ref={canvasRefs[2]} className="excavacion-canvas layer-tierra" />
           <canvas ref={canvasRefs[3]} className="excavacion-canvas layer-tierra-dura" />

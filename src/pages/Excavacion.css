@@ -49,33 +49,6 @@
   font-weight: bold;
 }
 
-/* Botón de Ayuda */
-.btn-ayuda {
-  position: absolute;
-  top: 18px;
-  right: 40px;
-  z-index: 50;
-  width: 75px;
-  height: 75px;
-  background-color: #3d2b20; /* Marrón oscuro */
-  border: 2px solid #ead8ad; /* Borde claro */
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.btn-ayuda:hover {
-  filter: brightness(1.2);
-}
-
-.ayuda-icono {
-  width: 60%;
-  height: 60%;
-}
 
 /* Botón de Ajustes */
 .btn-ajustes {
@@ -229,11 +202,16 @@
     padding: 6px 10px;
   }
 
-  .btn-ayuda {
+
+  .btn-ajustes {
     top: 10px;
-    right: 8px;
+    right: 50px; /* Posicionado al lado del botón de ayuda */
     width: 35px;
     height: 35px;
+  }
+
+  .ajustes-icono {
+    font-size: 1.2rem;
   }
 
   .progreso-limpieza {
@@ -328,34 +306,6 @@
     line-height: 1.1;
   }
 
-  /* Modal de Ayuda Responsive */
-  .modal-contenido {
-    padding: 18px;
-    border-width: 3px;
-    max-height: 85vh;
-    overflow-y: auto;
-  }
-
-  .modal-contenido h2 {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
-  }
-
-  .modal-contenido p, 
-  .modal-contenido ul {
-    font-size: 0.95rem;
-    margin-bottom: 10px;
-  }
-
-  .modal-contenido ul {
-    padding-left: 20px;
-  }
-
-  .modal-cerrar-btn {
-    padding: 8px 16px;
-    font-size: 1rem;
-    margin-top: 10px;
-  }
 }
 
 .fosil-capa {
@@ -493,70 +443,4 @@
 .herramienta-icono {
   width: 60%;
   height: 60%;
-}
-
-/* Estilos del Modal */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000; /* Asegura que esté por encima de todo */
-}
-
-.modal-contenido {
-  background-color: #fcf8eb; /* Color crema del cuaderno */
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  max-width: 500px;
-  width: 90%;
-  text-align: center;
-  font-family: 'Patrick Hand', cursive;
-  color: #3d2b20;
-  position: relative;
-  border: 4px solid #4a2f22;
-}
-
-.modal-contenido h2 {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
-  color: #4a2f22;
-}
-
-.modal-contenido p, .modal-contenido ul {
-  font-size: 1.3rem;
-  line-height: 1.5;
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-.modal-contenido ul {
-  list-style-type: disc;
-  padding-left: 25px;
-}
-
-.modal-contenido li {
-  margin-bottom: 8px;
-}
-
-.modal-cerrar-btn {
-  background-color: #f3ab41; /* Naranja */
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1.2rem;
-  margin-top: 20px;
-  transition: background-color 0.2s ease;
-}
-
-.modal-cerrar-btn:hover {
-  background-color: #e09a30;
 }

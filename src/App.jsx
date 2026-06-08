@@ -4,17 +4,35 @@ import { useNavigate } from 'react-router-dom'
 import { FaBookOpen, FaCompass } from 'react-icons/fa';
 import { FaMapLocationDot } from 'react-icons/fa6';
 import { IoSettingsSharp } from 'react-icons/io5';
+import BotonAyuda from './components/BotonAyuda';
+import ModalAyuda from './components/ModalAyuda';
 import Recursos from './pages/Recursos';
 import Excavacion from './pages/Excavacion';
 
 function App() {
   
   const navigate = useNavigate();
+  const [showHelpModal, setShowHelpModal] = useState(false);
   const RECURSOS_PATH = '/recursos';
   const EXCAVACION_PATH = '/excavacion';
   
   return (
     <div className="escenario-exploracion">
+      <BotonAyuda onClick={() => setShowHelpModal(true)} />
+
+      <ModalAyuda 
+        isOpen={showHelpModal} 
+        onClose={() => setShowHelpModal(false)} 
+        title="¿Cómo funciona?"
+      >
+        <ul>
+          <li><strong>Realizar Excavación:</strong> Descubrí grandes mamíferos presentes en la ciudad para agregarlos al cuadernillo.</li>
+          <li><strong>Mi colección de fósiles:</strong> Descubrí datos interesantes de los fósiles que descubriste jugando juegos!</li>
+          <li><strong>Ajustes:</strong> Configurá el sitio web a tu gusto, incluyendo opciones de accesibilidad.</li>
+          <li><strong>Recursos:</strong> Si te quedaste con ganas de más, acá vas a encontrar más información.</li>
+        </ul>
+      </ModalAyuda>
+
       <div className="polaroid">
         <div className="clip-metalico">📎</div>
         <img src="ruta-a-tu-foto-campamento.jpg" alt="Campamento base" />

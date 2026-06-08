@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import BotonVolver from '../components/BotonVolver';
 import { FaTimes } from 'react-icons/fa';
 import { IoSettingsSharp } from 'react-icons/io5';
+import BotonAyuda from '../components/BotonAyuda';
+import ModalAyuda from '../components/ModalAyuda';
 import './Excavacion.css';
 
 import picoIcon from '../assets/pico.svg';
@@ -12,7 +14,6 @@ import kiraImg from '../assets/kira.png';
 import tierraDuraTexture from '../assets/tierra-dura.png';
 import tierraTexture from '../assets/tierra.png';
 import arenaTexture from '../assets/arena.png';
-import ayudaIcon from '../assets/ayuda.svg'; // Asegúrate de que este archivo SVG exista en la ruta especificada
 import fosilImg from '../assets/fosil.png';
 
 const TOOLS = [
@@ -253,14 +254,7 @@ function Excavacion({ onBack }) {
     <div className="excavacion-page">
       <BotonVolver className="btn-volver" onClick={() => navigate(-1)}></BotonVolver>
 
-      {/* Botón de Ayuda */}
-      <button
-        className="btn-ayuda"
-        onClick={() => setShowHelpModal(true)}
-        title="Ayuda"
-      >
-        <img src={ayudaIcon} alt="Ayuda" className="ayuda-icono" />
-      </button>
+      <BotonAyuda onClick={() => setShowHelpModal(true)} />
 
       {/* Botón de Ajustes */}
       <button
@@ -271,26 +265,21 @@ function Excavacion({ onBack }) {
         <IoSettingsSharp className="ajustes-icono" />
       </button>
 
-      {/* Modal de Ayuda */}
-      {showHelpModal && (
-        <div className="modal-overlay">
-          <div className="modal-contenido">
-            <h2>Cómo jugar</h2>
-            <p>¡Bienvenido a la excavación arqueológica!</p>
-            <ul>
-              <li>Usa el <strong>Pico</strong> para romper la capa de tierra dura.</li>
-              <li>Usa la <strong>Pala</strong> para quitar la tierra normal.</li>
-              <li>Usa el <strong>Pincel</strong> para limpiar la arena y revelar el fósil.</li>
-              <li>Solo puedes usar una herramienta en la capa que está visible. Si intentas usar una herramienta en una capa oculta, no tendrá efecto.</li>
-              <li>El <strong>Progreso</strong> de limpieza del fósil se muestra en la barra superior.</li>
-              <li>¡Tu objetivo es descubrir completamente el fósil oculto!</li>
-            </ul>
-            <button className="modal-cerrar-btn" onClick={() => setShowHelpModal(false)}>
-              Entendido
-            </button>
-          </div>
-        </div>
-      )}
+      <ModalAyuda 
+        isOpen={showHelpModal} 
+        onClose={() => setShowHelpModal(false)} 
+        title="Cómo jugar"
+      >
+        <p>¡Bienvenido a la excavación arqueológica!</p>
+        <ul>
+          <li>Usa el <strong>Pico</strong> para romper la capa de tierra dura.</li>
+          <li>Usa la <strong>Pala</strong> para quitar la tierra normal.</li>
+          <li>Usa el <strong>Pincel</strong> para limpiar la arena y revelar el fósil.</li>
+          <li>Solo puedes usar una herramienta en la capa que está visible. Si intentas usar una herramienta en una capa oculta, no tendrá efecto.</li>
+          <li>El <strong>Progreso</strong> de limpieza del fósil se muestra en la barra superior.</li>
+          <li>¡Tu objetivo es descubrir completamente el fósil oculto!</li>
+        </ul>
+      </ModalAyuda>
 
       <div className="progreso-limpieza">
         <span className="progreso-label">Progreso</span>

@@ -1,4 +1,5 @@
 /* src/App.css */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700&display=swap');
 
@@ -133,18 +134,18 @@
 /* Polaroid Izquierda */
 .polaroid {
   position: absolute;
-  left: 4%;
+  left: 18%;
   top: 10%;
   padding: 12px 12px 24px 12px;
   background-color: #fff;
   box-shadow: 3px 5px 15px rgba(0,0,0,0.3);
   transform: rotate(-6deg); /* Inclinación de la foto */
-  max-width: 180px;
+  max-width: 220px;
 }
 .polaroid img { width: 100%; height: auto; }
 .polaroid-texto {
-  font-family: 'Courier New', monospace; /* Tipo máquina de escribir */
-  font-size: 0.8rem;
+  font-family: 'Caveat', monospace; /* Tipo máquina de escribir */
+  font-size: 1.2rem;
   text-align: center;
   margin-top: 10px;
   color: #333;
@@ -159,17 +160,17 @@
 /* Post-it Derecha */
 .post-it {
   position: absolute;
-  right: 5%;
+  right: 12%;
   top: 25%;
   background-color: #f3ab41; /* Color amarillo/naranja del papel */
   padding: 30px 20px;
-  width: 220px;
+  width: 300px;
   box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
   transform: rotate(3deg);
 }
 .post-it-texto {
-  font-family: 'Comic Sans MS', cursive, sans-serif; /* Simula letra de mano */
-  font-size: 0.9rem;
+  font-family: 'Caveat', cursive; /* Simula letra de mano */
+  font-size: 1.5rem;
   color: #2b1a08;
   line-height: 1.4;
 }
@@ -178,10 +179,10 @@
 /* Logo circular abajo a la derecha */
 .logo-circular {
   position: absolute;
-  right: 6%;
-  bottom: 8%;
-  width: 100px;
-  height: 100px;
+  right: 12%;
+  bottom: 12%;
+  width: 150px;
+  height: 150px;
   border: 2px solid rgba(255,255,255,0.4);
   border-radius: 50%;
   overflow: hidden;
@@ -191,12 +192,10 @@
 /* Huellas decorativas */
 .huellas-contenedor {
   position: absolute;
-  left: 6%;
-  bottom: 10%;
+  left: 15%;
+  bottom: 50%;
 }
-.huella { width: 70px; opacity: 0.7; position: absolute; }
-.h1 { transform: rotate(15deg); }
-.h2 { transform: rotate(-20deg); left: 50px; top: -40px; }
+.huella { width: 320px; opacity: 0.7; position: absolute; }
 
 /* --- RESPONSIVIDAD PARA PANTALLAS VERTICALES --- */
 @media (max-width: 768px) {

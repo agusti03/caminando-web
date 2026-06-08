@@ -7,11 +7,12 @@
 .escenario-exploracion {
   background-color: #4a2f22; /* Marrón de fondo */
   min-height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative; /* Permite que los objetos de los lados floten con 'absolute' */
-  overflow: hidden;
+  overflow-x: hidden;
   font-family: 'Cambria', Georgia, serif; /* Tipografía con serifa tipo libro antiguo */
 }
 
@@ -25,6 +26,7 @@
   box-shadow: 0 15px 30px rgba(0,0,0,0.4);
   display: flex;
   position: relative;
+  z-index: 5;
   /* Simulación de las líneas del cuaderno usando un gradiente lineal repetitivo */
   background-image: linear-gradient(#e1dcd0 1px, transparent 1px);
   background-size: 100% 24px; 
@@ -141,13 +143,14 @@
 /* Polaroid Izquierda */
 .polaroid {
   position: absolute;
-  left: 18%;
+  left: 5%;
   top: 10%;
   padding: 12px 12px 24px 12px;
   background-color: #fff;
   box-shadow: 3px 5px 15px rgba(0,0,0,0.3);
   transform: rotate(-6deg); /* Inclinación de la foto */
   max-width: 220px;
+  z-index: 1;
 }
 .polaroid img { width: 100%; height: auto; }
 .polaroid-texto {
@@ -167,13 +170,14 @@
 /* Post-it Derecha */
 .post-it {
   position: absolute;
-  right: 12%;
+  right: 5%;
   top: 25%;
   background-color: #f3ab41; /* Color amarillo/naranja del papel */
   padding: 30px 20px;
   width: 300px;
   box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
   transform: rotate(3deg);
+  z-index: 1;
 }
 .post-it-texto {
   font-family: 'Caveat', cursive; /* Simula letra de mano */

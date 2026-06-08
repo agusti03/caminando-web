@@ -7,6 +7,7 @@ import BotonAyuda from './components/BotonAyuda';
 import ModalAyuda from './components/ModalAyuda';
 import Recursos from './pages/Recursos';
 import Excavacion from './pages/Excavacion';
+import './App.css';
 
 //  Rutas a imágenes
 import huellaImg from './assets/huella-de-gliptodonte.png'

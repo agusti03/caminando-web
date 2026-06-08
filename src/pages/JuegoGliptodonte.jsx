@@ -3,8 +3,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import { FaArrowLeft, FaCheckCircle, FaBookOpen } from 'react-icons/fa';
+
+// CSS
 import './Coleccion.css';
+
+// Componentes
 import TransicionHoja from '../components/TransicionCuaderno';
+import BotonVolver from '../components/BotonVolver';
 
 function JuegoGliptodonte() {
     const navigate = useNavigate();

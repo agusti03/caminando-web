@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import './App.css';
 import { useNavigate } from 'react-router-dom'
 import { FaBookOpen, FaCompass } from 'react-icons/fa';
 import { FaMapLocationDot } from 'react-icons/fa6';
@@ -9,12 +8,18 @@ import ModalAyuda from './components/ModalAyuda';
 import Recursos from './pages/Recursos';
 import Excavacion from './pages/Excavacion';
 
+//  Rutas a imágenes
+import huellaImg from './assets/huella-de-gliptodonte.png'
+import campamentoImg from './assets/campamento-base-2024.jpg'
+
 function App() {
   
   const navigate = useNavigate();
   const [showHelpModal, setShowHelpModal] = useState(false);
   const RECURSOS_PATH = '/recursos';
   const EXCAVACION_PATH = '/excavacion';
+  const COLECCION_PATH = '/coleccion' ;
+  const AJUSTES_PATH = '/ajustes' ;
   
   return (
     <div className="escenario-exploracion">
@@ -35,13 +40,12 @@ function App() {
 
       <div className="polaroid">
         <div className="clip-metalico">📎</div>
-        <img src="ruta-a-tu-foto-campamento.jpg" alt="Campamento base" />
+        <img src={campamentoImg} alt="Campamento base" />
         <p className="polaroid-texto">Campamento base, 2024</p>
       </div>
 
       <div className="huellas-contenedor">
-        <img src="ruta-huella-violeta.png" className="huella h1" alt="huella" />
-        <img src="ruta-huella-amarilla.png" className="huella h2" alt="huella" />
+        <img src={huellaImg} className="huella" alt="huella-de-gliptodonte" />
       </div>
 
       <div className="cuaderno-campo">
@@ -59,11 +63,11 @@ function App() {
               <FaCompass className="icono-btn" /> Realizar excavación
             </button>
 
-            <button className="btn-exploracion btn-verde" onClick={() => navigate('/coleccion')}>
+            <button className="btn-exploracion btn-verde" onClick={() => navigate(COLECCION_PATH)}>
               <FaMapLocationDot className="icono-btn" /> Mi colección de fósiles
             </button>
 
-            <button className="btn-exploracion btn-oxido" onClick={() => navigate('/ajustes')}>
+            <button className="btn-exploracion btn-oxido" onClick={() => navigate(AJUSTES_PATH)}>
               <IoSettingsSharp className="icono-btn" /> Ajustes
             </button>
 

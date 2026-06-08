@@ -8,6 +8,8 @@ import './Ajustes.css'; // <--- Importamos tu CSS normal
 import './Coleccion.css';
 
 // Componentes
+import BotonAyuda from '../components/BotonAyuda';
+import ModalAyuda from '../components/ModalAyuda';
 
 import BotonVolver from '../components/BotonVolver';
 
@@ -32,6 +34,9 @@ export default function Ajustes() {
         return saved === 'true'; // Convertimos el string de localStorage a booleano
     });
 
+    // Estado para controlar el modal de ayuda de accesibilidad
+    const [showAccesibilidadHelp, setShowAccesibilidadHelp] = useState(false);
+
     const toggleAccesibilidad = () => {
         const newVal = !accesibilidadExcavacion;
         setAccesibilidadExcavacion(newVal);
@@ -53,6 +58,7 @@ export default function Ajustes() {
         <div className="ajustes-fila">
             <div className="opcion-izquierda">
             <span>🛠️</span> <span>Modo de Accesibilidad en Excavación</span>
+            <BotonAyuda onClick={() => setShowAccesibilidadHelp(true)} />
             </div>
             <button 
             onClick={toggleAccesibilidad}
@@ -147,6 +153,16 @@ export default function Ajustes() {
         </section>
 
     </div>
+
+    {/* Modal de ayuda para el modo de accesibilidad */}
+    <ModalAyuda 
+        isOpen={showAccesibilidadHelp} 
+        onClose={() => setShowAccesibilidadHelp(false)} 
+        title="Modo de Accesibilidad"
+    >
+        <p>Al activar este modo, el juego de excavación de fósiles va a ser navegable con teclado. Ideal si usás lector de pantalla o tenés problemas con el mouse. Ojo! Vas a seguir poder utilizando el mouse, pero la experiencia será más sencilla, por eso recomendamos activarlo sólo si tenés problemas para completar el juego.</p>
+    </ModalAyuda>
+
     </div>
   );
 }

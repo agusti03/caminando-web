@@ -1,31 +1,33 @@
 // src/pages/DetalleGliptodonte.jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft } from 'react-icons/fa';
+import { useSettings } from '../contexts/SettingsContext';
 
 // CSS
 import './Coleccion.css';
 
 // Componentes
 import TransicionHoja from '../components/TransicionCuaderno';
-import BotonVolver from '../components/BotonVolver'
-
+import BotonVolver from '../components/BotonVolver';
 
 function DetalleGliptodonte() {
   const navigate = useNavigate();
-  
-  // Estado para saber si el juego fue completado con éxito
+  const mainRef = useRef(null);
   const [juegoGanado, setJuegoGanado] = useState(false);
 
   useEffect(() => {
-    // Comprobamos el almacenamiento al cargar el cuaderno
     const completado = localStorage.getItem('triviaGliptodonteCompletada');
     if (completado === 'true') {
       setJuegoGanado(true);
     }
   }, []);
 
-  // Datos estructurados de la imagen para renderizar los recuadros limpios
+  useEffect(() => {
+    if (mainRef.current) {
+      mainRef.current.focus();
+    }
+  }, []);
+
   const datosFosil = [
     { etiqueta: "ÉPOCA", valor: "Pleistoceno tardío", subtexto: "Hace 500,000 a 10,000 años atrás", icono: "📅" },
     { etiqueta: "HÁBITAT", valor: "Llanuras abiertas", subtexto: null, icono: "📍" },
@@ -34,46 +36,59 @@ function DetalleGliptodonte() {
   ];
 
   return (
-    <div className="escenario-coleccion">
-
-      <BotonVolver className="btn-volver" onClick={() => navigate(-1)}></BotonVolver>
+    <main
+      ref={mainRef}
+      className="escenario-coleccion"
+      tabIndex={-1} // Mantiene el foco inicial por JS, pero no ensucia el Tab
+      aria-label="Detalle del gliptodonte"
+    >
+      {/* 1. PRIMER ELEMENTO AL HACER TAB: El botón de volver */}
+      <BotonVolver 
+        className="btn-volver" 
+        onClick={() => navigate(-1)} 
+        aria-label="Volver a la colección"
+        tabIndex={0} // Forzamos que sea el primer punto de parada
+      />
 
       <TransicionHoja>
-        <div className="cuaderno-contenedor">
-          {/* HOJA IZQUIERDA - DETALLES DEL FÓSIL */}
-          <div className="pagina-hoja hoja-izquierda">
-            <h2 className="titulo-seccion">Gliptodonte</h2>
+        <div className="cuaderno-contenedor" role="region" aria-label="Cuaderno de investigación: Gliptodonte">
+          
+          {/* 📖 HOJA IZQUIERDA */}
+          <article className="pagina-hoja hoja-izquierda">
+            {/* Agregamos tabIndex={0} a los bloques de lectura principales si queremos que el teclado se detenga a leerlos */}
+            <h1 className="titulo-seccion" tabIndex={0}>Gliptodonte</h1>
 
             <div className="contenedor-imagen-fosil">
               <img 
                 src="/src/assets/detalle-gliptodonte-gliptodonte.png"
-                alt="Ilustración de un gliptodonte"
+                alt="Ilustración de un gliptodonte, mamífero gigante con caparazón acorazado"
                 className="imagen-fosil"
+                tabIndex={0} // La imagen descriptiva ahora es alcanzable para que lean su 'alt'
               />
             </div>
 
-            <h3 className="titulo-subseccion">Descripción</h3>
-            <p className="texto-descripcion">
+            <h2 className="titulo-subseccion" tabIndex={0}>Descripción</h2>
+            <p className="texto-descripcion" tabIndex={0}>
               Mamífero gigante acorazado herbívoro. Su caparazón rígido estaba formado 
               por miles de placas óseas hexagonales fusionadas que cubrían todo el cuerpo. 
               Se alimentaba de pasto bajo y hojas. Habitaba llanuras de Sudamérica.
             </p>
-          </div>
+          </article>
 
-          {/* ANILLADO CENTRAL */}
-          <div className="anillado-espiral">
+          {/* 📎 ANILLADO CENTRAL */}
+          <div className="anillado-espiral" aria-hidden="true">
             {[...Array(20)].map((_, i) => (
               <div key={i} className="anillo"></div>
             ))}
           </div>
 
-          {/* HOJA DERECHA - SECCIÓN INTERACTIVA O DE DATOS RESTAURADOS */}
-          <div className="pagina-hoja hoja-derecha" style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}>
+          {/* 📖 HOJA DERECHA */}
+          <article className="pagina-hoja hoja-derecha" style={{ justifyContent: 'flex-start', alignItems: 'stretch' }}>
             
             {!juegoGanado ? (
-              /* ❌ ESTADO INICIAL: JUEGO NO COMPLETADO (Muestra diálogo de Kira) */
+              /* ❌ ESTADO INICIAL: JUEGO NO COMPLETADO */
               <div className="bloque-interactivo-juego">
-                <div className="datos-borrosos-fondo">
+                <div className="datos-borrosos-fondo" aria-hidden="true">
                   {[...Array(8)].map((_, i) => (
                     <div key={i} className="linea-borrosa"></div>
                   ))}
@@ -82,118 +97,103 @@ function DetalleGliptodonte() {
                 <div className="contenedor-personaje-dialogo">
                   <img 
                     src="/src/assets/kira.png" 
-                    alt="Paleontóloga" 
+                    alt="" 
+                    aria-hidden="true"
                     className="imagen-exploradora"
                   />
-                  <div className="globo-texto">
-                    <p>¡Ups, no puedo leer mis anotaciones!</p>
-                    <p>¡Ayúdame a recuperar más información de esta especie!</p>
+                  {/* Le damos foco al globo para que el usuario de teclado lo escuche ANTES de llegar al botón jugar */}
+                  <div className="globo-texto" tabIndex={0} aria-label="Kira dice: ¡Ups, no puedo leer mis anotaciones! ¡Ayúdame a recuperar más información de esta especie!">
+                    <p style={{ margin: 0 }}>¡Ups, no puedo leer mis anotaciones!</p>
+                    <p style={{ margin: 0 }}>¡Ayúdame a recuperar más información de esta especie!</p>
                   </div>
                 </div>
 
-                <button className="boton-jugar" onClick={() => navigate('/juego-gliptodonte')}>
-                  <span>🎮</span> ¡Jugar!
+                {/* El botón nativo ya es alcanzable con Tab automáticamente */}
+                <button 
+                  className="boton-jugar" 
+                  onClick={() => navigate('/juego-gliptodonte')} 
+                  aria-label="Jugar la trivia para desbloquear información"
+                >
+                  <span aria-hidden="true">🎮</span> ¡Jugar!
                 </button>
               </div>
             ) : (
-              /* ESTADO COMPLETADO: REVELA LOS DATOS ENMASCARANDO A KIRA AL FONDO */
+              /* ESTADO COMPLETADO: REVELA LOS DATOS */
               <div style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 
-                {/* 1. Recuadro amarillo "¿Sabías que...?" superior al estilo Post-it */}
-                <div style={{
-                  backgroundColor: '#fffde7',
-                  border: '1px solid #e0e0e0',
-                  borderRadius: '4px',
-                  padding: '15px',
-                  boxShadow: '2px 4px 10px rgba(0,0,0,0.08)',
-                  transform: 'rotate(-0.5deg)',
-                  marginBottom: '10px'
-                }}>
-                  <h4 style={{ margin: '0 0 5px 0', fontFamily: '"Comic Sans MS", cursive', color: '#4e342e', fontSize: '1.15rem' }}>
+                {/* Post-it alcanzable con Tab */}
+                <section 
+                  tabIndex={0}
+                  style={{
+                    backgroundColor: '#fffde7',
+                    border: '1px solid #e0e0e0',
+                    borderRadius: '4px',
+                    padding: '15px',
+                    boxShadow: '2px 4px 10px rgba(0,0,0,0.08)',
+                    transform: 'rotate(-0.5deg)',
+                    marginBottom: '10px'
+                  }} 
+                  aria-label="Dato curioso: ¿Sabías que? Su caparazón estaba formado por más de 1000 placas óseas hexagonales que estaban fusionadas. Algunos gliptodontes podían superar los 3000 kg."
+                >
+                  <h3 style={{ margin: '0 0 5px 0', fontFamily: '"Comic Sans MS", cursive', color: '#4e342e', fontSize: '1.15rem' }}>
                     ¿Sabías que?
-                  </h4>
+                  </h3>
                   <p style={{ margin: 0, fontSize: '0.95rem', color: '#5d4037', lineHeight: '1.4', fontWeight: '500' }}>
                     Su caparazón estaba formado por más de 1000 placas óseas hexagonales que estaban fusionadas. Algunos gliptodontes podían superar los 3000 kg.
                   </p>
-                </div>
+                </section>
 
-                {/* Contenedor relativo para posicionar a Kira de fondo difuminada y las tarjetas encima */}
                 <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', justifyContent: 'center' }}>
                   
-                  {/* 2. Kira difuminada (Background) */}
-                  <img 
-                    src="/src/assets/kira.png" 
-                    alt="Imágen de la paleontóloga Kira" 
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      maxHeight: '340px',
-                      width: 'auto',
-                      opacity: 0.18,          // Se reduce mucho la opacidad
-                      filter: 'blur(4px)',    // ✨ Aquí ocurre el difuminado técnico
-                      pointerEvents: 'none',
-                      zIndex: 1
-                    }}
-                  />
+                  <img src="/src/assets/kira.png" alt="" aria-hidden="true" style={{ position: 'absolute', opacity: 0.18, pointerEvents: 'none' }} />
 
-                  {/* 3. Renderizado de las 4 Tarjetas de Datos Recuperados (Foreground) */}
-                  {datosFosil.map((item, index) => (
-                    <div 
-                      key={index} 
-                      style={{
-                        backgroundColor: '#f7f2e8', 
-                        border: '2px solid #e6dfd3',
-                        borderRadius: '12px',
-                        padding: '12px 20px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '15px',
-                        zIndex: 2, // Por encima de Kira
-                        boxShadow: '0 2px 5px rgba(0,0,0,0.03)'
-                      }}
-                    >
-                      {/* Círculo contenedor para el Icono / Avatar */}
-                      <div style={{
-                        width: '44px',
-                        height: '44px',
-                        borderRadius: '50%',
-                        backgroundColor: '#bcaaa4',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        fontSize: '1.3rem',
-                        color: '#fff'
-                      }}>
-                        {item.icono}
-                      </div>
+                  <h3 className="sr-only">Ficha técnica del fósil</h3>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 2 }}>
+                    {datosFosil.map((item, index) => (
+                      <li 
+                        key={index} 
+                        tabIndex={0} // 💡 CLAVE: Esto hace que cada tarjeta reciba el foco del Tabulador
+                        aria-label={`${item.etiqueta}: ${item.valor}. ${item.subtexto ? item.subtexto : ''}`}
+                        style={{
+                          backgroundColor: '#f7f2e8', 
+                          border: '2px solid #e6dfd3',
+                          borderRadius: '12px',
+                          padding: '12px 20px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '15px',
+                          boxShadow: '0 2px 5px rgba(0,0,0,0.03)'
+                        }}
+                      >
+                        <div aria-hidden="true" style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: '#bcaaa4', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '1.3rem', color: '#fff', flexShrink: 0 }}>
+                          {item.icono}
+                        </div>
 
-                      {/* Textos descriptivos */}
-                      <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                        <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#8d6e63', letterSpacing: '0.5px' }}>
-                          {item.etiqueta}
-                        </span>
-                        <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#3e2723', margin: '2px 0' }}>
-                          {item.valor}
-                        </span>
-                        {item.subtexto && (
-                          <span style={{ fontSize: '0.85rem', color: '#795548' }}>
-                            {item.subtexto}
+                        <div aria-hidden="true" style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#8d6e63', letterSpacing: '0.5px' }}>
+                            {item.etiqueta}
                           </span>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                          <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#3e2723', margin: '2px 0' }}>
+                            {item.valor}
+                          </span>
+                          {item.subtexto && (
+                            <span style={{ fontSize: '0.85rem', color: '#795548' }}>
+                              {item.subtexto}
+                            </span>
+                          )}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
 
+                </div>
               </div>
             )}
 
-          </div>
+          </article>
         </div>
       </TransicionHoja>
-    </div>
+    </main>
   );
 }
 

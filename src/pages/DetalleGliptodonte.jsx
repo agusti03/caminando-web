@@ -3,12 +3,16 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSettings } from '../contexts/SettingsContext';
 
-// CSS
+//CSS
 import './Coleccion.css';
 
-// Componentes
+//Componentes
 import TransicionHoja from '../components/TransicionCuaderno';
 import BotonVolver from '../components/BotonVolver';
+
+//Imágenes
+import gliptodonteImg from '../assets/detalle-gliptodonte-gliptodonte.png'
+import kiraImg from '../assets/kira.png'
 
 function DetalleGliptodonte() {
   const navigate = useNavigate();
@@ -60,7 +64,7 @@ function DetalleGliptodonte() {
 
             <div className="contenedor-imagen-fosil">
               <img 
-                src="/src/assets/detalle-gliptodonte-gliptodonte.png"
+                src={gliptodonteImg}
                 alt="Ilustración de un gliptodonte, mamífero gigante con caparazón acorazado"
                 className="imagen-fosil"
                 tabIndex={0} // La imagen descriptiva ahora es alcanzable para que lean su 'alt'
@@ -96,7 +100,7 @@ function DetalleGliptodonte() {
 
                 <div className="contenedor-personaje-dialogo">
                   <img 
-                    src="/src/assets/kira.png" 
+                    src={kiraImg} 
                     alt="" 
                     aria-hidden="true"
                     className="imagen-exploradora"

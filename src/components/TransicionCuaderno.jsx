@@ -85,7 +85,7 @@ function TransicionCuaderno({ children }) {
       </div>
 
       {!animacionCompleta && (
-        <div className={`overlay-hojas ${fadeOut ? 'fade-out' : ''}`}>
+        <div className={`overlay-hojas ${fadeOut ? 'fade-out' : ''}`} aria-hidden="true">
           {[...Array(numeroPaginas)].map((_, index) => (
             <div
               key={index}

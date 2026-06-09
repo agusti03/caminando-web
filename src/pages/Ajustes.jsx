@@ -10,7 +10,6 @@ import './Coleccion.css';
 // Componentes
 import BotonAyuda from '../components/BotonAyuda';
 import ModalAyuda from '../components/ModalAyuda';
-
 import BotonVolver from '../components/BotonVolver';
 
 export default function Ajustes() {
@@ -98,21 +97,29 @@ export default function Ajustes() {
             <div className="opcion-izquierda">
             <span>👁️</span> <span>Tamaño de texto</span>
             </div>
-            <div className="tamanio-selector">
+
+            <div className="tamanio-selector" role="group" aria-label="Seleccionar tamaño de texto">
             <button 
                 onClick={() => setTamanioTexto('small')}
                 className={`tamanio-btn txt-sm ${tamanioTexto === 'small' ? 'activo' : 'inactivo'}`}
+                aria-label="Tamaño de texto pequeño"
+                aria-pressed={tamanioTexto === 'small'}
             >A</button>
             <button 
                 onClick={() => setTamanioTexto('medium')}
                 className={`tamanio-btn txt-md ${tamanioTexto === 'medium' ? 'activo' : 'inactivo'}`}
+                aria-label="Tamaño de texto mediano"
+                aria-pressed={tamanioTexto === 'medium'}
             >A</button>
             <button 
                 onClick={() => setTamanioTexto('large')}
                 className={`tamanio-btn txt-lg ${tamanioTexto === 'large' ? 'activo' : 'inactivo'}`}
+                aria-label="Tamaño de texto grande"
+                aria-pressed={tamanioTexto === 'large'}
             >A</button>
             </div>
         </div>
+
         </section>
 
         {/* 3. APOYO AUDITIVO */}

@@ -40,6 +40,7 @@ function Excavacion({ onBack }) {
 
   const containerRef = useRef(null);
   const fosilRef = useRef(null);
+  const kiraDialogueRef = useRef(null); // Ref para el foco automático
   const fossilCanvasRef = useRef(null); // NEW: Hidden canvas for fossil pixel data
   const canvasRefs = {
     3: useRef(null), // Tierra Dura
@@ -137,6 +138,10 @@ function Excavacion({ onBack }) {
   useEffect(() => {
     if (progress >= 100) {
       setIsKiraVisible(true);
+      // Pequeño delay para asegurar que el DOM se actualizó antes de mover el foco
+      setTimeout(() => {
+        kiraDialogueRef.current?.focus();
+      }, 100);
     }
   }, [progress]);
 
@@ -332,9 +337,17 @@ function Excavacion({ onBack }) {
         </ul>
       </ModalAyuda>
 
-      <div className="progreso-limpieza">
+      <div 
+        className="progreso-limpieza"
+        tabIndex={0}
+        role="progressbar"
+        aria-valuenow={progress}
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-label={`Progreso de excavación: ${progress} por ciento`}
+      >
         <span className="progreso-label">Progreso</span>
-        <div className="barra-progreso">
+        <div className="barra-progreso" aria-hidden="true">
           <div className="progreso-fill" style={{ width: `${progress}%` }}></div>
         </div>
         <span className="progreso-porcentaje">{progress}%</span>
@@ -342,7 +355,11 @@ function Excavacion({ onBack }) {
 
       <div className={`kira-guia ${!isKiraVisible ? 'guia-oculta' : ''}`}>
         {isKiraVisible && (
-          <div className="globo-texto">
+          <div 
+            className="globo-texto" 
+            tabIndex={0} 
+            ref={kiraDialogueRef}
+          >
             <p>
               {progress >= 100
                 ? "¡Buen trabajo! Descubriste el fósil de un gliptodonte"

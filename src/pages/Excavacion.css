@@ -236,21 +236,21 @@
 
   .kira-guia {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column-reverse; /* Stack vertical: Globo arriba, Kira abajo */
     position: absolute;
-    top: 95px; /* Se baja un poco más para asegurar distancia con la barra de progreso */
+    top: 100px; /* Bajamos el conjunto para que no tape la barra de progreso */
     left: 50%;
     transform: translateX(-50%);
-    width: 94%; /* Aumentamos levemente el ancho para dar más aire al texto */
-    background-color: #fff;
-    border: 2px solid #4a2f22;
-    border-radius: 12px;
-    padding: 8px 12px;
+    width: 90%; /* Permitimos que ocupe un poco más de ancho de pantalla */
+    max-width: 320px; /* Aumentamos el ancho máximo: esto hace que el cuadro sea más cuadrado/horizontal */
+    background-color: transparent;
+    border: none;
+    padding: 0;
     align-items: center;
-    gap: 15px; /* Mayor separación entre Kira y el texto */
+    gap: 5px;
     z-index: 55;
     animation: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: none;
     pointer-events: none; /* Permite excavar "a través" de Kira */
   }
 
@@ -260,7 +260,7 @@
   }
 
   .kira-img {
-    height: 50px;
+    height: 90px; /* Make Kira a bit smaller to save vertical space */
     filter: none;
   }
 
@@ -284,28 +284,48 @@
   }
 
   .globo-texto {
-    background: transparent !important;
-    border: none !important;
-    padding: 0;
-    margin: 0;
-    box-shadow: none !important;
-    flex: 1;
+    background-color: #ffffff !important; /* Recuperamos el fondo blanco */
+    border: 2px solid #4a2f22 !important; /* Recuperamos el borde */
+    border-radius: 12px; /* Slightly smaller border radius */
+    padding: 15px 18px 35px 18px !important; /* Más aire interno para evitar que el texto toque los bordes */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
+    width: 100%;
     position: relative;
-    pointer-events: none;
-  }
-
-  .globo-texto::after {
-    display: none;
+    pointer-events: auto; /* Habilitamos clics para cerrar el globo */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center text horizontally */
+    justify-content: center; /* Center text vertically if content is short */
+    min-height: auto; /* Let content dictate height */
   }
 
   .globo-texto p {
     font-family: 'Patrick Hand', cursive !important;
     color: #3d2b20 !important;
-    font-size: 0.9rem;
-    text-align: left;
-    line-height: 1.1;
+    font-size: 1rem; /* Un poquito más grande para mejor legibilidad */
+    text-align: center;
+    line-height: 1.2;
+    margin: 0;
   }
 
+  .globo-texto::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 10px 8px 0;
+    border-style: solid;
+    border-color: #4a2f22 transparent transparent;
+    display: block !important; /* Triángulo apuntando a Kira */
+  }
+
+}
+
+.kira-cerrar {
+  bottom: 5px; /* Adjust button position due to reduced padding */
+  right: 8px;
+  font-size: 1rem; /* Smaller close button */
 }
 
 .fosil-capa {

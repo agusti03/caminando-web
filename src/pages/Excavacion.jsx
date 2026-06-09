@@ -40,6 +40,8 @@ function Excavacion({ onBack }) {
 
   const containerRef = useRef(null);
   const fosilRef = useRef(null);
+  const kiraDialogueRef = useRef(null); // Ref para el foco automático
+  const fossilCanvasRef = useRef(null); // NEW: Hidden canvas for fossil pixel data
   const canvasRefs = {
     3: useRef(null), // Tierra Dura
     2: useRef(null), // Tierra
@@ -55,9 +57,10 @@ function Excavacion({ onBack }) {
       if (clientWidth === 0 || clientHeight === 0) return;
 
       const layers = [
-        { ref: canvasRefs[3], src: tierraDuraTexture },
-        { ref: canvasRefs[2], src: tierraTexture },
-        { ref: canvasRefs[1], src: arenaTexture },
+        { ref: canvasRefs[3], src: tierraDuraTexture, type: 'terrain' },
+        { ref: canvasRefs[2], src: tierraTexture, type: 'terrain' },
+        { ref: canvasRefs[1], src: arenaTexture, type: 'terrain' },
+        { ref: fossilCanvasRef, src: fosilImg, type: 'fossil' }, // Add fossil to load list
       ];
 
       // Cargamos todas las imágenes primero
@@ -65,14 +68,14 @@ function Excavacion({ onBack }) {
         layers.map((layer) => {
           return new Promise((resolve) => {
             const img = new Image();
-            img.onload = () => resolve({ ref: layer.ref, img });
-            img.onerror = () => resolve({ ref: layer.ref, img: null });
+            img.onload = () => resolve({ ...layer, img });
+            img.onerror = () => resolve({ ...layer, img: null }); // Handle error case
             img.src = layer.src;
           });
         })
       );
 
-      // Dibujamos cada capa
+      // Dibujamos cada capa de terreno
       loadedImages.forEach(({ ref, img }) => {
         const canvas = ref.current;
         if (!canvas || !img) return;
@@ -89,12 +92,44 @@ function Excavacion({ onBack }) {
         ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
       });
 
+      // Dibujamos el fósil en su canvas oculto
+      const fossilItem = loadedImages.find(item => item.type === 'fossil');
+      if (fossilItem && fossilItem.img && fossilCanvasRef.current) {
+        const fossilCanvas = fossilCanvasRef.current;
+        const fossilCtx = fossilCanvas.getContext('2d', { willReadFrequently: true });
+        fossilCanvas.width = clientWidth;
+        fossilCanvas.height = clientHeight;
+
+        const img = fossilItem.img;
+
+        // Replicar el posicionamiento y escalado CSS de .fosil-capa
+        const fossilMaxWidth = 800; // max-width de .fosil-capa
+        const fossilWidthPercent = 0.8; // width de .fosil-capa
+
+        let drawWidth = Math.min(clientWidth * fossilWidthPercent, fossilMaxWidth);
+        let drawHeight = (img.naturalHeight / img.naturalWidth) * drawWidth;
+
+        // Ajustar si la altura excede el contenedor (simulando object-fit: contain si fuera necesario)
+        if (drawHeight > clientHeight) {
+          drawHeight = clientHeight;
+          drawWidth = (img.naturalWidth / img.naturalHeight) * drawHeight;
+        }
+
+        const drawX = (clientWidth - drawWidth) / 2;
+        const drawY = (clientHeight - drawHeight) / 2;
+
+        fossilCtx.clearRect(0, 0, fossilCanvas.width, fossilCanvas.height);
+        fossilCtx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
+      }
+
       setLayersReady(true);
     };
+    // Delay setup to ensure containerRef has dimensions
+    const timeoutId = setTimeout(setupCanvases, 100);
 
-    setupCanvases();
     window.addEventListener('resize', setupCanvases);
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener('resize', setupCanvases);
     };
   }, []);
@@ -103,50 +138,53 @@ function Excavacion({ onBack }) {
   useEffect(() => {
     if (progress >= 100) {
       setIsKiraVisible(true);
+      // Pequeño delay para asegurar que el DOM se actualizó antes de mover el foco
+      setTimeout(() => {
+        kiraDialogueRef.current?.focus();
+      }, 100);
     }
   }, [progress]);
 
   const calculateProgress = () => {
-    const canvas = canvasRefs[1].current;
-    const fosil = fosilRef.current;
-    if (!canvas || !fosil) return;
+    const arenaCanvas = canvasRefs[1].current;
+    const fossilCanvas = fossilCanvasRef.current;
+    if (!arenaCanvas || !fossilCanvas) return;
 
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
-    const rect = fosil.getBoundingClientRect();
-    const canvasRect = canvas.getBoundingClientRect();
+    const arenaCtx = arenaCanvas.getContext('2d', { willReadFrequently: true });
+    const fossilCtx = fossilCanvas.getContext('2d', { willReadFrequently: true });
 
-    // Mapear coordenadas del elemento de imagen al sistema interno del canvas
-    const scaleX = canvas.width / canvasRect.width;
-    const scaleY = canvas.height / canvasRect.height;
-    
-    const startX = Math.max(0, (rect.left - canvasRect.left) * scaleX);
-    const startY = Math.max(0, (rect.top - canvasRect.top) * scaleY);
-    const width = Math.min(canvas.width - startX, rect.width * scaleX);
-    const height = Math.min(canvas.height - startY, rect.height * scaleY);
+    const { width, height } = arenaCanvas;
+    const fossilImageData = fossilCtx.getImageData(0, 0, width, height).data;
+    const arenaImageData = arenaCtx.getImageData(0, 0, width, height).data;
 
-    if (width <= 0 || height <= 0) return;
+    let totalFossilPixels = 0;
+    let clearedFossilPixels = 0;
+    const sampleStep = 10; // Muestreo para balancear precisión y rendimiento
 
-    const imageData = ctx.getImageData(startX, startY, width, height).data;
-    let transparentPixels = 0;
-    const sampleStep = 40; // Muestrear 1 de cada 40 píxeles para performance
-    let totalSampled = 0;
-
-    for (let i = 3; i < imageData.length; i += 4 * sampleStep) {
-      totalSampled++;
-      if (imageData[i] === 0) {
-        transparentPixels++;
+    for (let i = 3; i < fossilImageData.length; i += 4 * sampleStep) {
+      if (fossilImageData[i] > 0) { // El píxel pertenece al fósil
+        totalFossilPixels++;
+        if (arenaImageData[i] === 0) { // La arena en este punto ya es transparente
+          clearedFossilPixels++;
+        }
       }
     }
     
-    const rawProgress = (transparentPixels / totalSampled) * 100;
+    let newProgress = 0;
+    if (totalFossilPixels > 0) {
+      newProgress = (clearedFossilPixels / totalFossilPixels) * 100;
+    }
+
     // Margen de tolerancia: si el progreso supera el 96%, lo consideramos completado para evitar frustración por píxeles residuales
-    const newProgress = rawProgress > 96 ? 100 : Math.round(rawProgress);
+    newProgress = newProgress > 96 ? 100 : Math.round(newProgress);
 
     if (newProgress !== progress) setProgress(newProgress);
   };
 
-  const getTerrainAt = (x, y) => {
+  const getTerrainAt = (x, y, w = 1, h = 1) => {
     if (!layersReady) return "Cargando...";
+
+    // Para las capas de terreno, seguimos verificando el punto central de la celda
     // Revisamos de arriba hacia abajo (capa 3 a 1)
     for (let l = 3; l >= 1; l--) {
       const canvas = canvasRefs[l].current;
@@ -159,8 +197,26 @@ function Excavacion({ onBack }) {
         if (l === 2) return "Tierra";
         if (l === 1) return "Arena";
       }
+    } 
+    // Si llegamos aquí, todas las capas de terreno son transparentes en (x, y)
+    // Ahora verificamos si hay fósil en este punto
+    // Según tu requerimiento: si la casilla contiene CUALQUIER parte del fósil, se anuncia como tal
+    const fossilCanvas = fossilCanvasRef.current;
+    if (fossilCanvas) {
+        const fossilCtx = fossilCanvas.getContext('2d', { willReadFrequently: true });
+        
+        const startX = Math.max(0, Math.floor(x - w / 2));
+        const startY = Math.max(0, Math.floor(y - h / 2));
+        const scanW = Math.min(fossilCanvas.width - startX, Math.ceil(w));
+        const scanH = Math.min(fossilCanvas.height - startY, Math.ceil(h));
+        
+        const fossilData = fossilCtx.getImageData(startX, startY, scanW, scanH).data;
+        // Buscamos si existe al menos un píxel del fósil (alfa > 0) en toda el área de la casilla
+        for (let i = 3; i < fossilData.length; i += 4) {
+            if (fossilData[i] > 0) return "Fósil descubierto";
+        }
     }
-    return "Fósil descubierto";
+    return "Nada encontrado";
   };
 
   const digAt = (x, y) => {
@@ -281,9 +337,17 @@ function Excavacion({ onBack }) {
         </ul>
       </ModalAyuda>
 
-      <div className="progreso-limpieza">
+      <div 
+        className="progreso-limpieza"
+        tabIndex={0}
+        role="progressbar"
+        aria-valuenow={progress}
+        aria-valuemin="0"
+        aria-valuemax="100"
+        aria-label={`Progreso de excavación: ${progress} por ciento`}
+      >
         <span className="progreso-label">Progreso</span>
-        <div className="barra-progreso">
+        <div className="barra-progreso" aria-hidden="true">
           <div className="progreso-fill" style={{ width: `${progress}%` }}></div>
         </div>
         <span className="progreso-porcentaje">{progress}%</span>
@@ -291,7 +355,11 @@ function Excavacion({ onBack }) {
 
       <div className={`kira-guia ${!isKiraVisible ? 'guia-oculta' : ''}`}>
         {isKiraVisible && (
-          <div className="globo-texto">
+          <div 
+            className="globo-texto" 
+            tabIndex={0} 
+            ref={kiraDialogueRef}
+          >
             <p>
               {progress >= 100
                 ? "¡Buen trabajo! Descubriste el fósil de un gliptodonte"
@@ -313,6 +381,9 @@ function Excavacion({ onBack }) {
           onTouchMove={handleDig}
           onMouseDown={handleDig}
         >
+          {/* Hidden canvas for fossil pixel data - will not be rendered visually */}
+          <canvas ref={fossilCanvasRef} style={{ display: 'none' }} aria-hidden="true" />
+
           <img 
             src={fosilImg} 
             ref={fosilRef} 
@@ -332,7 +403,7 @@ function Excavacion({ onBack }) {
                   const centerX = (cIdx + 0.5) * cellWidth;
                   const centerY = (rIdx + 0.5) * cellHeight;
                   
-                  const terrain = getTerrainAt(centerX, centerY);
+                  const terrain = getTerrainAt(centerX, centerY, cellWidth, cellHeight);
                   
                   return (
                     <button

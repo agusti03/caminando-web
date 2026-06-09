@@ -47,16 +47,16 @@ export default function Ajustes() {
 
     <BotonVolver className="btn-volver" onClick={() => navigate(-1)}></BotonVolver>
 
-    <h1 className="ajustes-titulo">Ajustes</h1>
+    <h1 className="ajustes-titulo" tabIndex={0}>Ajustes</h1>
 
     <div className="ajustes-container">
         
         {/* Modo de Accesibilidad en Excavación */}
         <section className="ajustes-seccion">
-        <h2 className="seccion-titulo">Modo de Interacción</h2>
+        <h2 className="seccion-titulo" tabIndex={0}>Modo de Interacción</h2>
         <div className="ajustes-fila">
             <div className="opcion-izquierda">
-            <span>🛠️</span> <span>Modo de Accesibilidad en Excavación</span>
+            <span tabIndex={0}>🛠️ Modo de Accesibilidad en Excavación</span>
             <BotonAyuda onClick={() => setShowAccesibilidadHelp(true)} />
             </div>
 
@@ -75,11 +75,11 @@ export default function Ajustes() {
 
         {/* 2. APOYO VISUAL */}
         <section className="ajustes-seccion">
-        <h2 className="seccion-titulo">Apoyo Visual</h2>
+        <h2 className="seccion-titulo" tabIndex={0}>Apoyo Visual</h2>
         {/* Alto contraste */}
         <div className="ajustes-fila">
             <div className="opcion-izquierda">
-            <span>👁️</span> <span>Alto contraste</span>
+            <span tabIndex={0}>👁️ Alto contraste</span>
             </div>
 
             <button onClick={() => setAltoContraste(!altoContraste)}
@@ -95,7 +95,7 @@ export default function Ajustes() {
         {/* Tamaño de texto */}
         <div className="ajustes-fila">
             <div className="opcion-izquierda">
-            <span>👁️</span> <span>Tamaño de texto</span>
+            <span tabIndex={0}>👁️ Tamaño de texto</span>
             </div>
 
             <div className="tamanio-selector" role="group" aria-label="Seleccionar tamaño de texto">
@@ -124,13 +124,13 @@ export default function Ajustes() {
 
         {/* 3. APOYO AUDITIVO */}
         <section className="ajustes-seccion">
-        <h2 className="seccion-titulo">Apoyo Auditivo</h2>
+        <h2 className="seccion-titulo" tabIndex={0}>Apoyo Auditivo</h2>
         
         {/* Narración */}
         <div className="ajustes-fila">
 
             <div className="opcion-izquierda">
-            <span>🔊</span> <span>Narración</span>
+            <span tabIndex={0}>🔊 Narración</span>
             </div>
 
             <button onClick={() => setNarracion(!narracion)}
@@ -147,7 +147,7 @@ export default function Ajustes() {
         <div className="ajustes-fila">
 
             <div className="opcion-izquierda">
-            <span>🎵</span> <span>Sonidos</span>
+            <span tabIndex={0}>🎵 Sonidos</span>
             </div>
 
             <button onClick={() => setSonidos(!sonidos)}
@@ -164,7 +164,7 @@ export default function Ajustes() {
         <div className="ajustes-fila">
 
             <div className="opcion-izquierda">
-            <span>📳</span> <span>Vibración</span>
+            <span tabIndex={0}>📳 Vibración</span>
             </div>
 
             <button onClick={() => setVibracion(!vibracion)}
@@ -187,7 +187,7 @@ export default function Ajustes() {
         onClose={() => setShowAccesibilidadHelp(false)} 
         title="Modo de Accesibilidad"
     >
-        <p>Al activar este modo, el juego de excavación de fósiles va a ser navegable con teclado. Ideal si usás lector de pantalla o tenés problemas con el mouse. Ojo! Vas a seguir poder utilizando el mouse, pero la experiencia será más sencilla, por eso recomendamos activarlo sólo si tenés problemas para completar el juego.</p>
+        <p tabIndex={0}>Al activar este modo, el juego de excavación de fósiles va a ser navegable con teclado. Ideal si usás lector de pantalla o tenés problemas con el mouse. Ojo! Vas a seguir poder utilizando el mouse, pero la experiencia será más sencilla, por eso recomendamos activarlo sólo si tenés problemas para completar el juego.</p>
     </ModalAyuda>
 
     </div>

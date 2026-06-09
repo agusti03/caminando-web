@@ -145,8 +145,6 @@ function DetalleGliptodonte() {
 
                 <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', justifyContent: 'center' }}>
                   
-                  <img src="/src/assets/kira.png" alt="" aria-hidden="true" style={{ position: 'absolute', opacity: 0.18, pointerEvents: 'none' }} />
-
                   <h3 className="sr-only">Ficha técnica del fósil</h3>
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 2 }}>
                     {datosFosil.map((item, index) => (

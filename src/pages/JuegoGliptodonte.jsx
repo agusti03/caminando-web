@@ -94,6 +94,14 @@ function JuegoGliptodonte() {
             <h2 className="titulo-seccion" style={{ fontSize: '1.8rem', margin: '0 0 10px 0' }} tabIndex={0}>
               Pregunta 1
             </h2>
+
+            <figure class="contenedor-imagenes">              
+              <div class="grupo-flex">
+                <img src="src/assets/detalle-gliptodonte-gliptodonte.png" alt="Ilustración de un gliptodonte" />
+                <img src="src/assets/camion-de-basura.png" alt="Camión de basura" />
+              </div>
+            </figure>
+
             <p className="texto-descripcion-derecha" style={{ maxWidth: '100%', textAlign: 'left', fontWeight: 'bold', margin: '0' }} tabIndex={0}>
               ¿Cuál era más grande?
             </p>
@@ -167,7 +175,7 @@ function JuegoGliptodonte() {
               Pregunta 2
             </h2>
             <p className="texto-descripcion-derecha" style={{ maxWidth: '100%', fontWeight: 'bold', margin: '0' }} tabIndex={0}>
-              Escribe aquí tu pregunta de opción múltiple...
+              ¿Cuál es el animál más familiar al Gliptodonte?
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '10px' }}>
@@ -178,7 +186,7 @@ function JuegoGliptodonte() {
                 disabled={trivia2Completada}
                 aria-label="Opción A (Correcta de ejemplo)"
               >
-                Opción A (Correcta de ejemplo)
+                Armadillo
               </button>
 
               <button 
@@ -192,7 +200,7 @@ function JuegoGliptodonte() {
                 disabled={trivia2Completada}
                 aria-label="Opción B"
               >
-                Opción B
+                Carpincho
               </button>
 
               <button 
@@ -206,7 +214,7 @@ function JuegoGliptodonte() {
                 disabled={trivia2Completada}
                 aria-label="Opción C"
               >
-                Opción C
+                Orangután
               </button>
 
               <button 
@@ -220,7 +228,7 @@ function JuegoGliptodonte() {
                 disabled={trivia2Completada}
                 aria-label="Opción D"
               >
-                Opción D
+                Tortuga
               </button>
             </div>
 
@@ -238,7 +246,7 @@ function JuegoGliptodonte() {
                 role="alert"
                 style={{ marginTop: '15px', padding: '12px', backgroundColor: '#e8f5e9', border: '2px solid #2e7d32', borderRadius: '8px', color: '#1b5e20', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px' }}
               >
-                <FaCheckCircle size={20} aria-hidden="true" /> ¡Respuesta correcta! Has recuperado otra anotación para el cuaderno de Kira.
+                <FaCheckCircle size={20} aria-hidden="true" /> ¡Respuesta correcta! Has recuperado más anotaciones para el cuaderno de Kira.
               </div>
             )}
           </section>
@@ -255,7 +263,7 @@ function JuegoGliptodonte() {
               ¡Logro Desbloqueado!
             </h3>
             <p className="aviso-texto" style={{ fontSize: '1.15rem', marginBottom: '25px' }} tabIndex={0}>
-              ¡Increíble! Has completado todas las actividades correctamente. Las anotaciones del cuaderno de Kira han sido completamente restauradas.
+              ¡Increíble! Has completado todas las actividades correctamente. Las anotaciones del cuaderno de Kira han sido recuperadas.
             </p>
             <button 
               ref={botonPopupGanadorRef} // Recibe el foco automáticamente al abrirse

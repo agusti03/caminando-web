@@ -691,6 +691,7 @@
   }
 
   .aviso-texto {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
     font-size: 1.0rem;
     margin: 0 0 25px 0;
   }
@@ -870,6 +871,7 @@
   }
 
   .aviso-texto {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
     font-size: 0.95rem;
     margin: 0 0 20px 0;
   }

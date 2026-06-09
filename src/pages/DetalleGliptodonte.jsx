@@ -167,19 +167,19 @@ function DetalleGliptodonte() {
                           boxShadow: '0 2px 5px rgba(0,0,0,0.03)'
                         }}
                       >
-                        <div aria-hidden="true" style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: '#bcaaa4', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '1.3rem', color: '#fff', flexShrink: 0 }}>
+                        <div aria-hidden="true" style={{ width: '44px', height: '44px', borderRadius: '50%', backgroundColor: '#6f5045', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '1.3rem', color: '#fff', flexShrink: 0 }}>
                           {item.icono}
                         </div>
 
                         <div aria-hidden="true" style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                          <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#8d6e63', letterSpacing: '0.5px' }}>
+                          <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#6f5045', letterSpacing: '0.5px' }}>
                             {item.etiqueta}
                           </span>
-                          <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#3e2723', margin: '2px 0' }}>
+                          <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#6f5045', margin: '2px 0' }}>
                             {item.valor}
                           </span>
                           {item.subtexto && (
-                            <span style={{ fontSize: '0.85rem', color: '#795548' }}>
+                            <span style={{ fontSize: '0.85rem', color: '#6f5045' }}>
                               {item.subtexto}
                             </span>
                           )}

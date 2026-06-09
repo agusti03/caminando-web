@@ -2,10 +2,16 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaLock, FaMapMarkedAlt, FaInfoCircle, FaCheck } from 'react-icons/fa'
+
+//CSS
 import './Coleccion.css'
 
+//Componentes
 import TransicionHoja from '../components/TransicionCuaderno'
 import BotonVolver from '../components/BotonVolver'
+
+//Imagenes
+import gliptodonteImg from '../assets/detalle-gliptodonte-gliptodonte.png'
 
 function Coleccion() {
   const navigate = useNavigate()
@@ -36,7 +42,7 @@ function Coleccion() {
               {/* Fósil Descubierto */}
               <div className="tarjeta-fosil descubierto">
                 <div className="check-descubierto" aria-hidden="true">✓</div>
-                <img src="src/assets/detalle-gliptodonte-gliptodonte.png" alt="Ilustración de un gliptodonte descubierto" className="img-animal" />
+                <img src={gliptodonteImg} alt="Ilustración de un gliptodonte descubierto" className="img-animal" />
                 <span className="nombre-animal">Gliptodonte</span>
                 <button className="etiqueta-bloqueado btn-bloqueado" onClick={() => navigate('/detalle-gliptodonte')} aria-label="Ver detalle del Gliptodonte">
                   <FaInfoCircle aria-hidden="true" /> Ver detalle

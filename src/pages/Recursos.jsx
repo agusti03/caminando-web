@@ -40,11 +40,16 @@ function Recursos({ onBack }) {
   return (
     <div className="recursos-pagina">
 
-      <BotonVolver className="btn-volver" onClick={() => navigate(-1)}></BotonVolver>
+      <BotonVolver 
+        className="btn-volver" 
+        onClick={() => navigate(-1)} 
+        aria-label="Volver al menú principal"
+        tabIndex={0}
+      />
 
       <section className="recursos-panel">
         <header className="recursos-header">
-          <h1 className="recursos-titulo">RECURSOS</h1>
+          <h1 className="recursos-titulo" tabIndex={0}>RECURSOS</h1>
         </header>
 
         <div className="recursos-lista">
@@ -57,7 +62,7 @@ function Recursos({ onBack }) {
                   {mediaSrc ? <img src={mediaSrc} alt={resource.title} className="recurso-miniatura" /> : null}
                 </div>
 
-                <h2>{resource.title}</h2>
+                <h2 tabIndex={0}>{resource.title}</h2>
 
                 {resource.href ? (
                   <a
@@ -67,7 +72,7 @@ function Recursos({ onBack }) {
                     rel={resource.download ? undefined : 'noreferrer'}
                     download={resource.download ? '' : undefined}
                   >
-                    {resource.actionIcon ? <resource.actionIcon /> : null}
+                    {resource.actionIcon ? <resource.actionIcon aria-hidden="true" /> : null}
                     {resource.actionLabel}
                   </a>
                 ) : (
@@ -83,7 +88,7 @@ function Recursos({ onBack }) {
 
         <section className="recursos-inferior">
           <div className="recursos-sociales">
-            <p>Seguinos en nuestras redes!</p>
+            <p tabIndex={0}>Seguinos en nuestras redes!</p>
             <div className="iconos-sociales">
               {SOCIAL_LINKS.map((social) => {
                 const Icon = social.icon;
@@ -98,14 +103,14 @@ function Recursos({ onBack }) {
                     aria-label={social.label}
                     title={social.label}
                   >
-                    <Icon />
+                    <Icon aria-hidden="true" />
                   </a>
                 );
               })}
             </div>
           </div>
 
-          <p className="recursos-texto-secundario">
+          <p className="recursos-texto-secundario" tabIndex={0}>
             También hacemos talleres gratuitos para estudiantes y docentes. Contactanos por nuestras redes para más
             información.
           </p>

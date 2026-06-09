@@ -36,7 +36,7 @@ function Coleccion() {
         <div className="cuaderno-contenedor">
           {/* HOJA IZQUIERDA */}
           <section className="pagina-hoja hoja-izquierda" aria-label="Fósiles recolectados">
-            <h2 className="titulo-seccion">Tu colección de fósiles</h2>
+            <h2 className="titulo-seccion" tabIndex={0}>Tu colección de fósiles</h2>
 
             <div className="grid-fosiles">
               {/* Fósil Descubierto */}
@@ -76,7 +76,7 @@ function Coleccion() {
 
           {/* HOJA DERECHA */}
           <section className="pagina-hoja hoja-derecha" aria-label="Sección de exploración">
-            {/* Ocultamos la brújula visual para el lector, no aporta contenido textual directo */}
+            {/* Ocultamos la brújula visual para el lector, no aporta contenido textual directo, pero la sección sí */}
             <div className="brujula-contenedor" aria-hidden="true">
               <div className="brujula-norte">N</div>
               <div className="brujula-este">E</div>
@@ -85,8 +85,8 @@ function Coleccion() {
               <div className="aguja-brujula"></div>
             </div>
 
-            <p className="texto-sigue-explorando">¡Sigue explorando!</p>
-            <p className="texto-descripcion-derecha">
+            <p className="texto-sigue-explorando" tabIndex={0}>¡Sigue explorando!</p>
+            <p className="texto-descripcion-derecha" tabIndex={0}>
               Visita el mapa para encontrar más fósiles en La Plata.
             </p>
 

@@ -11,6 +11,10 @@ import './Coleccion.css';
 import TransicionHoja from '../components/TransicionCuaderno';
 import BotonVolver from '../components/BotonVolver';
 
+// Imagenes
+import gliptodonteImg from '../assets/detalle-gliptodonte-gliptodonte.png'
+import camionImg from '../assets/camion-de-basura.png'
+
 function JuegoGliptodonte() {
     const navigate = useNavigate();
     const [mostrarPopup, setMostrarPopup] = useState(false);
@@ -97,8 +101,8 @@ function JuegoGliptodonte() {
 
             <figure class="contenedor-imagenes">              
               <div class="grupo-flex">
-                <img src="src/assets/detalle-gliptodonte-gliptodonte.png" alt="Ilustración de un gliptodonte" />
-                <img src="src/assets/camion-de-basura.png" alt="Camión de basura" />
+                <img src={gliptodonteImg} alt="Ilustración de un gliptodonte" />
+                <img src={camionImg} alt="Camión de basura" />
               </div>
             </figure>
 

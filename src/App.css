@@ -70,6 +70,7 @@
   width: 100%;
   max-width: 100%;
   overflow-wrap: break-word; /* Evita que palabras largas desborden el cuaderno */
+  font-family: 'Cambria', Georgia; /* Tipografía con serifa tipo libro antiguo */
 }
 
 .subtitulo {
@@ -80,6 +81,7 @@
   width: 100%;
   max-width: 100%;
   overflow-wrap: break-word;
+  font-family: "Nunito Sans";
 }
 
 /* --- BOTONES ESTILO BARRA --- */
@@ -103,6 +105,7 @@
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
   transition: transform 0.2s;
+    font-family: "Nunito Sans";
 }
 .btn-exploracion:hover { transform: scale(1.02); }
 

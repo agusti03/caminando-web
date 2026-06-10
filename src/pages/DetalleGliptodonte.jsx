@@ -139,10 +139,10 @@ function DetalleGliptodonte() {
                   }} 
                   aria-label="Dato curioso: ¿Sabías que? Su caparazón estaba formado por más de 1000 placas óseas hexagonales que estaban fusionadas. Algunos gliptodontes podían superar los 3000 kg."
                 >
-                  <h3 style={{ margin: '0 0 5px 0', fontFamily: '"Comic Sans MS", cursive', color: '#4e342e', fontSize: '1.15rem' }}>
+                  <h3 style={{ margin: '0 0 5px 0', fontFamily: '"Patrick Hand"', color: '#4e342e', fontSize: '1.15rem' }}>
                     ¿Sabías que?
                   </h3>
-                  <p style={{ margin: 0, fontSize: '0.95rem', color: '#5d4037', lineHeight: '1.4', fontWeight: '500' }}>
+                  <p style={{ margin: 0, fontSize: '0.95rem', fontFamily:"Nunito Sans" , color: '#5d4037', lineHeight: '1.4', fontWeight: '500' }}>
                     Su caparazón estaba formado por más de 1000 placas óseas hexagonales que estaban fusionadas. Algunos gliptodontes podían superar los 3000 kg.
                   </p>
                 </section>
@@ -150,7 +150,7 @@ function DetalleGliptodonte() {
                 <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', justifyContent: 'center' }}>
                   
                   <h3 className="sr-only">Ficha técnica del fósil</h3>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 2 }}>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontFamily:"Nunito Sans" ,display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 2 }}>
                     {datosFosil.map((item, index) => (
                       <li 
                         key={index} 

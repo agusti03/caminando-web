@@ -12,7 +12,7 @@
   justify-content: start;
   padding: 40px 24px;
   box-sizing: border-box;
-  font-family: 'Cambria', Georgia, serif; /* Tipografía con serifa de la app principal */
+  font-family: "Nunito Sans"; /* Tipografía con serifa de la app principal */
 }
 
 /* Título principal AJUSTES */
@@ -24,6 +24,7 @@
   margin-bottom: 30px;
   text-transform: uppercase;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  font-family: "Patrick Hand"; /* Tipografía con serifa de la app principal */
 }
 
 /* Contenedor que agrupa las secciones */
@@ -52,6 +53,7 @@
   letter-spacing: 1px;
   margin-top: 0;
   margin-bottom: 20px;
+  font-family: "Patrick Hand";
 }
 
 /* Filas alineadas con las opciones e interruptores */

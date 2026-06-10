@@ -9,7 +9,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  font-family: 'Arial', sans-serif;
+  font-family: "Nunito Sans";
   padding: 20px;
   box-sizing: border-box;
 }
@@ -88,7 +88,7 @@
   font-size: 100;
   color: #433e3b;
   margin: 0 0 30px 0;
-  font-family: 'Comic Sans MS', cursive, sans-serif; /* O una fuente amigable instalada */
+  font-family: "Patrick Hand"; /* O una fuente amigable instalada */
   font-weight: bold;
 }
 
@@ -170,7 +170,7 @@
 }
 
 .nombre-animal {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: "Patrick Hand";
   font-size: 15;
   color: #3e2723;
   margin: 10px 0;
@@ -197,7 +197,8 @@
   color: #ffffff;
   border-radius: 8px;
   padding: 6px 12px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-family: "Nunito Sans";
   display: flex;
   align-items: center;
   gap: 6px;
@@ -339,7 +340,7 @@
 }
 
 .titulo-subseccion {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: 'Patrick Hand', cursive, sans-serif;
   font-size: 1.4rem;
   color: #3e2723;
   margin: 15px 0 5px 0;
@@ -487,7 +488,7 @@
 
 /* Texto del aviso */
 .aviso-texto {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: "Nunito Sans";
   font-size: 1.35rem;
   color: #3e2723;
   font-weight: bold;
@@ -691,7 +692,7 @@
   }
 
   .aviso-texto {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-family: "Nunito Sans";
     font-size: 1.0rem;
     margin: 0 0 25px 0;
   }
@@ -770,6 +771,7 @@
   }
 
   .etiqueta-bloqueado {
+    font-family: "Nunito Sans";
     padding: 4px 8px;
     font-size: 0.75rem;
     bottom: -12px;
@@ -825,6 +827,8 @@
   .texto-descripcion {
     font-size: 0.85rem;
     line-height: 1.3;
+    font-family: "Nunito Sans";
+    color : #000000
   }
 
   .bloque-interactivo-juego {
@@ -839,11 +843,13 @@
     padding: 10px;
     width: 95%;
     border-radius: 8px;
+    font-family: "Patrick Hand";
   }
 
   .globo-texto p {
     font-size: 0.8rem;
     margin: 0 0 4px 0;
+    font-family: "Patrick Hand";
   }
 
   .boton-jugar {
@@ -871,7 +877,7 @@
   }
 
   .aviso-texto {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-family: "Nunito Sans";
     font-size: 0.95rem;
     margin: 0 0 20px 0;
   }

@@ -78,7 +78,10 @@ function TransicionCuaderno({ children }) {
     <div
       ref={contenedorRef}
       className={`transicion-cuaderno-contenedor ${esMobile ? 'mobile' : 'desktop'}`}
-      style={{ width: size.width, height: size.height }}
+      style={{ 
+        width: size.width, 
+        height: esMobile ? 'auto' : size.height
+       }}
     >
       <div ref={contenidoRef} className={`contenido-pagina ${animacionCompleta ? 'visible' : ''}`}>
         {children}

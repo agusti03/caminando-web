@@ -15,6 +15,7 @@
 .contenido-pagina {
   width: auto;
   height: auto;
+  overflow : visible;
 }
 
 /* Contenido que siempre es visible */
@@ -295,6 +296,9 @@
 @media (max-width: 480px) {
   .transicion-cuaderno-contenedor {
     perspective: 600px;
+    overflow: visible;
+    width: 100% !important;
+    max-width: 100%;
   }
 
   .transicion-cuaderno-contenedor.mobile .hoja-media-derecha {

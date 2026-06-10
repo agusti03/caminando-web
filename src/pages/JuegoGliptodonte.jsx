@@ -268,10 +268,10 @@ function JuegoGliptodonte() {
         <div className="aviso-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-logro-titulo">
           <div className="aviso-modal-popup">
             <FaBookOpen size={50} color="#689f38" style={{ marginBottom: '15px' }} aria-hidden="true" />
-            <h3 id="modal-logro-titulo" className="titulo-subseccion" style={{ margin: '0 0 10px 0', color: '#2e7d32' }} tabIndex={0}>
+            <h3 id="modal-logro-titulo" className="titulo-subseccion" style={{ margin: '0 0 10px 0', color: '#2e7d32', fontSize: '1.8rem' }} tabIndex={0}>
               ¡Logro Desbloqueado!
             </h3>
-            <p className="aviso-texto" style={{ fontSize: '1.15rem', marginBottom: '25px', fontFamily:"Nunito Sans"}} tabIndex={0}>
+            <p className="aviso-texto" style={{ fontSize: '1rem', marginBottom: '25px', marginTop:'25px', fontFamily: "Nunito Sans"}} tabIndex={0}>
               ¡Increíble! Has completado todas las actividades correctamente. Las anotaciones del cuaderno de Kira han sido recuperadas.
             </p>
             <button 

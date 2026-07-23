@@ -18,7 +18,7 @@ function App() {
   const navigate = useNavigate();
   const [showHelpModal, setShowHelpModal] = useState(false);
   const RECURSOS_PATH = '/recursos';
-  const EXCAVACION_PATH = '/excavacion';
+  const EXCAVACION_PATH = '/mapa';
   const COLECCION_PATH = '/coleccion' ;
   const AJUSTES_PATH = '/ajustes' ;
   

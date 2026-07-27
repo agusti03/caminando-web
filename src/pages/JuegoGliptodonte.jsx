@@ -80,7 +80,7 @@ function JuegoGliptodonte() {
       {/* Botón de volver accesible con tabulador */}
       <BotonVolver 
         className="btn-volver" 
-        onClick={() => navigate(-1)} 
+        onClick={() => navigate('/detalle-gliptodonte')} 
         aria-label="Volver al detalle del fósil"
         tabIndex={0}
       />

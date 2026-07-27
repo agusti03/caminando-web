@@ -9,6 +9,18 @@ import BotonAyuda from '../components/BotonAyuda';
 import ModalAyuda from '../components/ModalAyuda';
 import 'leaflet/dist/leaflet.css';
 import './Mapa.css';
+import L from 'leaflet';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import iconRetina from 'leaflet/dist/images/marker-icon-2x.png';
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: iconRetina,
+  iconUrl: icon,
+  shadowUrl: iconShadow
+});
 
 const coordenadaPin = [-34.903944444, -58.015777778];
 

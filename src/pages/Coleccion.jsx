@@ -17,6 +17,11 @@ function Coleccion() {
   const navigate = useNavigate()
   const [mostrarAviso, setMostrarAviso] = useState(false)
 
+  // Estado de desbloqueo del Gliptodonte (persistente en localStorage)
+  const [gliptoUnlocked, setGliptoUnlocked] = useState(false)
+  // Usado para animar la transición desde bloqueado -> iluminado cuando se acaba de desbloquear
+  const [illuminated, setIlluminated] = useState(false)
+
   // 💡 Ref para forzar el foco del teclado dentro del modal emergente
   const botonCerrarPopupRef = useRef(null)
 
@@ -26,6 +31,36 @@ function Coleccion() {
       botonCerrarPopupRef.current.focus()
     }
   }, [mostrarAviso])
+
+  // Leer el estado de desbloqueo al montar y manejar la animación si viene justo de la excavación
+  useEffect(() => {
+    const unlocked = localStorage.getItem('excavacionGliptodonteCompletada') === 'true'
+    setGliptoUnlocked(unlocked)
+
+    // Si acabó de desbloquearse en la página anterior (Excavacion), animamos la transición
+    const justUnlocked = (() => {
+      try { return sessionStorage.getItem('justUnlockedGliptodonte') === 'true' } catch (e) { return false }
+    })()
+
+    if (unlocked) {
+      if (justUnlocked) {
+        // comenzar bloqueado y encender luego para animación
+        setIlluminated(false)
+        // pequeño delay para permitir el render inicial con la imagen oscurecida
+        setTimeout(() => {
+          setIlluminated(true)
+          try { sessionStorage.removeItem('justUnlockedGliptodonte') } catch (e) { }
+        }, 60)
+      } else {
+        // ya desbloqueado en visitas posteriores: mostrar iluminado inmediatamente
+        setIlluminated(true)
+      }
+    } else {
+      setIlluminated(false)
+    }
+  }, [])
+
+
 
   return (
     <main className="escenario-coleccion" aria-label="Tu Colección de Fósiles">
@@ -39,14 +74,24 @@ function Coleccion() {
             <h2 className="titulo-seccion" tabIndex={0}>Tu colección de fósiles</h2>
 
             <div className="grid-fosiles">
-              {/* Fósil Descubierto */}
-              <div className="tarjeta-fosil descubierto">
-                <div className="check-descubierto" aria-hidden="true">✓</div>
-                <img src={gliptodonteImg} alt="Ilustración de un gliptodonte descubierto" className="img-animal" />
+              {/* Gliptodonte: bloqueado o desbloqueado según progreso de Excavación */}
+              <div className={`tarjeta-fosil ${gliptoUnlocked ? 'descubierto' : 'bloqueado'}`}>
+                {gliptoUnlocked && <div className="check-descubierto" aria-hidden="true">✓</div>}
+                <img
+                  src={gliptodonteImg}
+                  alt="Ilustración de un gliptodonte"
+                  className={`img-animal ${gliptoUnlocked ? (illuminated ? 'illuminated' : 'blocked') : 'silueta'}`}
+                />
                 <span className="nombre-animal">Gliptodonte</span>
-                <button className="etiqueta-bloqueado btn-bloqueado" onClick={() => navigate('/detalle-gliptodonte')} aria-label="Ver detalle del Gliptodonte">
-                  <FaInfoCircle aria-hidden="true" /> Ver detalle
-                </button>
+                {gliptoUnlocked ? (
+                  <button className="btn-detalle" onClick={() => navigate('/detalle-gliptodonte')} aria-label="Ver detalle del Gliptodonte">
+                    <FaInfoCircle aria-hidden="true" /> Ver detalle
+                  </button>
+                ) : (
+                  <button className="etiqueta-bloqueado btn-bloqueado" onClick={() => setMostrarAviso(true)} aria-label="Fósil Gliptodonte no descubierto. Presiona para ver cómo desbloquear.">
+                    <FaLock aria-hidden="true" /> Fósil no descubierto
+                  </button>
+                )}
               </div>
 
               {/* Fósil Oculto 1 */}

@@ -142,6 +142,18 @@ function Excavacion({ onBack }) {
       setTimeout(() => {
         kiraDialogueRef.current?.focus();
       }, 100);
+
+      // Marcar la excavación del Gliptodonte como completada en el almacenamiento local
+      // y dejar una señal en sessionStorage para que la colección pueda animar el desbloqueo
+      const already = localStorage.getItem('excavacionGliptodonteCompletada') === 'true';
+      if (!already) {
+        localStorage.setItem('excavacionGliptodonteCompletada', 'true');
+        try {
+          sessionStorage.setItem('justUnlockedGliptodonte', 'true');
+        } catch (e) {
+          // sessionStorage puede fallar en entornos privados; no crítico
+        }
+      }
     }
   }, [progress]);
 

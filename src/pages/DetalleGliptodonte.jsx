@@ -7,7 +7,6 @@ import { useSettings } from '../contexts/SettingsContext';
 import './Coleccion.css';
 
 //Componentes
-import TransicionHoja from '../components/TransicionCuaderno';
 import BotonVolver from '../components/BotonVolver';
 
 //Imágenes
@@ -54,7 +53,6 @@ function DetalleGliptodonte() {
         tabIndex={0} // Forzamos que sea el primer punto de parada
       />
 
-      <TransicionHoja>
         <div className="cuaderno-contenedor" role="region" aria-label="Cuaderno de investigación: Gliptodonte">
           
           {/* 📖 HOJA IZQUIERDA */}
@@ -194,7 +192,6 @@ function DetalleGliptodonte() {
 
           </article>
         </div>
-      </TransicionHoja>
     </main>
   );
 }

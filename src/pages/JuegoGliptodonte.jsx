@@ -8,7 +8,6 @@ import { FaCheckCircle, FaBookOpen } from 'react-icons/fa';
 import './Coleccion.css';
 
 // Componentes
-import TransicionHoja from '../components/TransicionCuaderno';
 import BotonVolver from '../components/BotonVolver';
 
 // Imagenes
@@ -85,7 +84,6 @@ function JuegoGliptodonte() {
         tabIndex={0}
       />
 
-      <TransicionHoja>
         <div className="cuaderno-contenedor" style={{ position: 'relative' }}>
 
           {/* ================= HOJA IZQUIERDA: TRIVIA 1 ================= */}
@@ -261,7 +259,6 @@ function JuegoGliptodonte() {
           </section>
 
         </div>
-      </TransicionHoja>
 
       {/* 🏆 MODAL DE LOGRO - Corregido con roles semánticos de diálogo y foco forzado */}
       {mostrarAvisoGanador && createPortal(

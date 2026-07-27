@@ -7,7 +7,6 @@ import { FaLock, FaMapMarkedAlt, FaInfoCircle, FaCheck } from 'react-icons/fa'
 import './Coleccion.css'
 
 //Componentes
-import TransicionHoja from '../components/TransicionCuaderno'
 import BotonVolver from '../components/BotonVolver'
 
 //Imagenes
@@ -65,9 +64,8 @@ function Coleccion() {
   return (
     <main className="escenario-coleccion" aria-label="Tu Colección de Fósiles">
 
-      <BotonVolver className="btn-volver" onClick={() => navigate(-1)} aria-label="Volver a la pantalla anterior" />
+      <BotonVolver className="btn-volver" onClick={() => navigate('/')} aria-label="Volver a la pantalla principal" />
 
-      <TransicionHoja>
         <div className="cuaderno-contenedor">
           {/* HOJA IZQUIERDA */}
           <section className="pagina-hoja hoja-izquierda" aria-label="Fósiles recolectados">
@@ -140,7 +138,6 @@ function Coleccion() {
             </button>
           </section>
         </div>
-      </TransicionHoja>
 
       {/* 🏆 POP-UP / MODAL EMERGENTE GLOBAL CORREGIDO */}
       {mostrarAviso && (

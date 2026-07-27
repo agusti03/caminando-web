@@ -49,7 +49,7 @@ function DetalleGliptodonte() {
       {/* 1. PRIMER ELEMENTO AL HACER TAB: El botón de volver */}
       <BotonVolver 
         className="btn-volver" 
-        onClick={() => navigate(-1)} 
+        onClick={() => navigate('/coleccion')} 
         aria-label="Volver a la colección"
         tabIndex={0} // Forzamos que sea el primer punto de parada
       />

@@ -169,6 +169,20 @@
   opacity: 0.85;
 }
 
+/* Estado bloqueado para imágenes (negra) - usado cuando el fósil no está descubierto */
+.img-animal.blocked {
+  filter: brightness(0);
+  opacity: 0.95;
+  transition: filter 1.2s ease, opacity 0.9s ease;
+}
+
+/* Estado iluminado (desbloqueado) - transición suave desde brillo 0 hasta brillo normal */
+.img-animal.illuminated {
+  filter: brightness(1);
+  opacity: 1;
+  transition: filter 1.2s ease, opacity 0.9s ease;
+}
+
 .nombre-animal {
   font-family: "Patrick Hand";
   font-size: 15;

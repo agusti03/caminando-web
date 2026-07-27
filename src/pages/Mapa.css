@@ -10,20 +10,23 @@
   background-color: #4a2f22;
 }
 
-.btn-volver-mapa,
-.btn-ajustes-mapa {
-  position: fixed;
-  z-index: 40;
-  display: inline-flex;
-  align-items: center;
+.btn-ajustes {
+  position: absolute;
+  top: 18px;
+  right: 130px; /* Al lado del de ayuda (40 original + 75 ancho + 15 de margen) */
+  z-index: 50;
+  width: 75px;
+  height: 75px;
+  background-color: #3d2b20;
+  border: 2px solid #ead8ad;
+  border-radius: 50%;
+  display: flex;
   justify-content: center;
-  gap: 8px;
-  border: 2px solid rgba(75, 46, 31, 0.45);
-  border-radius: 16px;
-  background: #ead8ad;
-  color: #5b3725;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.16);
-  transition: transform 0.2s ease, filter 0.2s ease;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: #ead8ad;
 }
 
 .btn-volver-mapa {
@@ -101,28 +104,28 @@
 }
 
 .map-tiles-vintage {
-  filter: sepia(0.58) hue-rotate(-14deg) saturate(0.82) contrast(1.05) brightness(0.94);
+  filter: sepiReala(0.58) hue-rotate(-14deg) saturate(0.82) contrast(1.05) brightness(0.94);
 }
 
 .nota-postit {
   position: absolute;
-  right: 22px;
-  bottom: 22px;
-  width: min(320px, calc(100% - 44px));
-  padding: 22px 20px 18px;
+  right: 16px;
+  top: 16px;
+  transform: rotate(-1.5deg);
+  width: min(340px, calc(100% - 30px));
+  padding: 28px 24px 22px;
   background: linear-gradient(180deg, #f3c85d 0%, #e0b147 100%);
   color: #2a1f18;
   border: 1px solid rgba(90, 57, 19, 0.2);
   border-radius: 14px;
   box-shadow: 0 16px 28px rgba(0, 0, 0, 0.22);
   z-index: 10;
-  transform: rotate(-1.5deg);
 }
 
 .nota-postit p {
   margin: 0 0 10px;
   font-family: 'Patrick Hand', cursive;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   line-height: 1.1;
 }
 
@@ -154,6 +157,52 @@
   background: rgba(62, 39, 25, 0.22);
 }
 
+.leaflet-popup-content-wrapper {
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.leaflet-popup-content {
+  margin: 12px 16px;
+  text-align: center;
+  font-family: 'Nunito Sans', sans-serif;
+  color: #3e2719;
+}
+
+.leaflet-popup-content h1 {
+  margin: 4px 0 8px;
+  font-size: 1.35rem;
+  color: #000000;
+  font-family: 'Patrick Hand', cursive;
+}
+
+.leaflet-popup-content p {
+  margin: 10px 0 0;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.popup-fosil-img {
+  width: 100%;
+  max-width: 220px;
+  height: auto;
+  display: block;
+  margin: 10px auto;
+  border-radius: 8px;
+}
+
+.popup-btn-excavar {
+  margin-top: 10px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 999px;
+  background-color: #8b5e3c;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 @media (max-width: 900px) {
   .btn-volver-mapa {
     top: 12px;
@@ -176,7 +225,7 @@
 
   .nota-postit {
     right: 14px;
-    bottom: 14px;
+    top: 14px;
     width: min(300px, calc(100% - 28px));
   }
 }
@@ -201,6 +250,6 @@
   }
 
   .nota-postit p {
-    font-size: 1.05rem;
+    font-size: 1.25rem;
   }
 }

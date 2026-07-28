@@ -183,8 +183,8 @@
   z-index: 1;
 }
 .post-it-texto {
-  font-family: 'Caveat', cursive; /* Simula letra de mano */
-  font-size: 1.5rem;
+  font-family: 'Nunito Sans'; /* Simula letra de mano */
+  font-size: 1.1rem;
   color: #2b1a08;
   line-height: 1.4;
 }

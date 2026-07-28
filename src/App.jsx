@@ -84,7 +84,10 @@ function App() {
         <div className="cinta-adhesiva"></div>
         <p className="post-it-texto">
           Se ha informado al museo de posibles hallazgos de fósiles.
-          <span> Selecciona uno de los puntos</span> para inspeccionar el área y comenzar la excavación.
+          <span> Selecciona uno de los puntos</span> para inspeccionar el área y comenzar la excavación. 
+        </p>
+        <p className="post-it-texto">
+          <span> <b> En caso de requerir ayuda, presiona sobre el botón "?" en la esquina superior derecha de la pantalla** </b> </span>
         </p>
       </div>
 

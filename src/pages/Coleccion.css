@@ -360,6 +360,31 @@
   margin: 15px 0 5px 0;
 }
 
+.boton-descripcion-habilitado {
+  align-self: center;
+  margin: 14px auto 0;
+  background-color: #1b382b;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-family: 'Nunito Sans', Arial, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #11241b;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
+}
+
+.boton-descripcion-habilitado:hover {
+  background-color: #244b34;
+}
+
+.boton-descripcion-habilitado:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 #11241b;
+}
+
 /* Área derecha del juego interactivo */
 .bloque-interactivo-juego {
   display: flex;

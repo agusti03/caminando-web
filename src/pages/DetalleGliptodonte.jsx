@@ -8,15 +8,19 @@ import './Coleccion.css';
 
 //Componentes
 import BotonVolver from '../components/BotonVolver';
+import ModalModelo3D from '../components/ModalModelo3D';
 
 //Imágenes
 import gliptodonteImg from '../assets/detalle-gliptodonte-gliptodonte.png'
 import kiraImg from '../assets/kira.png'
 
+const gliptodonteGlb = new URL('../assets/modelos-3d/fossil_with_shells.glb', import.meta.url).href;
+
 function DetalleGliptodonte() {
   const navigate = useNavigate();
   const mainRef = useRef(null);
   const [juegoGanado, setJuegoGanado] = useState(false);
+  const [mostrarModelo3D, setMostrarModelo3D] = useState(false);
 
   useEffect(() => {
     const completado = localStorage.getItem('triviaGliptodonteCompletada');
@@ -45,6 +49,12 @@ function DetalleGliptodonte() {
       tabIndex={-1} // Mantiene el foco inicial por JS, pero no ensucia el Tab
       aria-label="Detalle del gliptodonte"
     >
+      <ModalModelo3D
+        isOpen={mostrarModelo3D}
+        onClose={() => setMostrarModelo3D(false)}
+        modelUrl={gliptodonteGlb}
+      />
+
       {/* 1. PRIMER ELEMENTO AL HACER TAB: El botón de volver */}
       <BotonVolver 
         className="btn-volver" 
@@ -75,6 +85,17 @@ function DetalleGliptodonte() {
               por miles de placas óseas hexagonales fusionadas que cubrían todo el cuerpo. 
               Se alimentaba de pasto bajo y hojas. Habitaba llanuras de Sudamérica.
             </p>
+
+            {juegoGanado && (
+              <button
+                className="boton-descripcion-habilitado"
+                type="button"
+                onClick={() => setMostrarModelo3D(true)}
+                aria-label="Abrir visualización 3D del Gliptodonte"
+              >
+                Ver modelo 3D
+              </button>
+            )}
           </article>
 
           {/* 📎 ANILLADO CENTRAL */}
@@ -97,17 +118,18 @@ function DetalleGliptodonte() {
                 </div>
 
                 <div className="contenedor-personaje-dialogo">
+                
+                  {/* Le damos foco al globo para que el usuario de teclado lo escuche ANTES de llegar al botón jugar */}
+                  <div className="globo-texto" tabIndex={0} aria-label="Kira dice: ¡Ups, no puedo leer mis anotaciones! ¡Ayúdame a recuperar más información de esta especie!">
+                    <p style={{ margin: 0 }}>¡Ups, no puedo leer mis anotaciones!</p>
+                    <p style={{ margin: 0 }}>¡Ayúdame a recuperar más información de esta especie!</p>
+                  </div>
                   <img 
                     src={kiraImg} 
                     alt="" 
                     aria-hidden="true"
                     className="imagen-exploradora"
                   />
-                  {/* Le damos foco al globo para que el usuario de teclado lo escuche ANTES de llegar al botón jugar */}
-                  <div className="globo-texto" tabIndex={0} aria-label="Kira dice: ¡Ups, no puedo leer mis anotaciones! ¡Ayúdame a recuperar más información de esta especie!">
-                    <p style={{ margin: 0 }}>¡Ups, no puedo leer mis anotaciones!</p>
-                    <p style={{ margin: 0 }}>¡Ayúdame a recuperar más información de esta especie!</p>
-                  </div>
                 </div>
 
                 {/* El botón nativo ya es alcanzable con Tab automáticamente */}
@@ -148,7 +170,7 @@ function DetalleGliptodonte() {
                 <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', gap: '12px', justifyContent: 'center' }}>
                   
                   <h3 className="sr-only">Ficha técnica del fósil</h3>
-                  <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontFamily:"Nunito Sans" ,display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 2 }}>
+                  <ul id="ficha-tecnica-gliptodonte" style={{ listStyle: 'none', padding: 0, margin: 0, fontFamily:"Nunito Sans" ,display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 2 }}>
                     {datosFosil.map((item, index) => (
                       <li 
                         key={index} 

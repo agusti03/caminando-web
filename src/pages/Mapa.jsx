@@ -111,8 +111,7 @@ function Mapa ( {onBack}) {
                   <p>{mamifero.descripcion}</p>
                   <button
                     className="popup-btn-excavar"
-                    onClick={() => navigate('/excavacion', { state: { idMamifero: mamifero.id } })}
-                  >
+                    onClick={() => navigate(`/excavacion/${mamifero.slug}`)}                  >
                     Excavar
                   </button>
                 </Popup>

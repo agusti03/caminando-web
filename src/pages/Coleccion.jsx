@@ -2,6 +2,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FaLock, FaMapMarkedAlt, FaInfoCircle, FaCheck } from 'react-icons/fa'
+import { supabase } from '../config/supabaseClient'
+
+// Asegúrate de importar getFosilesDescubiertos también
+import { estaFosilDescubierto, getFosilesDescubiertos } from '../utils/progreso' 
 
 //CSS
 import './Coleccion.css'
@@ -10,105 +14,137 @@ import './Coleccion.css'
 import TransicionHoja from '../components/TransicionCuaderno'
 import BotonVolver from '../components/BotonVolver'
 
-//Imagenes
-import gliptodonteImg from '../assets/detalle-gliptodonte-gliptodonte.png'
-
 function Coleccion() {
   const navigate = useNavigate()
+  
   const [mostrarAviso, setMostrarAviso] = useState(false)
+  const [fosiles, setFosiles] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  // Estado de desbloqueo del Gliptodonte (persistente en localStorage)
-  const [gliptoUnlocked, setGliptoUnlocked] = useState(false)
-  // Usado para animar la transición desde bloqueado -> iluminado cuando se acaba de desbloquear
-  const [illuminated, setIlluminated] = useState(false)
-
-  // 💡 Ref para forzar el foco del teclado dentro del modal emergente
   const botonCerrarPopupRef = useRef(null)
 
-  // Efecto que detecta cuando se abre el modal y lleva el foco hacia él
   useEffect(() => {
     if (mostrarAviso && botonCerrarPopupRef.current) {
       botonCerrarPopupRef.current.focus()
     }
   }, [mostrarAviso])
 
-  // Leer el estado de desbloqueo al montar y manejar la animación si viene justo de la excavación
   useEffect(() => {
-    const unlocked = localStorage.getItem('excavacionGliptodonteCompletada') === 'true'
-    setGliptoUnlocked(unlocked)
+    async function fetchFosiles() {
+      const { data, error } = await supabase.from('mamiferos').select('*')
 
-    // Si acabó de desbloquearse en la página anterior (Excavacion), animamos la transición
-    const justUnlocked = (() => {
-      try { return sessionStorage.getItem('justUnlockedGliptodonte') === 'true' } catch (e) { return false }
-    })()
+      if (!error && data) {
+        // 1. Obtenemos la lista de slugs que el usuario ya descubrió
+        const slugsDescubiertos = getFosilesDescubiertos()
 
-    if (unlocked) {
-      if (justUnlocked) {
-        // comenzar bloqueado y encender luego para animación
-        setIlluminated(false)
-        // pequeño delay para permitir el render inicial con la imagen oscurecida
-        setTimeout(() => {
-          setIlluminated(true)
-          try { sessionStorage.removeItem('justUnlockedGliptodonte') } catch (e) { }
-        }, 60)
-      } else {
-        // ya desbloqueado en visitas posteriores: mostrar iluminado inmediatamente
-        setIlluminated(true)
+        // 2. Separamos los datos de Supabase en descubiertos y no descubiertos
+        const descubiertos = data.filter(f => slugsDescubiertos.includes(f.slug))
+        const noDescubiertos = data.filter(f => !slugsDescubiertos.includes(f.slug))
+
+        // 3. Mezclamos los no descubiertos y sacamos exactamente 3
+        const tresRandomBloqueados = [...noDescubiertos]
+          .sort(() => 0.5 - Math.random()) // Mezcla rápida
+          .slice(0, 3) // Tomamos los 3 primeros
+
+        // 4. Juntamos todo (primero los que ya tenés, luego los misteriosos)
+        const coleccionFinal = [...descubiertos, ...tresRandomBloqueados]
+
+        // 5. Procesamos el estado de animación y desbloqueo como antes
+        const fosilesProcesados = coleccionFinal.map(fosil => {
+          const isUnlocked = slugsDescubiertos.includes(fosil.slug)
+          
+          let justUnlocked = false;
+          try { 
+            justUnlocked = sessionStorage.getItem(`justUnlocked_${fosil.slug}`) === 'true' 
+          } catch (e) { }
+
+          return {
+            ...fosil,
+            unlocked: isUnlocked,
+            justUnlocked: justUnlocked
+          }
+        })
+        
+        setFosiles(fosilesProcesados)
       }
-    } else {
-      setIlluminated(false)
+      setLoading(false)
     }
+    
+    fetchFosiles()
   }, [])
 
+  useEffect(() => {
+    if (fosiles.length === 0) return;
+    
+    const timer = setTimeout(() => {
+      fosiles.forEach(fosil => {
+        if (fosil.justUnlocked) {
+          try { sessionStorage.removeItem(`justUnlocked_${fosil.slug}`) } catch (e) { }
+        }
+      })
+    }, 60);
 
+    return () => clearTimeout(timer);
+  }, [fosiles])
 
   return (
     <main className="escenario-coleccion" aria-label="Tu Colección de Fósiles">
-
       <BotonVolver className="btn-volver" onClick={() => navigate(-1)} aria-label="Volver a la pantalla anterior" />
 
       <TransicionHoja>
         <div className="cuaderno-contenedor">
+          
           {/* HOJA IZQUIERDA */}
           <section className="pagina-hoja hoja-izquierda" aria-label="Fósiles recolectados">
             <h2 className="titulo-seccion" tabIndex={0}>Tu colección de fósiles</h2>
 
             <div className="grid-fosiles">
-              {/* Gliptodonte: bloqueado o desbloqueado según progreso de Excavación */}
-              <div className={`tarjeta-fosil ${gliptoUnlocked ? 'descubierto' : 'bloqueado'}`}>
-                {gliptoUnlocked && <div className="check-descubierto" aria-hidden="true">✓</div>}
-                <img
-                  src={gliptodonteImg}
-                  alt="Ilustración de un gliptodonte"
-                  className={`img-animal ${gliptoUnlocked ? (illuminated ? 'illuminated' : 'blocked') : 'silueta'}`}
-                />
-                <span className="nombre-animal">Gliptodonte</span>
-                {gliptoUnlocked ? (
-                  <button className="btn-detalle" onClick={() => navigate('/detalle-gliptodonte')} aria-label="Ver detalle del Gliptodonte">
-                    <FaInfoCircle aria-hidden="true" /> Ver detalle
-                  </button>
-                ) : (
-                  <button className="etiqueta-bloqueado btn-bloqueado" onClick={() => setMostrarAviso(true)} aria-label="Fósil Gliptodonte no descubierto. Presiona para ver cómo desbloquear.">
-                    <FaLock aria-hidden="true" /> Fósil no descubierto
-                  </button>
-                )}
-              </div>
-
-              {/* Fósil Oculto 1 */}
-              <div className="tarjeta-fosil bloqueado">
-                <img src="ruta-silueta-bloqueada1.png" alt="Silueta de fósil oculto número 1" className="img-animal silueta" />
-                <button className="etiqueta-bloqueado btn-bloqueado" onClick={() => setMostrarAviso(true)} aria-label="Fósil 1 no descubierto. Presiona para ver cómo desbloquear.">
-                  <FaLock aria-hidden="true" /> Fósil no descubierto
-                </button>
-              </div>
-
-              {/* Fósil Oculto 2 */}
-              <div className="tarjeta-fosil bloqueado">
-                <img src="ruta-silueta-bloqueada2.png" alt="Silueta de fósil oculto número 2" className="img-animal silueta" />
-                <button className="etiqueta-bloqueado btn-bloqueado" onClick={() => setMostrarAviso(true)} aria-label="Fósil 2 no descubierto. Presiona para ver cómo desbloquear.">
-                  <FaLock aria-hidden="true" /> Fósil no descubierto
-                </button>
-              </div>
+              
+              {loading ? (
+                <p>Cargando colección...</p>
+              ) : (
+                fosiles.map((fosil) => {
+                  const claseImagen = fosil.unlocked 
+                    ? (fosil.justUnlocked ? 'blocked' : 'illuminated') 
+                    : 'silueta';
+                    
+                  return (
+                    <div key={fosil.id} className={`tarjeta-fosil ${fosil.unlocked ? 'descubierto' : 'bloqueado'}`}>
+                      
+                      {fosil.unlocked && <div className="check-descubierto" aria-hidden="true">✓</div>}
+                      
+                      <img
+                        src={fosil.imagen_url || `/assets/fosiles/${fosil.slug}.png`}
+                        alt={`Ilustración de un ${fosil.nombre}`}
+                        className={`img-animal ${claseImagen}`}
+                        onError={(e) => { e.target.src = '/assets/silueta-default.png' }} 
+                      />
+                      
+                      {/* Si está bloqueado, podrías ocultar el nombre poniendo "???" */}
+                      <span className="nombre-animal">{fosil.unlocked ? fosil.nombre : "Fósil misterioso"}</span>
+                      
+                      {fosil.unlocked ? (
+                        <button 
+                          className="btn-detalle" 
+                          onClick={() => navigate(`/detalle/${fosil.slug}`)} 
+                          aria-label={`Ver detalle del ${fosil.nombre}`}
+                        >
+                          <FaInfoCircle aria-hidden="true" /> Ver detalle
+                        </button>
+                      ) : (
+                        <button 
+                          className="etiqueta-bloqueado btn-bloqueado" 
+                          onClick={() => setMostrarAviso(true)} 
+                          aria-label="Fósil no descubierto. Presiona para ver cómo desbloquear."
+                        >
+                          <FaLock aria-hidden="true" /> Fósil no descubierto
+                        </button>
+                      )}
+                    </div>
+                  )
+                })
+              )}
+              
             </div>
           </section>
 
@@ -121,7 +157,6 @@ function Coleccion() {
 
           {/* HOJA DERECHA */}
           <section className="pagina-hoja hoja-derecha" aria-label="Sección de exploración">
-            {/* Ocultamos la brújula visual para el lector, no aporta contenido textual directo, pero la sección sí */}
             <div className="brujula-contenedor" aria-hidden="true">
               <div className="brujula-norte">N</div>
               <div className="brujula-este">E</div>
@@ -142,29 +177,18 @@ function Coleccion() {
         </div>
       </TransicionHoja>
 
-      {/* 🏆 POP-UP / MODAL EMERGENTE GLOBAL CORREGIDO */}
+      {/* POP-UP / MODAL EMERGENTE GLOBAL */}
       {mostrarAviso && (
-        <div 
-          className="aviso-overlay" 
-          role="dialog" 
-          aria-modal="true" 
-          aria-labelledby="modal-aviso-titulo"
-        >
+        <div className="aviso-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-aviso-titulo">
           <div className="aviso-modal-popup">
             <p id="modal-aviso-titulo" className="aviso-texto">
               ¡Debes realizar excavaciones para desbloquear más fósiles!
             </p>
             <div className="aviso-botones-layout">
-              {/* Botón Ir al mapa */}
               <button className="btn-popup-accion btn-popup-verde" onClick={() => navigate('/mapa')}>
                 <FaMapMarkedAlt aria-hidden="true" /> Ir al mapa
               </button>
-              {/* Botón Ok - Recibe el foco automáticamente */}
-              <button 
-                ref={botonCerrarPopupRef}
-                className="btn-popup-accion btn-popup-marron" 
-                onClick={() => setMostrarAviso(false)}
-              >
+              <button ref={botonCerrarPopupRef} className="btn-popup-accion btn-popup-marron" onClick={() => setMostrarAviso(false)}>
                 <FaCheck aria-hidden="true" /> Ok
               </button>
             </div>

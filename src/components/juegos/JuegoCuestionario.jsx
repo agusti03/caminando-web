@@ -1,0 +1,103 @@
+import { useState, useEffect } from 'react';
+import TransicionHoja from '../TransicionCuaderno';
+import { FaCheckCircle } from 'react-icons/fa';
+
+function JuegoCuestionario({ contenido }) {
+  // Estado para guardar las respuestas. 
+  // Se verá así: { "q1": "camion", "q2": "armadillo" }
+  const [respuestas, setRespuestas] = useState({});
+  const [juegoTerminado, setJuegoTerminado] = useState(false);
+
+  // Función para manejar el clic en una opción
+  const handleOpcionClick = (idPregunta, idOpcion) => {
+    setRespuestas(prev => ({
+      ...prev,
+      [idPregunta]: idOpcion
+    }));
+  };
+
+  // Efecto para verificar si YA contestó TODAS las preguntas correctamente
+  useEffect(() => {
+    if (!contenido || !contenido.preguntas) return;
+
+    // .every() verifica que TODAS las preguntas cumplan la condición
+    const todasCorrectas = contenido.preguntas.every((preg) => 
+      respuestas[preg.id] === preg.correcta
+    );
+
+    if (todasCorrectas && contenido.preguntas.length > 0) {
+      setJuegoTerminado(true);
+      // Aquí podrías disparar tu popup de "Logro Desbloqueado"
+    }
+  }, [respuestas, contenido]);
+
+  return (
+    <TransicionHoja>
+      <div className="cuaderno-contenedor">
+        
+        {/* Usamos .map() para iterar sobre el array de preguntas */}
+        {contenido.preguntas.map((item, index) => {
+          
+          // Variables auxiliares para saber el estado de esta pregunta en particular
+          const respuestaUsuario = respuestas[item.id];
+          const estaContestada = respuestaUsuario !== undefined;
+          const esCorrecta = respuestaUsuario === item.correcta;
+
+          return (
+            <section key={item.id} className="pagina-hoja">
+              <h2>Pregunta {index + 1}</h2>
+              <p>{item.pregunta}</p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                
+                {/* Iteramos sobre las opciones de ESTA pregunta */}
+                {item.opciones.map((opcion) => {
+                  
+                  // Lógica visual dinámica
+                  const estaSeleccionada = respuestaUsuario === opcion.id;
+                  let backgroundColor = '#4e342e'; // Color por defecto
+                  
+                  if (esCorrecta && opcion.id === item.correcta) {
+                    backgroundColor = '#689f38'; // Verde si ya acertó y es la correcta
+                  }
+
+                  return (
+                    <button 
+                      key={opcion.id}
+                      className="btn-popup-accion btn-popup-marron"
+                      style={{ 
+                        backgroundColor,
+                        opacity: estaContestada && !estaSeleccionada && !esCorrecta ? 0.6 : 1,
+                        cursor: esCorrecta ? 'not-allowed' : 'pointer' 
+                      }}
+                      onClick={() => handleOpcionClick(item.id, opcion.id)}
+                      disabled={esCorrecta} // Bloquea los botones si ya acertó esta pregunta
+                    >
+                      {opcion.texto}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Mensajes de feedback dinámicos */}
+              {estaContestada && !esCorrecta && (
+                <div role="alert" className="alerta-error">
+                  {item.mensaje_error}
+                </div>
+              )}
+
+              {esCorrecta && (
+                <div role="alert" className="alerta-exito">
+                  <FaCheckCircle size={20} /> {item.mensaje_exito}
+                </div>
+              )}
+            </section>
+          );
+        })}
+
+      </div>
+    </TransicionHoja>
+  );
+}
+
+export default JuegoCuestionario;

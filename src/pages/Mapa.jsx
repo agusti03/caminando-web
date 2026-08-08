@@ -13,6 +13,7 @@ import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import iconRetina from 'leaflet/dist/images/marker-icon-2x.png';
+import { obtenerMamiferos } from '../services/mamiferosService';
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -39,6 +40,19 @@ function Mapa ( {onBack}) {
   const navigate = useNavigate();
   const [mostrarNota, setMostrarNota] = useState(true);
   const [showHelpModal, setShowHelpModal] = useState(false);
+  const [marcadoresMamiferos, setMarcadoresMamiferos] = useState([]);
+  const [cargando, setCargando] = useState(true);
+
+  useEffect(() => {
+    const cargarDatos = async () => {
+      setCargando(true);
+      const datosMamiferos = await obtenerMamiferos(); // Llamada a tu servicio de Supabase
+      setMarcadoresMamiferos(datosMamiferos);
+      setCargando(false);
+    };
+
+    cargarDatos();
+  }, []);
   
 
   return (
@@ -85,24 +99,25 @@ function Mapa ( {onBack}) {
 
             <ZoomControl position="bottomright" />
 
-            <Marker position={coordenadaPin}>
-              <Popup>
-                <h1> Gliptodonte </h1>
-                <img
-                  src={fosilImg}
-                  alt="Fósil de Gliptodonte"
-                  className="popup-fosil-img"
-                />
-                <p>Se notifico un posible hallazgo de fósil de un gliptodonte en esta ubicación. Realizá la excavación para encontrarlo!</p>
-                <button
-                  className="popup-btn-excavar"
-                  onClick={() => navigate('/excavacion')}
-                >
-                  Excavar
-                </button>
-                <br />
-              </Popup>
-            </Marker>
+            {/* NUEVO: Iteramos sobre los fósiles de la base de datos */}
+            {!cargando && marcadoresMamiferos.map((mamifero) => (
+              <Marker 
+                key={mamifero.id} 
+                position={[mamifero.latitud, mamifero.longitud]}
+              >
+                <Popup>
+                  <h1> {mamifero.nombre} </h1>
+                  {/* Si agregas URLs de imágenes a Supabase, puedes usar: src={mamifero.imagen_url} */}
+                  <p>{mamifero.descripcion}</p>
+                  <button
+                    className="popup-btn-excavar"
+                    onClick={() => navigate('/excavacion', { state: { idMamifero: mamifero.id } })}
+                  >
+                    Excavar
+                  </button>
+                </Popup>
+              </Marker>
+            ))}
           </MapContainer>
 
           {mostrarNota && (

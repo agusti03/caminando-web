@@ -374,6 +374,15 @@
   cursor: pointer;
   box-shadow: 0 4px 0 #11241b;
   transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icono-boton-3d {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
 }
 
 .boton-descripcion-habilitado:hover {

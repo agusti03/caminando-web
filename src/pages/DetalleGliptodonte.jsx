@@ -1,6 +1,7 @@
 // src/pages/DetalleGliptodonte.jsx
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { TbCube } from 'react-icons/tb';
 import { useSettings } from '../contexts/SettingsContext';
 
 //CSS
@@ -92,8 +93,13 @@ function DetalleGliptodonte() {
                 type="button"
                 onClick={() => setMostrarModelo3D(true)}
                 aria-label="Abrir visualización 3D del Gliptodonte"
+                style={{
+                  marginTop: '30px',
+                  alignSelf: 'center'
+                }}
               >
-                Ver modelo 3D
+                <TbCube className="icono-boton-3d" aria-hidden="true" />
+                <span>Ver modelo 3D</span>
               </button>
             )}
           </article>

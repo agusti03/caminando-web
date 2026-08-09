@@ -8,6 +8,12 @@ function JuegoCuestionario({ contenido }) {
   const [respuestas, setRespuestas] = useState({});
   const [juegoTerminado, setJuegoTerminado] = useState(false);
 
+  const preguntas = Array.isArray(contenido?.preguntas)
+    ? contenido.preguntas
+    : Array.isArray(contenido?.contenido?.preguntas)
+      ? contenido.contenido.preguntas
+      : [];
+
   // Función para manejar el clic en una opción
   const handleOpcionClick = (idPregunta, idOpcion) => {
     setRespuestas(prev => ({
@@ -18,25 +24,38 @@ function JuegoCuestionario({ contenido }) {
 
   // Efecto para verificar si YA contestó TODAS las preguntas correctamente
   useEffect(() => {
-    if (!contenido || !contenido.preguntas) return;
+    if (!contenido || preguntas.length === 0) return;
 
     // .every() verifica que TODAS las preguntas cumplan la condición
-    const todasCorrectas = contenido.preguntas.every((preg) => 
+    const todasCorrectas = preguntas.every((preg) => 
       respuestas[preg.id] === preg.correcta
     );
 
-    if (todasCorrectas && contenido.preguntas.length > 0) {
+    if (todasCorrectas && preguntas.length > 0) {
       setJuegoTerminado(true);
       // Aquí podrías disparar tu popup de "Logro Desbloqueado"
     }
-  }, [respuestas, contenido]);
+  }, [respuestas, contenido, preguntas]);
+
+  if (!contenido || preguntas.length === 0) {
+    return (
+      <TransicionHoja>
+        <div className="cuaderno-contenedor">
+          <section className="pagina-hoja">
+            <h2>Juego no disponible</h2>
+            <p>No hay preguntas configuradas para este juego.</p>
+          </section>
+        </div>
+      </TransicionHoja>
+    );
+  }
 
   return (
     <TransicionHoja>
       <div className="cuaderno-contenedor">
         
         {/* Usamos .map() para iterar sobre el array de preguntas */}
-        {contenido.preguntas.map((item, index) => {
+        {preguntas.map((item, index) => {
           
           // Variables auxiliares para saber el estado de esta pregunta en particular
           const respuestaUsuario = respuestas[item.id];

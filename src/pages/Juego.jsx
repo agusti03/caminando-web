@@ -3,9 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../config/supabaseClient';
 import JuegoCuestionario from '../components/juegos/JuegoCuestionario';
 import BotonVolver from '../components/BotonVolver';
+import './Coleccion.css';
 
 function Juego() {
-  const { juegoId } = useParams(); // Captura el "1" de /juego/1
+  const { juegoId, slugId } = useParams(); // Captura el "1" de /juego/1 y el slug del animal
   const navigate = useNavigate();
   const [juegoData, setJuegoData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -46,14 +47,21 @@ function Juego() {
 
   if (!juegoData) {
     return (
-      <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>
-        <p>No hay juego disponible para este animal.</p>
-        <button onClick={() => navigate(-1)}>Volver</button>
-      </div>
+      <main className="escenario-coleccion">
+        <div style={{ color: 'white', textAlign: 'center', marginTop: '50px' }}>
+          <p>No hay juego disponible para este animal.</p>
+          <button onClick={() => navigate(-1)}>Volver</button>
+        </div>
+      </main>
     );
   }
 
-  return <JuegoCuestionario contenido={juegoData} />;
+  return (
+    <main className="escenario-coleccion">
+      <BotonVolver className="btn-volver" onClick={() => navigate(-1)} aria-label="Volver" tabIndex={0} />
+      <JuegoCuestionario contenido={juegoData} juegoId={Number(juegoId)} slugId={slugId} />
+    </main>
+  );
 }
 
 export default Juego;

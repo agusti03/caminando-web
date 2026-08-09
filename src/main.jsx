@@ -22,6 +22,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/coleccion" element={<Coleccion />} />
           <Route path="/detalle/:slugId" element={<DetalleMamifero />} />          
           <Route path="/juego/:juegoId" element={<Juego />} />
+          <Route path="/juego/:juegoId/:slugId" element={<Juego />} />
           <Route path="/ajustes" element={<Ajustes />} />
           <Route path="/recursos" element={<Recursos />} />
           <Route path="/mapa" element={<Mapa />} />

@@ -129,7 +129,7 @@ function DetalleMamifero() {
                 {/* Botón dinámico que lleva al juego correcto basado en el ID del fósil */}
                 <button 
                   className="boton-jugar" 
-                  onClick={() => navigate(`/juego/${fosil.juego_id}`)} 
+                  onClick={() => navigate(`/juego/${fosil.juego_id}/${fosil.slug}`)} 
                   aria-label="Jugar la trivia para desbloquear información"
                 >
                   <span aria-hidden="true">🎮</span> ¡Jugar!

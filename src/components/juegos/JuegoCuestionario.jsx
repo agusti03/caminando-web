@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TransicionHoja from '../TransicionCuaderno';
 import { FaCheckCircle } from 'react-icons/fa';
+import ModalAyuda from '../ModalAyuda';
+import { supabase } from '../../config/supabaseClient';
+import '../../pages/Coleccion.css';
 
-function JuegoCuestionario({ contenido }) {
+function JuegoCuestionario({ contenido, juegoId, slugId }) {
   // Estado para guardar las respuestas. 
   // Se verá así: { "q1": "camion", "q2": "armadillo" }
   const [respuestas, setRespuestas] = useState({});
   const [juegoTerminado, setJuegoTerminado] = useState(false);
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const navigate = useNavigate();
 
   const preguntas = Array.isArray(contenido?.preguntas)
     ? contenido.preguntas
@@ -24,7 +30,7 @@ function JuegoCuestionario({ contenido }) {
 
   // Efecto para verificar si YA contestó TODAS las preguntas correctamente
   useEffect(() => {
-    if (!contenido || preguntas.length === 0) return;
+    if (!contenido || preguntas.length === 0 || juegoTerminado) return;
 
     // .every() verifica que TODAS las preguntas cumplan la condición
     const todasCorrectas = preguntas.every((preg) => 
@@ -33,9 +39,35 @@ function JuegoCuestionario({ contenido }) {
 
     if (todasCorrectas && preguntas.length > 0) {
       setJuegoTerminado(true);
-      // Aquí podrías disparar tu popup de "Logro Desbloqueado"
+      setMostrarModal(true);
+
+      if (slugId) {
+        localStorage.setItem(`trivia_${slugId}_Completada`, 'true');
+      }
+
+      if (juegoId) {
+        supabase
+          .from('juegos')
+          .update({ completado: true })
+          .eq('id', Number(juegoId))
+          .then(({ error }) => {
+            if (error) {
+              console.error('No se pudo marcar el juego como completado:', error);
+            }
+          });
+      }
     }
-  }, [respuestas, contenido, preguntas]);
+  }, [respuestas, contenido, preguntas, juegoTerminado, juegoId, slugId]);
+
+  const cerrarModal = () => {
+    setMostrarModal(false);
+
+    if (slugId) {
+      navigate(`/detalle/${slugId}`);
+    } else {
+      navigate(-1);
+    }
+  };
 
   if (!contenido || preguntas.length === 0) {
     return (
@@ -51,8 +83,18 @@ function JuegoCuestionario({ contenido }) {
   }
 
   return (
-    <TransicionHoja>
-      <div className="cuaderno-contenedor">
+    <>
+      <ModalAyuda
+        isOpen={mostrarModal}
+        onClose={cerrarModal}
+        title="¡Bien hecho!"
+      >
+        <p>Has recuperado la información perdida del cuaderno.</p>
+        <p>¡Bien hecho! Has recuperado la información perdida del cuaderno</p>
+      </ModalAyuda>
+
+      <TransicionHoja>
+        <div className="cuaderno-contenedor">
         
         {/* Usamos .map() para iterar sobre el array de preguntas */}
         {preguntas.map((item, index) => {
@@ -114,8 +156,9 @@ function JuegoCuestionario({ contenido }) {
           );
         })}
 
-      </div>
-    </TransicionHoja>
+        </div>
+      </TransicionHoja>
+    </>
   );
 }
 

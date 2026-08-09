@@ -23,15 +23,13 @@ export default function Ajustes() {
         setNarracion,
         sonidos,
         setSonidos,
+        sonidoUI,
+        setSonidoUI,
         vibracion,
         setVibracion,
+        accesibilidadExcavacion,
+        setAccesibilidadExcavacion,
     } = useSettings();
-
-    // Estado local para persistir el Modo de Accesibilidad en Excavación en el navegador (localStorage)
-    const [accesibilidadExcavacion, setAccesibilidadExcavacion] = useState(() => {
-        const saved = localStorage.getItem('accesibilidadExcavacion');
-        return saved === 'true'; // Convertimos el string de localStorage a booleano
-    });
 
     // Estado para controlar el modal de ayuda de accesibilidad
     const [showAccesibilidadHelp, setShowAccesibilidadHelp] = useState(false);
@@ -39,7 +37,6 @@ export default function Ajustes() {
     const toggleAccesibilidad = () => {
         const newVal = !accesibilidadExcavacion;
         setAccesibilidadExcavacion(newVal);
-        localStorage.setItem('accesibilidadExcavacion', newVal.toString());
     };
 
     return (
@@ -125,8 +122,7 @@ export default function Ajustes() {
         {/* 3. APOYO AUDITIVO */}
         <section className="ajustes-seccion">
         <h2 className="seccion-titulo" tabIndex={0}>Apoyo Auditivo</h2>
-        
-        {/* Narración */}
+        {/* Narración 
         <div className="ajustes-fila">
 
             <div className="opcion-izquierda">
@@ -142,6 +138,7 @@ export default function Ajustes() {
             <div className="switch-manejador"></div>
             </button>
         </div>
+        */}
 
         {/* Sonidos */}
         <div className="ajustes-fila">
@@ -160,7 +157,39 @@ export default function Ajustes() {
             </button>
         </div>
 
-        {/* Vibración */}
+        {sonidos && (
+            <div className="ajustes-fila">
+                <div className="opcion-izquierda">
+                <span tabIndex={0}>🔈 Estilo del sonido</span>
+                </div>
+
+                <div className="tamanio-selector" role="group" aria-label="Seleccionar estilo del sonido">
+                    <button
+                        onClick={() => setSonidoUI('click')}
+                        data-sound-preset="click"
+                        className={`tamanio-btn txt-sm ${sonidoUI === 'click' ? 'activo' : 'inactivo'}`}
+                        aria-label="Sonido tipo click"
+                        aria-pressed={sonidoUI === 'click'}
+                    >Click</button>
+                    <button
+                        onClick={() => setSonidoUI('wood')}
+                        data-sound-preset="wood"
+                        className={`tamanio-btn txt-sm ${sonidoUI === 'wood' ? 'activo' : 'inactivo'}`}
+                        aria-label="Sonido tipo madera"
+                        aria-pressed={sonidoUI === 'wood'}
+                    >Madera</button>
+                    <button
+                        onClick={() => setSonidoUI('soft')}
+                        data-sound-preset="soft"
+                        className={`tamanio-btn txt-sm ${sonidoUI === 'soft' ? 'activo' : 'inactivo'}`}
+                        aria-label="Sonido suave"
+                        aria-pressed={sonidoUI === 'soft'}
+                    >Suave</button>
+                </div>
+            </div>
+        )}
+
+        {/* Vibración 
         <div className="ajustes-fila">
 
             <div className="opcion-izquierda">
@@ -177,6 +206,7 @@ export default function Ajustes() {
             <div className="switch-manejador"></div>
             </button>
         </div>
+        */}
         </section>
 
     </div>

@@ -4,8 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../config/supabaseClient'; // Tu conexión a Supabase
 
 import './Coleccion.css';
-import TransicionHoja from '../components/TransicionCuaderno';
 import BotonVolver from '../components/BotonVolver';
+import { estaJuegoCompletado } from '../utils/progreso';
 
 import kiraImg from '../assets/kira.png';
 // Importa un helper para manejar las imágenes dinámicas (si las tienes locales)
@@ -21,11 +21,7 @@ function DetalleMamifero() {
   const [juegoGanado, setJuegoGanado] = useState(false);
 
   useEffect(() => {
-    // Verificamos en localStorage de forma dinámica
-    const completado = localStorage.getItem(`trivia_${slugId}_Completada`);
-    if (completado === 'true') {
-      setJuegoGanado(true);
-    }
+    setJuegoGanado(estaJuegoCompletado(slugId));
   }, [slugId]);
 
   useEffect(() => {
@@ -71,12 +67,11 @@ function DetalleMamifero() {
     >
       <BotonVolver 
         className="btn-volver" 
-        onClick={() => navigate('/coleccion')} 
-        aria-label="Volver a la colección"
+        onClick={() => navigate(-1)} 
+        aria-label="Volver a la página anterior"
         tabIndex={0} 
       />
 
-      <TransicionHoja>
         <div className="cuaderno-contenedor" role="region" aria-label={`Cuaderno de investigación: ${fosil.nombre}`}>
           
           {/* 📖 HOJA IZQUIERDA */}
@@ -189,7 +184,6 @@ function DetalleMamifero() {
             )}
           </article>
         </div>
-      </TransicionHoja>
     </main>
   );
 }

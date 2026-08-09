@@ -20,20 +20,52 @@ export const estaFosilDescubierto = (slug) => {
 };
 
 // --- JUEGOS (TRIVIAS) ---
+export const getJuegoCompletadoKey = (slug) => `trivia_${slug}_Completada`;
+
 export const getJuegosCompletados = () => {
+  if (typeof localStorage === 'undefined') {
+    return [];
+  }
+
   const data = localStorage.getItem('juegoCompletado');
-  return data ? JSON.parse(data) : [];
+  if (!data) {
+    return [];
+  }
+
+  try {
+    const parsedData = JSON.parse(data);
+    return Array.isArray(parsedData) ? parsedData : [];
+  } catch (error) {
+    console.warn('No se pudo leer el progreso de juegos desde localStorage:', error);
+    return [];
+  }
 };
 
 export const guardarJuegoCompletado = (slug) => {
+  if (!slug || typeof localStorage === 'undefined') {
+    return;
+  }
+
   const completados = getJuegosCompletados();
+
   if (!completados.includes(slug)) {
     completados.push(slug);
     localStorage.setItem('juegoCompletado', JSON.stringify(completados));
   }
+
+  localStorage.setItem(getJuegoCompletadoKey(slug), 'true');
 };
 
 export const estaJuegoCompletado = (slug) => {
+  if (!slug || typeof localStorage === 'undefined') {
+    return false;
+  }
+
+  const completadoLocal = localStorage.getItem(getJuegoCompletadoKey(slug)) === 'true';
+  if (completadoLocal) {
+    return true;
+  }
+
   const completados = getJuegosCompletados();
   return completados.includes(slug);
 };

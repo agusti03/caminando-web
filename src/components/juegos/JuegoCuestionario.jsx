@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TransicionHoja from '../TransicionCuaderno';
 import { FaCheckCircle } from 'react-icons/fa';
 import ModalAyuda from '../ModalAyuda';
-import { supabase } from '../../config/supabaseClient';
+import { guardarJuegoCompletado } from '../../utils/progreso';
 import '../../pages/Coleccion.css';
 
 function JuegoCuestionario({ contenido, juegoId, slugId }) {
@@ -42,22 +41,10 @@ function JuegoCuestionario({ contenido, juegoId, slugId }) {
       setMostrarModal(true);
 
       if (slugId) {
-        localStorage.setItem(`trivia_${slugId}_Completada`, 'true');
-      }
-
-      if (juegoId) {
-        supabase
-          .from('juegos')
-          .update({ completado: true })
-          .eq('id', Number(juegoId))
-          .then(({ error }) => {
-            if (error) {
-              console.error('No se pudo marcar el juego como completado:', error);
-            }
-          });
+        guardarJuegoCompletado(slugId);
       }
     }
-  }, [respuestas, contenido, preguntas, juegoTerminado, juegoId, slugId]);
+  }, [respuestas, contenido, preguntas, juegoTerminado, slugId]);
 
   const cerrarModal = () => {
     setMostrarModal(false);
@@ -71,14 +58,12 @@ function JuegoCuestionario({ contenido, juegoId, slugId }) {
 
   if (!contenido || preguntas.length === 0) {
     return (
-      <TransicionHoja>
         <div className="cuaderno-contenedor">
           <section className="pagina-hoja">
             <h2>Juego no disponible</h2>
             <p>No hay preguntas configuradas para este juego.</p>
           </section>
         </div>
-      </TransicionHoja>
     );
   }
 
@@ -93,7 +78,6 @@ function JuegoCuestionario({ contenido, juegoId, slugId }) {
         <p>¡Bien hecho! Has recuperado la información perdida del cuaderno</p>
       </ModalAyuda>
 
-      <TransicionHoja>
         <div className="cuaderno-contenedor">
         
         {/* Usamos .map() para iterar sobre el array de preguntas */}
@@ -157,7 +141,6 @@ function JuegoCuestionario({ contenido, juegoId, slugId }) {
         })}
 
         </div>
-      </TransicionHoja>
     </>
   );
 }

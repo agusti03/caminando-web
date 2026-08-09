@@ -11,7 +11,6 @@ import { estaFosilDescubierto, getFosilesDescubiertos } from '../utils/progreso'
 import './Coleccion.css'
 
 //Componentes
-import TransicionHoja from '../components/TransicionCuaderno'
 import BotonVolver from '../components/BotonVolver'
 
 function Coleccion() {
@@ -91,7 +90,6 @@ function Coleccion() {
     <main className="escenario-coleccion" aria-label="Tu Colección de Fósiles">
       <BotonVolver className="btn-volver" onClick={() => navigate(-1)} aria-label="Volver a la pantalla anterior" />
 
-      <TransicionHoja>
         <div className="cuaderno-contenedor">
           
           {/* HOJA IZQUIERDA */}
@@ -175,7 +173,6 @@ function Coleccion() {
             </button>
           </section>
         </div>
-      </TransicionHoja>
 
       {/* POP-UP / MODAL EMERGENTE GLOBAL */}
       {mostrarAviso && (

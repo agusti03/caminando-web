@@ -17,6 +17,7 @@ function App() {
   
   const navigate = useNavigate();
   const [showHelpModal, setShowHelpModal] = useState(false);
+  const [showAboutModal, setShowAboutModal] = useState(false);
   const RECURSOS_PATH = '/recursos';
   const EXCAVACION_PATH = '/mapa';
   const COLECCION_PATH = '/coleccion' ;
@@ -37,6 +38,24 @@ function App() {
           <li><strong>Ajustes:</strong> Configurá el sitio web a tu gusto, incluyendo opciones de accesibilidad.</li>
           <li><strong>Recursos:</strong> Si te quedaste con ganas de más, acá vas a encontrar más información.</li>
         </ul>
+      </ModalAyuda>
+
+      <ModalAyuda
+        isOpen={showAboutModal}
+        onClose={() => setShowAboutModal(false)}
+        title="¿Quiénes somos?"
+      >
+        <div className="modal-quienes-somos-cuerpo">
+          <p>
+            Somos un colectivo de extensión universitaria de la UNLP (Universidad Nacional de La Plata) con orígen en 2009.
+          </p>
+          <p>
+            Reunimos a estudiantes de diversas disciplinas académicas y abordamos la temática del patrimonio, como formador de identidad y como contenido transversal dentro de las ciencias naturales. En particular, buscamos el acercamiento al patrimonio paleontológico.
+          </p>
+          <p>
+            Podés acceder a más información en la sección "Más Recursos" y encontrar diverso material audiovisual que te puede interesar.
+          </p>
+        </div>
       </ModalAyuda>
 
       <div className="polaroid">
@@ -88,8 +107,13 @@ function App() {
         </p>
       </div>
 
-      <div className="logo-circular">
-        <img src="caminando-logo.png" alt="Logo Caminando" />
+      <div className="logo-area">
+        <div className="logo-circular">
+          <img src="caminando-logo.png" alt="Logo Caminando" />
+        </div>
+        <button className="btn-quienes-somos" type="button" onClick={() => setShowAboutModal(true)}>
+          ¿Quienes somos?
+        </button>
       </div>
     </div>
   );

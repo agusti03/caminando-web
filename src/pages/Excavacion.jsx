@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSettings } from '../contexts/SettingsContext';
 import BotonVolver from '../components/BotonVolver';
 import { FaTimes } from 'react-icons/fa';
 import { IoSettingsSharp } from 'react-icons/io5';
@@ -27,16 +28,13 @@ const COLS = [1, 2, 3, 4, 5];
 
 function Excavacion({ onBack }) {
   const navigate = useNavigate();
+  const { accesibilidadExcavacion: isAccessibilityMode } = useSettings();
   const [selectedTool, setSelectedTool] = useState(null);
   const [progress, setProgress] = useState(0);
   const [isKiraVisible, setIsKiraVisible] = useState(true);
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [layersReady, setLayersReady] = useState(false);
   const [refreshCounter, setRefreshCounter] = useState(0);
-
-  const [isAccessibilityMode] = useState(() => {
-    return localStorage.getItem('accesibilidadExcavacion') === 'true';
-  });
 
   const containerRef = useRef(null);
   const fosilRef = useRef(null);

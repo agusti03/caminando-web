@@ -103,20 +103,6 @@ function Mapa({ onBack }) {
         <BotonAyuda onClick={() => setShowHelpModal(true)} />
 
         <button
-          className="btn-excavacion"
-          onClick={() => {
-            const primerMamifero = marcadoresMamiferos.find((mamifero) => mamifero?.slug);
-            if (primerMamifero?.slug) {
-              navigate(`/excavacion/${primerMamifero.slug}`);
-            }
-          }}
-          title="Excavación"
-          aria-label="Ir a la excavación"
-        >
-          <FaCompass className="excavacion-icono" />
-        </button>
-
-        <button
           className="btn-ajustes"
           onClick={() => navigate('/ajustes')}
           title="Ajustes"

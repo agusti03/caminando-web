@@ -167,11 +167,11 @@ function DetalleMamifero() {
                 </div>
 
                 <div className="contenedor-personaje-dialogo">
-                  <img src={kiraImg} alt="" aria-hidden="true" className="imagen-exploradora" />
                   <div className="globo-texto" tabIndex={0} aria-label="Kira dice: ¡Ups, no puedo leer mis anotaciones! ¡Ayúdame a recuperar más información de esta especie!">
                     <p style={{ margin: 0 }}>¡Ups, no puedo leer mis anotaciones!</p>
                     <p style={{ margin: 0 }}>¡Ayúdame a recuperar más información de esta especie!</p>
                   </div>
+                  <img src={kiraImg} alt="" aria-hidden="true" className="imagen-exploradora" />
                 </div>
 
                 {/* Botón dinámico que lleva al juego correcto basado en el ID del fósil */}

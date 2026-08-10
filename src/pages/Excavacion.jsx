@@ -42,9 +42,6 @@ function Excavacion({ onBack }) {
 
   // Estado para guardar los datos del mamífero actual (nombre, imagen, etc.)
   const [mamifero, setMamifero] = useState(null);
-  const [isAccessibilityMode] = useState(() => {
-    return localStorage.getItem('accesibilidadExcavacion') === 'true';
-  });
   const containerRef = useRef(null);
   const fosilRef = useRef(null);
   const kiraDialogueRef = useRef(null);

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Marker, MapContainer, Popup, TileLayer, ZoomControl, useMap } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
-import { FaTimes, FaCheckCircle } from 'react-icons/fa';
+import { FaTimes, FaCheckCircle, FaCompass } from 'react-icons/fa';
 import { IoSettingsSharp } from 'react-icons/io5';
 import BotonVolver from '../components/BotonVolver';
 import BotonAyuda from '../components/BotonAyuda';
@@ -99,15 +99,31 @@ function Mapa({ onBack }) {
     <main className="mapa-page-bg">
       <BotonVolver className="btn-volver" onClick={() => navigate(-1)} />
 
-      <BotonAyuda onClick={() => setShowHelpModal(true)} />
+      <div className="mapa-acciones">
+        <BotonAyuda onClick={() => setShowHelpModal(true)} />
 
-      <button
-        className="btn-ajustes"
-        onClick={() => navigate('/ajustes')}
-        title="Ajustes"
-      >
-        <IoSettingsSharp className="ajustes-icono" />
-      </button>
+        <button
+          className="btn-excavacion"
+          onClick={() => {
+            const primerMamifero = marcadoresMamiferos.find((mamifero) => mamifero?.slug);
+            if (primerMamifero?.slug) {
+              navigate(`/excavacion/${primerMamifero.slug}`);
+            }
+          }}
+          title="Excavación"
+          aria-label="Ir a la excavación"
+        >
+          <FaCompass className="excavacion-icono" />
+        </button>
+
+        <button
+          className="btn-ajustes"
+          onClick={() => navigate('/ajustes')}
+          title="Ajustes"
+        >
+          <IoSettingsSharp className="ajustes-icono" />
+        </button>
+      </div>
 
       <ModalAyuda 
         isOpen={showHelpModal} 

@@ -324,15 +324,17 @@ function Excavacion({ onBack }) {
     <div className="excavacion-page">
       <BotonVolver className="btn-volver" onClick={() => navigate(-1)}></BotonVolver>
 
-      <BotonAyuda onClick={() => setShowHelpModal(true)} />
+      <div className="excavacion-acciones">
+        <button
+          className="btn-ajustes"
+          onClick={() => navigate('/ajustes')}
+          title="Ajustes"
+        >
+          <IoSettingsSharp className="ajustes-icono" />
+        </button>
 
-      <button
-        className="btn-ajustes"
-        onClick={() => navigate('/ajustes')}
-        title="Ajustes"
-      >
-        <IoSettingsSharp className="ajustes-icono" />
-      </button>
+        <BotonAyuda onClick={() => setShowHelpModal(true)} />
+      </div>
 
       <ModalAyuda 
         isOpen={showHelpModal} 

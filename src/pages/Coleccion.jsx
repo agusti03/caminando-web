@@ -13,6 +13,16 @@ import './Coleccion.css'
 //Componentes
 import BotonVolver from '../components/BotonVolver'
 
+const obtenerImagenUrl = (slug) => {
+  if (!slug) return null
+
+  const { data } = supabase.storage
+    .from('images')
+    .getPublicUrl(`mamiferos/${slug}.png`)
+
+  return data?.publicUrl || null
+}
+
 function Coleccion() {
   const navigate = useNavigate()
   
@@ -112,10 +122,9 @@ function Coleccion() {
                       {fosil.unlocked && <div className="check-descubierto" aria-hidden="true">✓</div>}
                       
                       <img
-                        src={fosil.imagen_url || `/assets/fosiles/${fosil.slug}.png`}
+                        src={obtenerImagenUrl(fosil.slug)}
                         alt={`Ilustración de un ${fosil.nombre}`}
                         className={`img-animal ${claseImagen}`}
-                        onError={(e) => { e.target.src = '/assets/silueta-default.png' }} 
                       />
                       
                       {/* Si está bloqueado, podrías ocultar el nombre poniendo "???" */}

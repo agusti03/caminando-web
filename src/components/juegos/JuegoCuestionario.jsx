@@ -3,11 +3,25 @@ import { useNavigate } from 'react-router-dom';
 import { FaCheckCircle } from 'react-icons/fa';
 import ModalAyuda from '../ModalAyuda';
 import { guardarJuegoCompletado } from '../../utils/progreso';
+import { supabase } from '../../config/supabaseClient';
 import '../../pages/Coleccion.css';
+import './JuegoCuestionario.css';
+
+const obtenerUrlImagenPregunta = (path) => {
+  if (!path) return null;
+  if (path.startsWith('http')) return path;
+
+  // Evitamos duplicar "juegos/" si en el JSON ya lo tenías escrito así
+  const rutaLimpia = path.startsWith('juegos/') ? path : `juegos/${path}`;
+
+  const { data } = supabase.storage
+    .from('images')
+    .getPublicUrl(rutaLimpia);
+
+  return data?.publicUrl || null;
+};
 
 function JuegoCuestionario({ contenido, juegoId, slugId }) {
-  // Estado para guardar las respuestas. 
-  // Se verá así: { "q1": "camion", "q2": "armadillo" }
   const [respuestas, setRespuestas] = useState({});
   const [juegoTerminado, setJuegoTerminado] = useState(false);
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -19,7 +33,6 @@ function JuegoCuestionario({ contenido, juegoId, slugId }) {
       ? contenido.contenido.preguntas
       : [];
 
-  // Función para manejar el clic en una opción
   const handleOpcionClick = (idPregunta, idOpcion) => {
     setRespuestas(prev => ({
       ...prev,
@@ -27,11 +40,9 @@ function JuegoCuestionario({ contenido, juegoId, slugId }) {
     }));
   };
 
-  // Efecto para verificar si YA contestó TODAS las preguntas correctamente
   useEffect(() => {
     if (!contenido || preguntas.length === 0 || juegoTerminado) return;
 
-    // .every() verifica que TODAS las preguntas cumplan la condición
     const todasCorrectas = preguntas.every((preg) => 
       respuestas[preg.id] === preg.correcta
     );
@@ -58,12 +69,12 @@ function JuegoCuestionario({ contenido, juegoId, slugId }) {
 
   if (!contenido || preguntas.length === 0) {
     return (
-        <div className="cuaderno-contenedor">
-          <section className="pagina-hoja">
-            <h2>Juego no disponible</h2>
-            <p>No hay preguntas configuradas para este juego.</p>
-          </section>
-        </div>
+      <div className="cuaderno-contenedor">
+        <section className="pagina-hoja">
+          <h2>Juego no disponible</h2>
+          <p>No hay preguntas configuradas para este juego.</p>
+        </section>
+      </div>
     );
   }
 
@@ -75,48 +86,56 @@ function JuegoCuestionario({ contenido, juegoId, slugId }) {
         title="¡Bien hecho!"
       >
         <p>Has recuperado la información perdida del cuaderno.</p>
-        <p>¡Bien hecho! Has recuperado la información perdida del cuaderno</p>
       </ModalAyuda>
 
-        <div className="cuaderno-contenedor">
-        
-        {/* Usamos .map() para iterar sobre el array de preguntas */}
+      <div className="cuaderno-contenedor">
         {preguntas.map((item, index) => {
-          
-          // Variables auxiliares para saber el estado de esta pregunta en particular
           const respuestaUsuario = respuestas[item.id];
           const estaContestada = respuestaUsuario !== undefined;
           const esCorrecta = respuestaUsuario === item.correcta;
+          const urlImagen = item.imagen_path ? obtenerUrlImagenPregunta(item.imagen_path) : null;
 
           return (
-            <section key={item.id} className="pagina-hoja">
-              <h2>Pregunta {index + 1}</h2>
-              <p>{item.pregunta}</p>
+            <section key={item.id} className="pagina-hoja cuestionario-pagina">
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                
-                {/* Iteramos sobre las opciones de ESTA pregunta */}
+              <p className="cuestionario-pregunta">{item.pregunta}</p>
+              
+              {/* 🖼️ Solo se muestra la imagen si urlImagen NO es null */}
+              {urlImagen && (
+                <div className="contenedor-imagen-pregunta">
+                  <img 
+                    src={urlImagen} 
+                    alt={`Ilustración para la pregunta ${index + 1}`}
+                    className="imagen-pregunta"
+                    onError={(e) => {
+                      // Si falla la carga por algún motivo, oculta la etiqueta para que no muestre un icono roto
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+
+
+              <div className="cuestionario-opciones">
                 {item.opciones.map((opcion) => {
-                  
-                  // Lógica visual dinámica
                   const estaSeleccionada = respuestaUsuario === opcion.id;
-                  let backgroundColor = '#4e342e'; // Color por defecto
+                  let backgroundColor = '#4e342e';
                   
                   if (esCorrecta && opcion.id === item.correcta) {
-                    backgroundColor = '#689f38'; // Verde si ya acertó y es la correcta
+                    backgroundColor = '#689f38';
                   }
 
                   return (
                     <button 
                       key={opcion.id}
-                      className="btn-popup-accion btn-popup-marron"
+                      className="btn-popup-accion btn-popup-marron cuestionario-opcion"
                       style={{ 
                         backgroundColor,
                         opacity: estaContestada && !estaSeleccionada && !esCorrecta ? 0.6 : 1,
                         cursor: esCorrecta ? 'not-allowed' : 'pointer' 
                       }}
                       onClick={() => handleOpcionClick(item.id, opcion.id)}
-                      disabled={esCorrecta} // Bloquea los botones si ya acertó esta pregunta
+                      disabled={esCorrecta}
                     >
                       {opcion.texto}
                     </button>
@@ -124,7 +143,6 @@ function JuegoCuestionario({ contenido, juegoId, slugId }) {
                 })}
               </div>
 
-              {/* Mensajes de feedback dinámicos */}
               {estaContestada && !esCorrecta && (
                 <div role="alert" className="alerta-error">
                   {item.mensaje_error}
@@ -139,8 +157,7 @@ function JuegoCuestionario({ contenido, juegoId, slugId }) {
             </section>
           );
         })}
-
-        </div>
+      </div>
     </>
   );
 }

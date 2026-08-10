@@ -11,6 +11,16 @@ import kiraImg from '../assets/kira.png';
 // Importa un helper para manejar las imágenes dinámicas (si las tienes locales)
 // import { getFosilImage } from '../utils/imagenes'; 
 
+const obtenerImagenUrl = (slug) => {
+  if (!slug) return null
+
+  const { data } = supabase.storage
+    .from('images')
+    .getPublicUrl(`mamiferos/${slug}.png`)
+
+  return data?.publicUrl || null
+}
+
 function DetalleMamifero() {
   const { slugId } = useParams(); // Por ejemplo: /detalle/gliptodonte
   const navigate = useNavigate();
@@ -126,7 +136,7 @@ function DetalleMamifero() {
               {/* Imagen dinámica: Puedes usar fosil.imagen_url si usas Supabase Storage, 
                   o una función que mapee el slug a la imagen importada localmente */}
               <img 
-                src={fosil.imagen_url} 
+                src={obtenerImagenUrl(fosil.slug)} 
                 alt={`Ilustración de un ${fosil.nombre}`}
                 className="imagen-fosil"
                 tabIndex={0}

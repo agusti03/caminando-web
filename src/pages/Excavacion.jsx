@@ -18,7 +18,7 @@ import kiraImg from '../assets/kira.png';
 import tierraDuraTexture from '../assets/tierra-dura.png';
 import tierraTexture from '../assets/tierra.png';
 import arenaTexture from '../assets/arena.png';
-import fosilDefaultImg from '../assets/fosil.png'; // Fallback por defecto
+import fosilDefaultImg from '../assets/fosil.png'; 
 
 const TOOLS = [
   { id: 'pico', name: 'Pico', icon: picoIcon, layer: 3, size: 80 },
@@ -69,8 +69,8 @@ function Excavacion({ onBack }) {
     fetchMamiferoData();
   }, [slugId]);
 
-  // Imagen del fósil dinámica (si el mamífero tiene una en Supabase o assets, sino usa el default)
-  const imagenFosilSrc = mamifero?.imagen_url || fosilDefaultImg;
+  // En el futuro quizas sea dinamico con un campo en la BD
+  const imagenFosilSrc = fosilDefaultImg;
 
   // Inicializar canvases con texturas (usando la imagen del fósil correspondiente)
   useEffect(() => {

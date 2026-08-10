@@ -83,7 +83,7 @@ function DetalleMamifero() {
               {/* Imagen dinámica: Puedes usar fosil.imagen_url si usas Supabase Storage, 
                   o una función que mapee el slug a la imagen importada localmente */}
               <img 
-                src={fosil.imagen_url || `/assets/fosiles/${fosil.slug}.png`} 
+                src={fosil.imagen_url} 
                 alt={`Ilustración de un ${fosil.nombre}`}
                 className="imagen-fosil"
                 tabIndex={0}

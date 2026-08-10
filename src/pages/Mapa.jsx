@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Marker, MapContainer, Popup, TileLayer, ZoomControl, useMap } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
@@ -13,6 +13,7 @@ import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import iconRetina from 'leaflet/dist/images/marker-icon-2x.png';
+import { obtenerMamiferos } from '../services/mamiferosService';
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -24,13 +25,28 @@ L.Icon.Default.mergeOptions({
 
 const coordenadaPin = [-34.903944444, -58.015777778];
 
-const ControlMapa = () => {
+const ControlMapa = ({ posiciones }) => {
   const map = useMap();
 
   useEffect(() => {
-    map.setView(coordenadaPin, 16);
+    if (!posiciones.length) {
+      map.setView(coordenadaPin, 12);
+      map.invalidateSize();
+      return;
+    }
+
+    if (posiciones.length === 1) {
+      map.setView(posiciones[0], 12);
+      map.invalidateSize();
+      return;
+    }
+
+    map.fitBounds(posiciones, {
+      padding: [40, 40],
+      maxZoom: 13,
+    });
     map.invalidateSize();
-  }, [map]);
+  }, [map, posiciones]);
 
   return null;
 };
@@ -39,6 +55,25 @@ function Mapa ( {onBack}) {
   const navigate = useNavigate();
   const [mostrarNota, setMostrarNota] = useState(true);
   const [showHelpModal, setShowHelpModal] = useState(false);
+  const [marcadoresMamiferos, setMarcadoresMamiferos] = useState([]);
+  const [cargando, setCargando] = useState(true);
+
+  const posicionesMamiferos = useMemo(() => {
+    return marcadoresMamiferos
+      .filter((mamifero) => Number.isFinite(mamifero.latitud) && Number.isFinite(mamifero.longitud))
+      .map((mamifero) => [mamifero.latitud, mamifero.longitud]);
+  }, [marcadoresMamiferos]);
+
+  useEffect(() => {
+    const cargarDatos = async () => {
+      setCargando(true);
+      const datosMamiferos = await obtenerMamiferos(); // Llamada a tu servicio de Supabase
+      setMarcadoresMamiferos(datosMamiferos);
+      setCargando(false);
+    };
+
+    cargarDatos();
+  }, []);
   
 
   return (
@@ -70,13 +105,13 @@ function Mapa ( {onBack}) {
         <div className="mapa-frame">
           <MapContainer
             center={coordenadaPin}
-            zoom={16}
+            zoom={12}
             className="leaflet-map-container"
             zoomControl={false}
             scrollWheelZoom={false}
             attributionControl={false}
           >
-            <ControlMapa />
+            <ControlMapa posiciones={posicionesMamiferos} />
             <TileLayer
               attribution='&copy; OpenStreetMap'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -85,24 +120,24 @@ function Mapa ( {onBack}) {
 
             <ZoomControl position="bottomright" />
 
-            <Marker position={coordenadaPin}>
-              <Popup>
-                <h1> Gliptodonte </h1>
-                <img
-                  src={fosilImg}
-                  alt="Fósil de Gliptodonte"
-                  className="popup-fosil-img"
-                />
-                <p>Se notifico un posible hallazgo de fósil de un gliptodonte en esta ubicación. Realizá la excavación para encontrarlo!</p>
-                <button
-                  className="popup-btn-excavar"
-                  onClick={() => navigate('/excavacion')}
-                >
-                  Excavar
-                </button>
-                <br />
-              </Popup>
-            </Marker>
+            {/* NUEVO: Iteramos sobre los fósiles de la base de datos */}
+            {!cargando && marcadoresMamiferos.map((mamifero) => (
+              <Marker 
+                key={mamifero.id} 
+                position={[mamifero.latitud, mamifero.longitud]}
+              >
+                <Popup>
+                  <h1> {mamifero.nombre} </h1>
+                  {/* Si agregas URLs de imágenes a Supabase, puedes usar: src={mamifero.imagen_url} */}
+                  <p>{mamifero.descripcion}</p>
+                  <button
+                    className="popup-btn-excavar"
+                    onClick={() => navigate(`/excavacion/${mamifero.slug}`)}                  >
+                    Excavar
+                  </button>
+                </Popup>
+              </Marker>
+            ))}
           </MapContainer>
 
           {mostrarNota && (

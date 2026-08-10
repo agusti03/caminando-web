@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSettings } from '../contexts/SettingsContext';
 import BotonVolver from '../components/BotonVolver';
 import { FaTimes } from 'react-icons/fa';
 import { IoSettingsSharp } from 'react-icons/io5';
@@ -31,7 +32,7 @@ const COLS = [1, 2, 3, 4, 5];
 function Excavacion({ onBack }) {
   const navigate = useNavigate();
   const { slugId } = useParams(); // 4. Capturamos el slug de la URL (ej: /excavacion/gliptodonte)
-
+  const { accesibilidadExcavacion: isAccessibilityMode } = useSettings();
   const [selectedTool, setSelectedTool] = useState(null);
   const [progress, setProgress] = useState(0);
   const [isKiraVisible, setIsKiraVisible] = useState(true);
@@ -41,11 +42,9 @@ function Excavacion({ onBack }) {
 
   // Estado para guardar los datos del mamífero actual (nombre, imagen, etc.)
   const [mamifero, setMamifero] = useState(null);
-
   const [isAccessibilityMode] = useState(() => {
     return localStorage.getItem('accesibilidadExcavacion') === 'true';
   });
-
   const containerRef = useRef(null);
   const fosilRef = useRef(null);
   const kiraDialogueRef = useRef(null);

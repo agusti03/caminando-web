@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Marker, MapContainer, Popup, TileLayer, ZoomControl, useMap } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
@@ -25,13 +25,28 @@ L.Icon.Default.mergeOptions({
 
 const coordenadaPin = [-34.903944444, -58.015777778];
 
-const ControlMapa = () => {
+const ControlMapa = ({ posiciones }) => {
   const map = useMap();
 
   useEffect(() => {
-    map.setView(coordenadaPin, 16);
+    if (!posiciones.length) {
+      map.setView(coordenadaPin, 12);
+      map.invalidateSize();
+      return;
+    }
+
+    if (posiciones.length === 1) {
+      map.setView(posiciones[0], 12);
+      map.invalidateSize();
+      return;
+    }
+
+    map.fitBounds(posiciones, {
+      padding: [40, 40],
+      maxZoom: 13,
+    });
     map.invalidateSize();
-  }, [map]);
+  }, [map, posiciones]);
 
   return null;
 };
@@ -42,6 +57,12 @@ function Mapa ( {onBack}) {
   const [showHelpModal, setShowHelpModal] = useState(false);
   const [marcadoresMamiferos, setMarcadoresMamiferos] = useState([]);
   const [cargando, setCargando] = useState(true);
+
+  const posicionesMamiferos = useMemo(() => {
+    return marcadoresMamiferos
+      .filter((mamifero) => Number.isFinite(mamifero.latitud) && Number.isFinite(mamifero.longitud))
+      .map((mamifero) => [mamifero.latitud, mamifero.longitud]);
+  }, [marcadoresMamiferos]);
 
   useEffect(() => {
     const cargarDatos = async () => {
@@ -84,13 +105,13 @@ function Mapa ( {onBack}) {
         <div className="mapa-frame">
           <MapContainer
             center={coordenadaPin}
-            zoom={16}
+            zoom={12}
             className="leaflet-map-container"
             zoomControl={false}
             scrollWheelZoom={false}
             attributionControl={false}
           >
-            <ControlMapa />
+            <ControlMapa posiciones={posicionesMamiferos} />
             <TileLayer
               attribution='&copy; OpenStreetMap'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

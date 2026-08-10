@@ -20,6 +20,34 @@ function DetalleMamifero() {
   const [loading, setLoading] = useState(true);
   const [juegoGanado, setJuegoGanado] = useState(false);
 
+    function renderEstadoBase({ navigate, ariaLabel, titulo, mensaje }) {
+      return (
+        <main className="escenario-coleccion" aria-label={ariaLabel}>
+          <BotonVolver
+            className="btn-volver"
+            onClick={() => navigate(-1)}
+            aria-label="Volver a la página anterior"
+            tabIndex={0}
+          />
+
+          <div className="cuaderno-contenedor">
+            <section className="pagina-hoja hoja-izquierda" aria-label={ariaLabel}>
+              <h2 className="titulo-seccion" tabIndex={0}>{titulo}</h2>
+              <p>{mensaje}</p>
+            </section>
+
+            <div className="anillado-espiral" aria-hidden="true">
+              {[...Array(20)].map((_, i) => (
+                <div key={i} className="anillo"></div>
+              ))}
+            </div>
+
+            <section className="pagina-hoja hoja-derecha" aria-hidden="true" />
+          </div>
+        </main>
+      );
+    }
+
   useEffect(() => {
     setJuegoGanado(estaJuegoCompletado(slugId));
   }, [slugId]);
@@ -47,8 +75,23 @@ function DetalleMamifero() {
     }
   }, [loading]);
 
-  if (loading) return <div style={{ color: 'white' }}>Cargando datos del fósil...</div>;
-  if (!fosil) return <div style={{ color: 'white' }}>Fósil no encontrado.</div>;
+    if (loading) {
+      return renderEstadoBase({
+        navigate,
+        ariaLabel: 'Cargando detalle de fósil',
+        titulo: 'Detalle del fósil',
+        mensaje: 'Cargando colección...',
+      });
+    }
+
+    if (!fosil) {
+      return renderEstadoBase({
+        navigate,
+        ariaLabel: 'Fósil no encontrado',
+        titulo: 'Detalle del fósil',
+        mensaje: 'Fósil no encontrado.',
+      });
+    }
 
   // Armamos el array de datos mapeando las nuevas columnas de la BD
   const datosFicha = [

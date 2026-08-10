@@ -25,8 +25,8 @@ function DetalleMamifero() {
         <main className="escenario-coleccion" aria-label={ariaLabel}>
           <BotonVolver
             className="btn-volver"
-            onClick={() => navigate(-1)}
-            aria-label="Volver a la página anterior"
+            onClick={() => navigate('/coleccion')}
+            aria-label="Volver a la colección"
             tabIndex={0}
           />
 
@@ -110,8 +110,8 @@ function DetalleMamifero() {
     >
       <BotonVolver 
         className="btn-volver" 
-        onClick={() => navigate(-1)} 
-        aria-label="Volver a la página anterior"
+        onClick={() => navigate('/coleccion')} 
+        aria-label="Volver a la colección"
         tabIndex={0} 
       />
 

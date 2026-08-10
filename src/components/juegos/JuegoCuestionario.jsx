@@ -50,7 +50,7 @@ function JuegoCuestionario({ contenido, juegoId, slugId }) {
     setMostrarModal(false);
 
     if (slugId) {
-      navigate(`/detalle/${slugId}`);
+      navigate(`/detalle/${slugId}`, { replace: true });
     } else {
       navigate(-1);
     }

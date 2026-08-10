@@ -88,7 +88,7 @@ function Coleccion() {
 
   return (
     <main className="escenario-coleccion" aria-label="Tu Colección de Fósiles">
-      <BotonVolver className="btn-volver" onClick={() => navigate(-1)} aria-label="Volver a la pantalla anterior" />
+      <BotonVolver className="btn-volver" onClick={() => navigate('/')} aria-label="Volver a la página principal" />
 
         <div className="cuaderno-contenedor">
           

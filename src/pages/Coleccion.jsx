@@ -43,15 +43,20 @@ function Coleccion() {
 
   useEffect(() => {
     async function fetchFosiles() {
-      const { data, error } = await supabase.from('mamiferos').select('*')
+      const { data, error } = await supabase
+        .from('mamiferos')
+        .select('*')
+        .not('slug', 'is', null)
 
       if (!error && data) {
+        const datosValidos = data.filter(fosil => fosil && fosil.slug)
+
         // 1. Obtenemos la lista de slugs que el usuario ya descubrió
         const slugsDescubiertos = getFosilesDescubiertos()
 
         // 2. Separamos los datos de Supabase en descubiertos y no descubiertos
-        const descubiertos = data.filter(f => slugsDescubiertos.includes(f.slug))
-        const noDescubiertos = data.filter(f => !slugsDescubiertos.includes(f.slug))
+        const descubiertos = datosValidos.filter(f => slugsDescubiertos.includes(f.slug))
+        const noDescubiertos = datosValidos.filter(f => !slugsDescubiertos.includes(f.slug))
 
         // 3. Mezclamos los no descubiertos y sacamos exactamente 3
         const tresRandomBloqueados = [...noDescubiertos]

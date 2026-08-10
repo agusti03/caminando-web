@@ -20,6 +20,56 @@ export const estaFosilDescubierto = (slug) => {
 };
 
 // --- JUEGOS (TRIVIAS) ---
+export const TRIVIA_COMPLETADA_KEY = 'triviaCompletada';
+
+const migrarTriviasLegadas = () => {
+  if (typeof localStorage === 'undefined') {
+    return [];
+  }
+
+  const slugsLegados = [];
+
+  for (let i = 0; i < localStorage.length; i += 1) {
+    const key = localStorage.key(i);
+
+    if (!key || !key.startsWith('trivia_') || !key.endsWith('_Completada')) {
+      continue;
+    }
+
+    const valor = localStorage.getItem(key);
+
+    if (valor === 'true') {
+      const slug = key.replace(/^trivia_/, '').replace(/_Completada$/, '');
+
+      if (slug) {
+        slugsLegados.push(slug);
+      }
+    }
+  }
+
+  if (slugsLegados.length > 0) {
+    const completados = getJuegosCompletados();
+
+    slugsLegados.forEach((slug) => {
+      if (!completados.includes(slug)) {
+        completados.push(slug);
+      }
+    });
+
+    localStorage.setItem(TRIVIA_COMPLETADA_KEY, JSON.stringify(completados));
+
+    for (let i = 0; i < localStorage.length; i += 1) {
+      const key = localStorage.key(i);
+
+      if (key && key.startsWith('trivia_') && key.endsWith('_Completada')) {
+        localStorage.removeItem(key);
+      }
+    }
+  }
+
+  return slugsLegados;
+};
+
 export const getJuegoCompletadoKey = (slug) => `trivia_${slug}_Completada`;
 
 export const getJuegosCompletados = () => {
@@ -27,7 +77,10 @@ export const getJuegosCompletados = () => {
     return [];
   }
 
-  const data = localStorage.getItem('juegoCompletado');
+  migrarTriviasLegadas();
+
+  const data = localStorage.getItem(TRIVIA_COMPLETADA_KEY);
+
   if (!data) {
     return [];
   }
@@ -46,24 +99,19 @@ export const guardarJuegoCompletado = (slug) => {
     return;
   }
 
+  migrarTriviasLegadas();
+
   const completados = getJuegosCompletados();
 
   if (!completados.includes(slug)) {
     completados.push(slug);
-    localStorage.setItem('juegoCompletado', JSON.stringify(completados));
+    localStorage.setItem(TRIVIA_COMPLETADA_KEY, JSON.stringify(completados));
   }
-
-  localStorage.setItem(getJuegoCompletadoKey(slug), 'true');
 };
 
 export const estaJuegoCompletado = (slug) => {
   if (!slug || typeof localStorage === 'undefined') {
     return false;
-  }
-
-  const completadoLocal = localStorage.getItem(getJuegoCompletadoKey(slug)) === 'true';
-  if (completadoLocal) {
-    return true;
   }
 
   const completados = getJuegosCompletados();

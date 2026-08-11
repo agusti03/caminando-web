@@ -206,7 +206,7 @@ function DetalleMamifero() {
                   gap: '8px'
                 }}
               >
-                <span aria-hidden="true">🔒</span> Modelo 3D bloqueado (Completa la trivia)
+                <span aria-hidden="true">🔒</span> Modelo 3D bloqueado (Completa la actividad)
               </button>
             )}
           </div>

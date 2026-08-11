@@ -84,20 +84,6 @@ useEffect(() => {
     fetchFosiles()
   }, [])
 
-  useEffect(() => {
-    if (fosiles.length === 0) return;
-    
-    const timer = setTimeout(() => {
-      fosiles.forEach(fosil => {
-        if (fosil.justUnlocked) {
-          try { sessionStorage.removeItem(`justUnlocked_${fosil.slug}`) } catch (e) { }
-        }
-      })
-    }, 60);
-
-    return () => clearTimeout(timer);
-  }, [fosiles])
-
   const totalPaginas = Math.max(1, Math.ceil(fosiles.length / FOSILES_POR_CUADERNO))
   const paginaInicio = paginaActual * FOSILES_POR_CUADERNO
   const fosilesDePagina = fosiles.slice(paginaInicio, paginaInicio + FOSILES_POR_CUADERNO)
@@ -105,9 +91,7 @@ useEffect(() => {
   const fosilesHojaDerecha = fosilesDePagina.slice(FOSILES_POR_HOJA, FOSILES_POR_CUADERNO)
 
   const renderTarjeta = (fosil) => {
-    const claseImagen = fosil.unlocked 
-      ? (fosil.justUnlocked ? 'blocked' : 'illuminated') 
-      : 'silueta'
+    const claseImagen = fosil.unlocked ? 'illuminated' : 'silueta'
 
     return (
       <div key={fosil.id} className={`tarjeta-fosil ${fosil.unlocked ? 'descubierto' : 'bloqueado'}`}>

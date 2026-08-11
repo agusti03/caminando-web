@@ -340,7 +340,7 @@ function DetalleMamifero() {
               backgroundColor: '#2a2a2a',
               color: '#ffffff'
             }}>
-              <h2 style={{ margin: 0, fontSize: '1.25rem' }}>Modelo 3D - {fosil.nombre}</h2>
+              <h2 style={{ margin: 0, fontSize: '1.25rem', color: '#ffffff' }}>Modelo 3D - {fosil.nombre}</h2>
               <button 
                 onClick={() => setModal3DAbierto(false)}
                 aria-label="Cerrar visor 3D"

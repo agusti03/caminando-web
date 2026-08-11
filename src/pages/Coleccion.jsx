@@ -41,12 +41,13 @@ function Coleccion() {
     }
   }, [mostrarAviso])
 
-  useEffect(() => {
+useEffect(() => {
     async function fetchFosiles() {
+      setLoading(true)
       const { data, error } = await supabase
         .from('mamiferos')
         .select('*')
-        .not('slug', 'is', null)
+        .not('juego_id', 'is', null)
 
       if (!error && data) {
         const datosValidos = data.filter(fosil => fosil && fosil.slug)
@@ -54,20 +55,8 @@ function Coleccion() {
         // 1. Obtenemos la lista de slugs que el usuario ya descubrió
         const slugsDescubiertos = getFosilesDescubiertos()
 
-        // 2. Separamos los datos de Supabase en descubiertos y no descubiertos
-        const descubiertos = datosValidos.filter(f => slugsDescubiertos.includes(f.slug))
-        const noDescubiertos = datosValidos.filter(f => !slugsDescubiertos.includes(f.slug))
-
-        // 3. Mezclamos los no descubiertos y sacamos exactamente 3
-        const tresRandomBloqueados = [...noDescubiertos]
-          .sort(() => 0.5 - Math.random()) // Mezcla rápida
-          .slice(0, 3) // Tomamos los 3 primeros
-
-        // 4. Juntamos todo (primero los que ya tenés, luego los misteriosos)
-        const coleccionFinal = [...descubiertos, ...tresRandomBloqueados]
-
-        // 5. Procesamos el estado de animación y desbloqueo como antes
-        const fosilesProcesados = coleccionFinal.map(fosil => {
+        // 2. Procesamos TODOS los fósiles con su estado de desbloqueo y animación
+        const fosilesProcesados = datosValidos.map(fosil => {
           const isUnlocked = slugsDescubiertos.includes(fosil.slug)
           
           let justUnlocked = false;
@@ -81,6 +70,8 @@ function Coleccion() {
             justUnlocked: justUnlocked
           }
         })
+
+        fosilesProcesados.sort((a, b) => (b.unlocked ? 1 : 0) - (a.unlocked ? 1 : 0))
         
         setFosiles(fosilesProcesados)
       }

@@ -28,6 +28,7 @@ const migrarTriviasLegadas = () => {
   }
 
   const slugsLegados = [];
+  const keysToRemove = [];
 
   for (let i = 0; i < localStorage.length; i += 1) {
     const key = localStorage.key(i);
@@ -45,10 +46,24 @@ const migrarTriviasLegadas = () => {
         slugsLegados.push(slug);
       }
     }
+
+    keysToRemove.push(key);
   }
 
   if (slugsLegados.length > 0) {
-    const completados = getJuegosCompletados();
+    const data = localStorage.getItem(TRIVIA_COMPLETADA_KEY);
+    let completados = [];
+
+    if (data) {
+      try {
+        const parsedData = JSON.parse(data);
+        if (Array.isArray(parsedData)) {
+          completados = parsedData;
+        }
+      } catch (error) {
+        console.warn('No se pudo leer el progreso de juegos en migración:', error);
+      }
+    }
 
     slugsLegados.forEach((slug) => {
       if (!completados.includes(slug)) {
@@ -57,15 +72,11 @@ const migrarTriviasLegadas = () => {
     });
 
     localStorage.setItem(TRIVIA_COMPLETADA_KEY, JSON.stringify(completados));
-
-    for (let i = 0; i < localStorage.length; i += 1) {
-      const key = localStorage.key(i);
-
-      if (key && key.startsWith('trivia_') && key.endsWith('_Completada')) {
-        localStorage.removeItem(key);
-      }
-    }
   }
+
+  keysToRemove.forEach((key) => {
+    localStorage.removeItem(key);
+  });
 
   return slugsLegados;
 };
@@ -98,8 +109,6 @@ export const guardarJuegoCompletado = (slug) => {
   if (!slug || typeof localStorage === 'undefined') {
     return;
   }
-
-  migrarTriviasLegadas();
 
   const completados = getJuegosCompletados();
 

@@ -1,0 +1,123 @@
+/* Estilos propios del cuestionario */
+.cuestionario-pagina {
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  justify-content: flex-start;
+}
+
+.contenedor-imagen-pregunta {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.imagen-pregunta {
+  max-width: 100%;
+  max-height: 190px;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  border: 3px solid rgba(74, 47, 34, 0.08);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.cuestionario-pregunta {
+  margin: 0;
+  color: #3e2723;
+  font-family: "Patrick Hand";
+  font-size: 1.75rem;
+  line-height: 1.6;
+  max-width: 34rem;
+  align-self: center;
+}
+
+.cuestionario-opciones {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.cuestionario-opcion {
+  width: min(100%, 26rem);
+  max-width: none;
+  min-height: 54px;
+  text-align: center;
+  white-space: normal;
+}
+
+.alerta-error,
+.alerta-exito {
+  width: min(100%, 32rem);
+  margin-top: 6px;
+  align-self: center;
+}
+
+.alerta-error {
+  background-color: #f4e2dd;
+  border: 2px solid #b85c47;
+  color: #7f3425;
+}
+
+.alerta-exito {
+  background-color: #eef4df;
+  border: 2px solid #689f38;
+  color: #3f6a1c;
+}
+
+@media (max-width: 768px) {
+  .cuestionario-pagina {
+    gap: 14px;
+  }
+
+  .cuestionario-titulo {
+    font-size: 1.5rem;
+  }
+
+  .cuestionario-pregunta {
+    font-size: 1.15rem;
+    line-height: 1.5;
+    max-width: 100%;
+  }
+
+  .imagen-pregunta {
+    max-height: 160px;
+  }
+
+  .cuestionario-opcion {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .cuestionario-pagina {
+    gap: 12px;
+  }
+
+  .cuestionario-titulo {
+    font-size: 1.35rem;
+    padding: 8px 14px;
+  }
+
+  .cuestionario-pregunta {
+    font-size: 1.22rem;
+    line-height: 1.45;
+  }
+
+  .imagen-pregunta {
+    max-height: 140px;
+    border-radius: 12px;
+  }
+
+  .cuestionario-opciones {
+    gap: 10px;
+  }
+
+  .cuestionario-opcion {
+    min-height: 48px;
+    font-size: 0.95rem;
+  }
+}

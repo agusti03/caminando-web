@@ -170,11 +170,16 @@
 .tamanio-selector {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .tamanio-btn {
-  width: 42px;
-  height: 42px;
+  min-width: 42px;
+  min-height: 42px;
+  width: auto;
+  height: auto;
+  padding: 10px 14px;
   border-radius: 10px;
   font-family: 'Cambria', Georgia, serif;
   font-weight: bold;
@@ -182,6 +187,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.1;
   box-shadow: 0 3px 6px rgba(0,0,0,0.15);
   transition: transform 0.1s, background-color 0.2s;
   border: 2px solid #e1dcd0;
@@ -206,6 +214,33 @@
 .txt-sm { font-size: 1rem; }
 .txt-md { font-size: 1.3rem; }
 .txt-lg { font-size: 1.6rem; }
+
+@media (max-width: 640px) {
+  .ajustes-seccion {
+    padding: 20px 18px;
+  }
+
+  .ajustes-fila {
+    align-items: flex-start;
+    gap: 12px;
+    flex-direction: column;
+  }
+
+  .opcion-izquierda {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .tamanio-selector {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .tamanio-btn {
+    flex: 1 1 96px;
+    max-width: 100%;
+  }
+}
 
 /* Ajustes para el botón de ayuda dentro de la lista de opciones */
 .ajustes-container .btn-ayuda {

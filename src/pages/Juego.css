@@ -1,0 +1,83 @@
+/* Pantallas de estado para carga y error del juego */
+.juego-estado-page {
+  min-height: 100vh;
+}
+
+.juego-estado-card {
+  width: min(92vw, 640px);
+  background: linear-gradient(160deg, #f9f1e3 0%, #fff9ef 100%);
+  border: 4px solid #2b1a12;
+  border-radius: 16px;
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28);
+  padding: 30px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  color: #4a2f22;
+}
+
+.juego-loader {
+  width: 46px;
+  height: 46px;
+  border: 5px solid rgba(62, 39, 35, 0.22);
+  border-top-color: #6d4c41;
+  border-radius: 50%;
+  animation: juego-spin 0.9s linear infinite;
+}
+
+.juego-estado-titulo {
+  margin: 0;
+  font-family: "Patrick Hand";
+  font-size: 2rem;
+  color: #3e2723;
+}
+
+.juego-estado-texto {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.juego-estado-accion {
+  margin-top: 8px;
+}
+
+@keyframes juego-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .juego-estado-card {
+    padding: 24px 18px;
+  }
+
+  .juego-estado-titulo {
+    font-size: 1.7rem;
+  }
+
+  .juego-estado-texto {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .juego-estado-card {
+    border-width: 3px;
+    border-radius: 12px;
+    gap: 10px;
+  }
+
+  .juego-loader {
+    width: 40px;
+    height: 40px;
+    border-width: 4px;
+  }
+
+  .juego-estado-titulo {
+    font-size: 1.5rem;
+  }
+}

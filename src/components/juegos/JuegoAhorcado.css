@@ -1,0 +1,136 @@
+/* Estilos propios del ahorcado */
+.ahorcado-pagina {
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  text-align: center;
+  overflow-y: auto;
+  padding-bottom: 16px;
+}
+
+section.ahorcado-pagina h2.ahorcado-titulo {
+  margin: 0;
+  font-family: "Patrick Hand";
+  color: #3e2723;
+  font-size: 2.25rem;
+  line-height: 1.15;
+}
+
+.ahorcado-pista {
+  margin: 0;
+  max-width: 36rem;
+  color: #4a2f22;
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.ahorcado-palabra {
+  width: min(100%, 42rem);
+  min-height: 78px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(62, 39, 35, 0.2);
+  border-radius: 12px;
+}
+
+.ahorcado-letra {
+  min-width: 24px;
+  font-family: "Nunito Sans";
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #3e2723;
+  text-transform: uppercase;
+}
+
+.ahorcado-letra-separador {
+  min-width: 12px;
+}
+
+.ahorcado-contador {
+  margin: 0;
+  color: #5d4037;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.ahorcado-teclado {
+  width: min(100%, 46rem);
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.ahorcado-tecla {
+  min-height: 48px;
+  max-width: none;
+  padding: 0;
+  font-size: 1rem;
+  background-color: #4e342e;
+}
+
+.ahorcado-tecla-ok {
+  background-color: #689f38;
+}
+
+.ahorcado-reintentar {
+  width: min(100%, 260px);
+  max-width: none;
+}
+
+@media (max-width: 768px) {
+  section.ahorcado-pagina h2.ahorcado-titulo {
+    font-size: 1.95rem;
+  }
+
+  .ahorcado-palabra {
+    min-height: 68px;
+    gap: 6px;
+  }
+
+  .ahorcado-letra {
+    font-size: 1.25rem;
+  }
+
+  .ahorcado-teclado {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .ahorcado-pagina {
+    gap: 10px;
+  }
+
+  section.ahorcado-pagina h2.ahorcado-titulo {
+    font-size: 1.62rem;
+  }
+
+  .ahorcado-pista {
+    font-size: 1rem;
+  }
+
+  .ahorcado-palabra {
+    min-height: 60px;
+    padding: 8px;
+  }
+
+  .ahorcado-letra {
+    font-size: 1.1rem;
+    min-width: 18px;
+  }
+
+  .ahorcado-teclado {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .ahorcado-tecla {
+    min-height: 42px;
+    font-size: 0.95rem;
+  }
+}

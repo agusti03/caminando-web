@@ -50,12 +50,32 @@
 }
 
 
-/* Botón de Ajustes */
-.btn-ajustes {
+/* Contenedor de accesos en la esquina superior derecha */
+.excavacion-acciones {
   position: absolute;
   top: 18px;
-  right: 130px; /* Al lado del de ayuda (40 original + 75 ancho + 15 de margen) */
+  right: 40px;
   z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.excavacion-page .btn-ayuda {
+  position: static;
+  top: auto;
+  right: auto;
+  width: 75px;
+  height: 75px;
+  z-index: 1;
+}
+
+/* Botón de Ajustes */
+.btn-ajustes {
+  position: static;
+  top: auto;
+  right: auto;
+  z-index: 1;
   width: 75px;
   height: 75px;
   background-color: #3d2b20;
@@ -68,6 +88,12 @@
   transition: all 0.2s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   color: #ead8ad;
+}
+
+.excavacion-acciones .btn-ayuda,
+.excavacion-acciones .btn-ajustes {
+  width: 75px;
+  height: 75px;
 }
 
 .btn-ajustes:hover {
@@ -203,9 +229,29 @@
   }
 
 
-  .btn-ajustes {
+  .excavacion-acciones {
     top: 10px;
-    right: 50px; /* Posicionado al lado del botón de ayuda */
+    right: 8px;
+    gap: 8px;
+  }
+
+  .excavacion-page .btn-ayuda {
+    width: 35px;
+    height: 35px;
+    top: auto;
+    right: auto;
+  }
+
+  .excavacion-acciones .btn-ayuda,
+  .excavacion-acciones .btn-ajustes {
+    width: 35px;
+    height: 35px;
+  }
+
+  .btn-ajustes {
+    position: static;
+    top: auto;
+    right: auto;
     width: 35px;
     height: 35px;
   }

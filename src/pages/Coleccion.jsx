@@ -12,6 +12,8 @@ import './Coleccion.css'
 
 //Componentes
 import BotonVolver from '../components/BotonVolver'
+import BotonAyuda from '../components/BotonAyuda';
+import ModalAyuda from '../components/ModalAyuda';
 
 const obtenerImagenUrl = (slug) => {
   if (!slug) return null
@@ -30,6 +32,7 @@ function Coleccion() {
   const [fosiles, setFosiles] = useState([])
   const [loading, setLoading] = useState(true)
   const [paginaActual, setPaginaActual] = useState(0)
+  const [showHelpModal, setShowHelpModal] = useState(false);
 
   const botonCerrarPopupRef = useRef(null)
   const FOSILES_POR_HOJA = 4
@@ -141,11 +144,21 @@ useEffect(() => {
 
   return (
     <main className="escenario-coleccion" aria-label="Tu Colección de Fósiles">
-      
+
       <BotonVolver className="btn-volver" onClick={() => navigate('/')} aria-label="Volver a la página principal" />
+                
+      <BotonAyuda onClick={() => setShowHelpModal(true)} />
+
+      <ModalAyuda 
+        isOpen={showHelpModal} 
+        onClose={() => setShowHelpModal(false)} 
+        title="¿Cómo encontrar fósiles?">
+
+        <p>Si querés empezar a completar la colección de fósiles, hacé click en el botón verde que dice "Descubrir más fósiles" que se encuentra en la esquina inferior derecha de la pantalla</p>
+
+      </ModalAyuda>
 
         <div className="cuaderno-contenedor">
-          
           {/* HOJA IZQUIERDA */}
           <section className="pagina-hoja hoja-izquierda" aria-label="Fósiles recolectados">
             <h2 className="titulo-seccion" tabIndex={0}>Tu colección de fósiles</h2>

@@ -119,6 +119,9 @@ function Mapa({ onBack }) {
         <p>
           En el mapa están marcadas las ubicaciones de diferentes fósiles de grandes mamíferos descubiertos en la ciudad de La Plata. ¡Hacé clic en los puntos para obtener más información y comenzar la excavación para luego agregarlos a tu colección!
         </p>
+        <p>
+          A medida que vayas descubriendo nuevos fósiles, los marcadores del mapa pasarán de estar en color azul a verdes, indicando que yá descubriste el fósil.
+        </p>
       </ModalAyuda>
 
       <h1 className="mapa-titulo">Expedición: La Plata</h1>

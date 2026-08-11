@@ -536,6 +536,20 @@
   object-fit: contain;           /* Evita que la imagen se deforme o se corte */
 }
 
+.boton-ver-3d:hover {
+  background-color: #583f36 !important;
+  transform: translateY(-2px);
+}
+
+.modal-overlay-3d {
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 /* Animación Pop-up con leve rebote de apertura */
 @keyframes popUpEfecto {
   from {
